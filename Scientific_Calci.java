@@ -1,13 +1,10 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener ;
 
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -31,7 +28,7 @@ public class Scientific_Calci{
         JTextField calculationArea, calcDispArea;
         String operation="",operationAssist="",value="",disp="",operationTrigo="", temp_disp="", operation_algebra="", operation_log = "", operation_ln="";
         double ans=0.0,last_value=0.0 , prev_value=0.0, temp_value=0.0, alg_value = 0.0;
-        boolean number = false;
+        boolean number = false,point=false;
 
         public Sc_Calc()
         {
@@ -40,7 +37,7 @@ public class Scientific_Calci{
             //Initializion of JFrame Components
             JButton b0,b1,b2,b3,b4,b5,b6,b7,b8,b9,bpi,bexp,bdot,bclear,ballclear;
             JButton bplus,bsubtract,bmul,bdiv,bequal,bmod;
-            JButton blog,bln,bfactorial,bsqrt,bxraisey,braise2,byrootx,bxinverse,bleftparenthesis,brightparenthesis;
+            JButton blog,bln,bfactorial,bxraisey,byrootx,bxinverse,bleftparenthesis,brightparenthesis;
             JButton bsin,bcos,btan,bsininv,bcosinv,btaninv;
             JPanel mainPanel, bttnPanel, calculationPanel ;
             
@@ -548,10 +545,10 @@ public class Scientific_Calci{
         }
         public void actionPerformed(ActionEvent e) {
             value  =   e.getActionCommand();
-            number = Character.isDigit(value.charAt(0));
+            number = (Character.isDigit(value.charAt(0)));
 
             //If value is number/digit
-            if (number){
+            if (number ){
                 last_value = (last_value*10) + Double.parseDouble(value);
                 if(operation_algebra == ""){
                     disp = disp+value;
@@ -568,14 +565,11 @@ public class Scientific_Calci{
                 if(operation_log == "log"){
                     log10_func(last_value);
                 }
-                if(operation_ln == "log"){
+                if(operation_ln == "ln"){
                     log_func(last_value);
                 }
 
-                if(operationTrigo != "" && operationAssist == "percentage" && operation_algebra != "" && operation_log != "" &&  operation_ln != "" ){
-                
-                }
-                else{
+                if(operationTrigo == "" && operationAssist != "percentage" && operation_algebra == "" && operation_log == "" &&  operation_ln == "" ){
                     ans = last_value;
                 }
 
@@ -611,7 +605,13 @@ public class Scientific_Calci{
                     disp = disp + ")";
                     percentageof(last_value);
                 }
-                if(operation_log == "" && operation_ln=="log"){
+                if(operation_log == "log"){
+                    disp = disp + ")";
+                    ans = temp_value;
+                    operation_log="";
+                    instruction.setText("");
+                }
+                if(operation_ln=="ln"){
                     disp = disp + ")";
                     ans = temp_value;
                     operation_ln="";
@@ -732,7 +732,7 @@ public class Scientific_Calci{
             }
             else if (value == "ln") {
                 autoOperation();
-                operation_log = "ln";
+                operation_ln = "ln";
                 disp = disp + "ln(";
                 display(disp, ans);
             }
@@ -749,6 +749,8 @@ public class Scientific_Calci{
                 operation = "";
                 operationAssist = "";
                 operationTrigo = "";
+                operation_ln="";
+                operation_log="";
             }
 
             

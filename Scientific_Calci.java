@@ -526,7 +526,7 @@ public class SCalci{
                 }
                 else{
                     main_array.add(""+last_value);
-                }
+                    }
                     main_array.add(")");
                     test:while(main_array.size() > 1 ){
                         bodmas_algo.removeAll(bodmas_algo);
@@ -596,11 +596,11 @@ public class SCalci{
 
                                     }
                                 }
-                                if(operation == true){
-                                    main_array.remove(ans_pos + 1);
-                                    main_array.remove(ans_pos - 1);
-                                    operation = false;
-                                }
+                            }
+                            if(operation == true){
+                                main_array.remove(ans_pos + 1);
+                                main_array.remove(ans_pos - 1);
+                                operation = false;
                             }
                             System.out.println("\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
 

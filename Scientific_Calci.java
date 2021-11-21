@@ -1,3 +1,5 @@
+
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -459,7 +461,7 @@ public class SCalci{
             } 
             else {
                 if (value == "+" || value == "\u2715" || value == "\u002f" ) {
-                    if (brack_end) {
+                    if (brack_end || power) {
                         brack_end = false;
                     } else {
                         main_array.add(last_value+"");   
@@ -469,7 +471,7 @@ public class SCalci{
                     DisplayEquation = DisplayEquation + value;
                 }
                 else if( value == "-" ){
-                    if (brack_end) {
+                    if (brack_end || power) {
                         brack_end = false;
                     } else {
                         main_array.add(last_value+"");  
@@ -481,7 +483,7 @@ public class SCalci{
                     DisplayEquation = DisplayEquation + value;
                 }
                 else if(value == "x\u02B8"){
-                    if (brack_end) {
+                    if (brack_end || power) {
                         brack_end = false;
                     } else {
                         main_array.add(last_value+"");   
@@ -489,6 +491,7 @@ public class SCalci{
                     }
                     power_count++;
                     main_array.add("pow");
+                    main_array.add("(");
                     last_value = 0;
                     DisplayEquation = DisplayEquation + "Power of (";
                 }
@@ -505,19 +508,15 @@ public class SCalci{
                     DisplayEquation = DisplayEquation + value;
                 }
                 else if(value == ")"){
-                    if (power_count != 0) {
-                        power_count--;
-                    } else {
-                        if(main_array.get(main_array.size() - 1) == ")"){
-                            main_array.add(")");
-                        }
-                        else{
-                            main_array.add(""+last_value);
-                            main_array.add(")");
-                        }
-                        brack_end = true;
-                        last_value = 0;
+                    if(main_array.get(main_array.size() - 1) == ")"){
+                        main_array.add(")");
                     }
+                    else{
+                        main_array.add(""+last_value);
+                        main_array.add(")");
+                    }
+                    brack_end = true;
+                    last_value = 0;
                     DisplayEquation = DisplayEquation + value;
                 }
 
@@ -529,7 +528,7 @@ public class SCalci{
                     main_array.add(""+last_value);
                 }
                     main_array.add(")");
-                    test:do{
+                    test:while(main_array.size() > 1 ){
                         bodmas_algo.removeAll(bodmas_algo);
 
                         k=0;i=0;last_brack = 0;first_brack=0;
@@ -549,56 +548,66 @@ public class SCalci{
                             for(k = first_brack ; k <= last_brack; k++){
                             bodmas_algo.add(main_array.get(k));
                             }
-                            System.out.println("Bodmas_algo start loop:\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
-                            int count = 0;
-                            count++;
-                            for(k = bodmas_algo.size()-1 ; k >= 0;k--){
-                                if(bodmas_algo.get(k)== "pow" ){//raise to
+                            //System.out.println("Bodmas_algo start loop:\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
+                            if (first_brack == last_brack) {
+                                main_array.remove(first_brack+1);
+                                main_array.remove(first_brack-1);
+                            }
+                            else{
+                                for(k = 0 ; k < bodmas_algo.size()-1; k++){
+                                
+                                    if(bodmas_algo.get(k)==("\u2715")){//multiplication
                                     operation = true;
-                                    order( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                                    remove_elem(first_brack,last_brack);
-                                    System.out.println(main_array);
+                                    multiplication( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                    removeorder(first_brack,last_brack,k);
+                                    }
                                 }
-                            }
-                            if (count >= 3) {
-                                break test;
-                            }
-                            // for(k = 0 ; k < bodmas_algo.size()-1; k++){
-                            //     if(bodmas_algo.get(k)==("\u2715")){//multiplication
-                            //     operation = true;
-                            //     multiplication( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                            //     remove_elem(first_brack,last_brack);
-                            //     }
-                            // }
-                            // for(k = 0 ; k < bodmas_algo.size(); k++){
-                            //     if(bodmas_algo.get(k)=="\u002f"){//division
-                            //         operation = true;
-                            //         division( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                            //         remove_elem(first_brack,last_brack);
-                            //     }
-                            // }
-                            // for(k = 0 ; k < bodmas_algo.size(); k++){
-                            //     if(bodmas_algo.get(k)=="+"){
-                            //         operation = true;
-                            //         addition( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                            //         remove_elem(first_brack,last_brack);
-                            //     }
-                            // }
-                            // for(k = 0 ; k < bodmas_algo.size(); k++){
-                            //     if(bodmas_algo.get(k)=="-"){
-                            //         operation = true;
-                            //         subtract( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                            //         remove_elem(first_brack,last_brack);
-                            //     }
-                            // }
-                            if(operation == true){
-                                main_array.remove(ans_pos + 1);
-                                main_array.remove(ans_pos - 1);
-                                operation = false;
+                                for(k = bodmas_algo.size()-1 ; k >= 0;k--){
+                                    if(bodmas_algo.get(k) == "pow" ){//raise to
+                                        operation = true;
+                                        order( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                        System.out.println("Main: "+main_array+"\nBodmas_algo: "+bodmas_algo+"\nSize main: "+main_array.size()+"Algo Size: "+bodmas_algo.size()+"\nK="+k);
+                                        remove_arith(first_brack,last_brack,k);
+                                        System.out.println("Main print bb: "+main_array);
+                                        break test;
+                                    }
+                                }
+                                for(k = 0 ; k < bodmas_algo.size(); k++){
+                                    if(bodmas_algo.get(k)=="\u002f"){//division
+                                        operation = true;
+                                        division( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                        remove_arith(first_brack,last_brack,k);
+
+                                    }
+                                }
+                                for(k = 0 ; k < bodmas_algo.size(); k++){
+                                    if(bodmas_algo.get(k)=="+"){
+                                        operation = true;
+                                        addition( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                        remove_arith(first_brack,last_brack,k);
+
+                                    }
+                                }
+                                for(k = 0 ; k < bodmas_algo.size(); k++){
+                                    if(bodmas_algo.get(k)=="-"){
+                                        operation = true;
+                                        subtract( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                        remove_arith(first_brack,last_brack,k);
+
+                                    }
+                                }
+                                if(operation == true){
+                                    main_array.remove(ans_pos + 1);
+                                    main_array.remove(ans_pos - 1);
+                                    operation = false;
+                                }
                             }
                             System.out.println("\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
 
-                    }while(main_array.size() > 1 );
+                    }
+
+                    calculationArea.setText(last_value+"");
+
                     System.out.println(main_array);
                     ans =Double.parseDouble(main_array.get(0));
                     display_output(""+ans);
@@ -613,18 +622,31 @@ public class SCalci{
         }
         calcDispArea.setText(DisplayEquation);
         }
-        void remove_elem(int first_brack,int last_brack){
+        void remove_arith(int first_brack,int last_brack, int Op_pos){
 
-            main_array.set(first_brack+k,""+ans);
-            bodmas_algo.set(k,""+ans);
+            main_array.set(first_brack+Op_pos,""+ans);
+            bodmas_algo.set(Op_pos,""+ans);
 
-            main_array.remove(first_brack+k+1);
-            main_array.remove(first_brack+k-1);
+            main_array.remove(first_brack+Op_pos+1);
+            main_array.remove(first_brack+Op_pos-1);
 
-            bodmas_algo.remove(k+1);
-            bodmas_algo.remove(k-1);
+            bodmas_algo.remove(Op_pos+1);
+            bodmas_algo.remove(Op_pos-1);
 
-            ans_pos = first_brack+k-1;
+            ans_pos = first_brack+Op_pos-1;
+
             k=0;
+          }
+          void removeorder(int first_brack,int last_brack, int Op_pos){
+            main_array.set(first_brack+Op_pos,""+ans);
+            bodmas_algo.set(Op_pos,""+ans);
+
+            main_array.remove(first_brack+Op_pos+1);
+            main_array.remove(first_brack+Op_pos-1);
+
+            bodmas_algo.remove(Op_pos+1);
+            bodmas_algo.remove(Op_pos-1);
+
+            ans_pos = first_brack+Op_pos-1;
           }
 }

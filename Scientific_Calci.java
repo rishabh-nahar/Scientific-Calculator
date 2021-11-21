@@ -1,9 +1,12 @@
+
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener ;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,25 +15,21 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class Scientific_Calci{
+public class SCalci{
     public static void main(String srgs[])
     {
-        Sc_Calc obj = new Sc_Calc();
+        Sc_Calculat obj = new Sc_Calculat();
         obj.setVisible(true);
         obj.setSize(400,400);
         obj.setTitle("Scientific Calculator");
         obj.setResizable(false);
     }
 }
-     class Sc_Calc extends JFrame implements ActionListener
+     class Sc_Calculat extends JFrame implements ActionListener
     {
-        JLabel instruction;
         JTextField calculationArea, calcDispArea;
-        String operation="",operationAssist="",value="",disp="",operationTrigo="", temp_disp="", operation_algebra="", operation_log = "", operation_ln="";
-        double ans=0.0,last_value=0.0 , prev_value=0.0, temp_value=0.0, alg_value = 0.0;
-        boolean number = false,point=false;
 
-        public Sc_Calc()
+        public Sc_Calculat()
         {
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             
@@ -233,7 +232,7 @@ public class Scientific_Calci{
             gbc.gridwidth = 1;
             bttnPanel.add(bsubtract,gbc);
 
-            bmul = new JButton("X");
+            bmul = new JButton("\u2715");
             gbc.gridy = 2;
             gbc.gridx = 4;
             gbc.gridheight = 1;
@@ -410,349 +409,224 @@ public class Scientific_Calci{
             bln.addActionListener(this);
 
         }
-        void display(String disp, Double ans){
-            calcDispArea.setText(disp);
-            calculationArea.setText(ans+"");
-        }
-        void isEqualto(){
-                if(operationTrigo == "Sin" || operationTrigo == "Cos" || operationTrigo == "Tan" || operationTrigo == "Sininv" || operationTrigo == "Cosinv" || operationTrigo == "Taninv"){
-                    trigo(last_value);
-                }
-                if(operation != "" && operationTrigo == ""){
-                    if (operation == "addition") {
-                        ans = prev_value + last_value;
-                    }
-                    else if (operation == "subtraction") {
-                        ans = prev_value - last_value; 
-                    }
-                    else if (operation == "multiplication") {
-                        ans = prev_value * last_value; 
-                    }
-                    else if (operation == "division") {
-                        ans = prev_value/last_value; 
-                    }
-                }
-                if (operation_algebra == "" && operation_log == "" && operation_ln == "" ) {
-                    display(disp, ans);
-                }
-            }
-        void trigo(Double val){
-            if(operationTrigo == "Sin"){
-                temp_value =(Math.sin(Math.toRadians(val)));
-            }
-            else if(operationTrigo == "Cos"){
-                temp_value =(Math.cos(Math.toRadians(val)));
-            }
-            else if(operationTrigo == "Tan"){
-                temp_value =(Math.tan(Math.toRadians(val)));
-            }
-            else if(operationTrigo == "Sininv"){
-                temp_value =Math.toDegrees(Math.asin(val));
-            }
-            else if(operationTrigo == "Cosinv"){
-                temp_value =Math.toDegrees(Math.acos(val));
-            }
-            else if(operationTrigo == "Taninv"){
-                temp_value =Math.toDegrees(Math.atan(val));
-            }
+        
 
+        ArrayList <String> bodmas_algo = new ArrayList<String>();
+        ArrayList <String> main_array = new ArrayList<String>();
+        
+        JLabel instruction;
+        boolean number = false,operation = false,start = false, brack_end = false, negative = false , power = false;
+
+        String value = "",DisplayEquation="";
+        double ans=0.0,last_value=0.0 , prev_value=0.0, temp_value=0.0, pi_value = 22/7f;
+        int first_brack= 0 , last_brack = 0,ans_pos,i=0,j=0,k=0,power_count = 0;
+
+        void display_output(String ans){
+            calculationArea.setText(ans);
         }
-        void fact(Double val){
-            double fact=1;
-            for (int i = 1; i <= val; i++) {
-                fact = fact * i;
-            }
-            if (prev_value == 0) {
-                ans = fact;
-                last_value = fact;
-            }
-            else{
-                last_value = fact;
-            }
-            operationAssist = "";
-            isEqualto();
+        
+        void division(Double a, Double b){
+            ans = a/b;
         }
-        void percentage(Double val){
-            if (val != 0) {
-                last_value = (val*last_value/100);
-                disp = disp + "%";
-                isEqualto();
+        void multiplication(Double a, Double b){
+            ans = a*b;
         }
-            else{
-                disp = disp + "% of (";
-                prev_value = last_value;
-                last_value = 0;
-            }
+        void addition(Double a, Double b){
+            ans = a+b;
         }
-        void percentageof(Double val){
-                ans = (val * prev_value/100);
+        void subtract(Double a, Double b){
+            ans = a-b;
         }
-        void yrootx(){
-            Double n;
-            if (last_value == 0) {
-                n = 2.0;
-            }
-            else{
-                n = last_value;
-            }
-            raiseto_function(1/n);
-            display(temp_disp, temp_value);
-        }
-        void xraisetoy(){
-            Double n;
-            if (last_value == 0) {
-                n = 1.0;
-            }
-            else{
-                n = last_value;
-            }
-            raiseto_function(n);
-            ans = temp_value;
-            display(disp, ans);
-        }
-        void raiseto_function(Double x){
-            temp_value = Math.pow(alg_value, x);
-        }
-        void xinv(){
-             temp_value = 1/alg_value;
-             ans = temp_value;
-        }
-        void log10_func(Double x){
-            temp_value = Math.log10(x);
-            display(disp, temp_value);
-        }
-        void log_func(Double x){
-            temp_value = Math.log(x);
-            display(disp, temp_value);
-        }
-        void onComplete(){
-            if(operation_algebra != ""){
-                if(operation_algebra == "root"){
-                    yrootx();
-                    disp = temp_disp;
-            }
-                else if(operation_algebra == "raiseto"){
-                    disp = disp + ")";
-                    xraisetoy();
-                }
-                operation_algebra = "";
-                ans = temp_value;
-                temp_value = 0;
-            }
-        }
-        void autoOperation(){
-            instruction.setText("Add ) or press = to update answer");
+        void order(Double x , Double y){
+            ans  = Math.pow(x,y);
         }
         public void actionPerformed(ActionEvent e) {
+            try{
             value  =   e.getActionCommand();
-            number = (Character.isDigit(value.charAt(0)));
-
-            //If value is number/digit
-            if (number ){
-                last_value = (last_value*10) + Double.parseDouble(value);
-                if(operation_algebra == ""){
-                    disp = disp+value;
-                }
-                else if(operation_algebra == "root"){
-                    temp_disp = last_value + disp;
-                    yrootx();
-                }
-                else if(operation_algebra == "raiseto"){
-                    disp = disp + value;
-                    xraisetoy();
-                }
-
-                if(operation_log == "log"){
-                    log10_func(last_value);
-                }
-                if(operation_ln == "ln"){
-                    log_func(last_value);
-                }
-
-                if(operationTrigo == "" && operationAssist != "percentage" && operation_algebra == "" && operation_log == "" &&  operation_ln == "" ){
-                    ans = last_value;
-                }
-
-                isEqualto();
-            }
-
-        //If value is Sin, Cos, Tan
-            if (value == "=") {
-                if (operation_algebra != "") {
-                    onComplete();
-                }
-                disp = ans + "";
-                operationTrigo = "";
-                isEqualto();
-                last_value = ans;
-                instruction.setText("");
-                operation = "";
-            }
-            else if(value == ")"){
-                if(operationTrigo == "Sin" || operationTrigo == "Cos" || operationTrigo == "Tan"  || operationTrigo == "Sininv" || operationTrigo == "Cosinv" || operationTrigo == "Taninv"){
-                    disp = disp + ")";
-                    last_value = temp_value;
-                    ans = last_value;
-                    operationTrigo = "";
-                    instruction.setText("");
-                    isEqualto();
-                }
-                if(operation_algebra == "raiseto"){
-                    disp = disp + ")";
-                    operation_algebra = "";
-                }
-                if(operationAssist == "percentage"){
-                    disp = disp + ")";
-                    percentageof(last_value);
-                }
-                if(operation_log == "log"){
-                    disp = disp + ")";
-                    ans = temp_value;
-                    operation_log="";
-                    instruction.setText("");
-                }
-                if(operation_ln=="ln"){
-                    disp = disp + ")";
-                    ans = temp_value;
-                    operation_ln="";
-                    instruction.setText("");
-                }
-                display(disp, ans);
-            }
-            else if(value == "+"){
-                onComplete();
-                operation = "addition";
-                prev_value = ans;
-                disp = disp + "+";
-                display(disp, ans);
-                last_value = 0;
-            }
-            else if(value == "-"){
-                onComplete();
-                operation = "subtraction";
-                prev_value = ans;
-                disp = disp + "-";
-                display(disp, ans);
-                last_value = 0;
-            }
-            else if(value == "X"){
-                onComplete();
-                operation = "multiplication";
-                prev_value = ans;
-                disp = disp + "x";
-                display(disp, ans);
-                last_value = 0;
-            }
-            else if(value == "\u002f"){
-                onComplete();
-                operation = "division";
-                prev_value = ans;
-                disp = disp + "/";
-                display(disp, ans);
-                last_value = 0;
-            }
-            else if (value == "%") {
-                onComplete();
-                operationAssist = "percentage";
-                percentage(prev_value);
-                display(disp, ans);
-            }
-            else if (value == "Sin") {
-                autoOperation();
-                operationTrigo = "Sin";
-                disp = disp + "Sin(";
-                display(disp, ans);
-            }
-            else if (value == "Cos") {
-                autoOperation();
-                operationTrigo = "Cos";
-                disp = disp + "Cos(";
-                display(disp, ans);
-            }
-            else if (value == "Tan") {
-                autoOperation();
-                operationTrigo = "Tan";
-                disp = disp + "Tan(";
-                display(disp, ans);
-            }
-            else if (value == "Sin\u207B\u00b9") {
-                autoOperation();
-                operationTrigo = "Sininv";
-                disp = disp + "Sin\u207B\u00b9(";
-                display(disp, ans);
-            }
-            else if (value == "Cos\u207B\u00b9") {
-                autoOperation();
-                operationTrigo = "Cosinv";
-                disp = disp + "Cos\u207B\u00b9(";
-                display(disp, ans);
-            }
-            else if (value == "Tan\u207B\u00b9") {
-                autoOperation();
-                operationTrigo = "Taninv";
-                disp = disp + "Tan\u207B\u00b9(";
-                display(disp, ans);
-            }
-            else if (value == "x!") {
-                operationAssist = "fact";
-                disp = disp + "!";
-                fact(last_value);                
-                display(disp, ans);
-            }
-            else if (value == "(\u0031\u002fx)") {
-                System.out.println(ans);
-                operation_algebra ="xinverse";
-                alg_value = ans;
-                last_value = 0;
-                disp = "1/("+ans+")";
-                xinv();
-                display(disp, ans);
-                System.out.println(ans);
-            }
-            else if (value == "y\u221Ax") {
-                disp = "\u221A" + ans ;
-                operation_algebra ="root";
-                alg_value = ans;
-                last_value = 0;
-                temp_disp = disp;
-                yrootx();                
-            }
-            else if (value == "x\u02B8") {
-                operation_algebra ="raiseto";
-                alg_value = ans;
-                last_value = ans;
-                disp = ans + " raise to (";
-                xraisetoy();                
-            }
-            else if (value == "log") {
-                autoOperation();
-                operation_log = "log";
-                disp = disp + "log(";
-                display(disp, ans);
-            }
-            else if (value == "ln") {
-                autoOperation();
-                operation_ln = "ln";
-                disp = disp + "ln(";
-                display(disp, ans);
-            }
-            else if(value == "AC"){
-                calculationArea.setText("");
-                calcDispArea.setText("");
-
-                last_value =0;
-                ans = 0;
-                prev_value = 0;
-
-                temp_disp = "";
-                disp = "";
-                operation = "";
-                operationAssist = "";
-                operationTrigo = "";
-                operation_ln="";
-                operation_log="";
-            }
-
+            number = Character.isDigit(value.charAt(0));
             
+            System.out.println(main_array);
+            if(start == false){
+                main_array.add("(");
+                start = true;
+            }
+        
+            if (number) {
+                last_value = (last_value*10) + Double.parseDouble(value);
+                if (negative == true) {
+                    last_value = last_value * (-1);
+                    negative = false;
+                }
+                DisplayEquation = DisplayEquation + value;
+            } 
+            else {
+                if (value == "+" || value == "\u2715" || value == "\u002f" ) {
+                    if (brack_end) {
+                        brack_end = false;
+                    } else {
+                        main_array.add(last_value+"");   
+                    }
+                    last_value = 0;
+                    main_array.add(value);
+                    DisplayEquation = DisplayEquation + value;
+                }
+                else if( value == "-" ){
+                    if (brack_end) {
+                        brack_end = false;
+                    } else {
+                        main_array.add(last_value+"");  
+                        brack_end = false; 
+                    }
+                    main_array.add("+");
+                    last_value = 0;
+                    negative = true;
+                    DisplayEquation = DisplayEquation + value;
+                }
+                else if(value == "x\u02B8"){
+                    if (brack_end) {
+                        brack_end = false;
+                    } else {
+                        main_array.add(last_value+"");   
+                        brack_end = false; 
+                    }
+                    power_count++;
+                    main_array.add("pow");
+                    last_value = 0;
+                    DisplayEquation = DisplayEquation + "Power of (";
+                }
+                else if (value == "(") {
+                    if(negative){
+                        main_array.remove(main_array.get(main_array.size()-1));
+                        main_array.add("-");
+                        main_array.add(value);
+                        negative = false;
+                    }
+                    else{
+                        main_array.add(value);
+                    }
+                    DisplayEquation = DisplayEquation + value;
+                }
+                else if(value == ")"){
+                    if (power_count != 0) {
+                        power_count--;
+                    } else {
+                        if(main_array.get(main_array.size() - 1) == ")"){
+                            main_array.add(")");
+                        }
+                        else{
+                            main_array.add(""+last_value);
+                            main_array.add(")");
+                        }
+                        brack_end = true;
+                        last_value = 0;
+                    }
+                    DisplayEquation = DisplayEquation + value;
+                }
+
+                else if (value == "=") {
+                System.out.println("Start Main ArrayList = "+main_array+"\nsize: "+main_array.size()+"\npos_sec_last: "+main_array.get(main_array.size()-1));
+                if(main_array.get(main_array.size() - 1) == ")"){
+                }
+                else{
+                    main_array.add(""+last_value);
+                }
+                    main_array.add(")");
+                    test:do{
+                        bodmas_algo.removeAll(bodmas_algo);
+
+                        k=0;i=0;last_brack = 0;first_brack=0;
+
+                        for (i = 0; i < main_array.size(); i++) {
+                            if(main_array.get(i) == "("){
+                                first_brack = i+1;
+                            }
+                            }
+                            //Search for first ")"
+                            for (j = first_brack; j < main_array.size();j++) {
+                            if(main_array.get(j) == ")"){
+                                last_brack = j-1;
+                                break ;
+                            }
+                            }
+                            for(k = first_brack ; k <= last_brack; k++){
+                            bodmas_algo.add(main_array.get(k));
+                            }
+                            System.out.println("Bodmas_algo start loop:\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
+                            int count = 0;
+                            count++;
+                            for(k = bodmas_algo.size()-1 ; k >= 0;k--){
+                                if(bodmas_algo.get(k)== "pow" ){//raise to
+                                    operation = true;
+                                    order( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                    remove_elem(first_brack,last_brack);
+                                    System.out.println(main_array);
+                                }
+                            }
+                            if (count >= 3) {
+                                break test;
+                            }
+                            // for(k = 0 ; k < bodmas_algo.size()-1; k++){
+                            //     if(bodmas_algo.get(k)==("\u2715")){//multiplication
+                            //     operation = true;
+                            //     multiplication( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                            //     remove_elem(first_brack,last_brack);
+                            //     }
+                            // }
+                            // for(k = 0 ; k < bodmas_algo.size(); k++){
+                            //     if(bodmas_algo.get(k)=="\u002f"){//division
+                            //         operation = true;
+                            //         division( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                            //         remove_elem(first_brack,last_brack);
+                            //     }
+                            // }
+                            // for(k = 0 ; k < bodmas_algo.size(); k++){
+                            //     if(bodmas_algo.get(k)=="+"){
+                            //         operation = true;
+                            //         addition( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                            //         remove_elem(first_brack,last_brack);
+                            //     }
+                            // }
+                            // for(k = 0 ; k < bodmas_algo.size(); k++){
+                            //     if(bodmas_algo.get(k)=="-"){
+                            //         operation = true;
+                            //         subtract( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                            //         remove_elem(first_brack,last_brack);
+                            //     }
+                            // }
+                            if(operation == true){
+                                main_array.remove(ans_pos + 1);
+                                main_array.remove(ans_pos - 1);
+                                operation = false;
+                            }
+                            System.out.println("\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
+
+                    }while(main_array.size() > 1 );
+                    System.out.println(main_array);
+                    ans =Double.parseDouble(main_array.get(0));
+                    display_output(""+ans);
+                    main_array.remove(0);
+                    last_value = ans;
+                    main_array.add("(");
+                }
+            }
+        }catch(Exception err){
+            System.out.println("Error: "+err);
+            System.out.println("E:> "+err.getStackTrace()[0].getLineNumber());
         }
-    }
+        calcDispArea.setText(DisplayEquation);
+        }
+        void remove_elem(int first_brack,int last_brack){
+
+            main_array.set(first_brack+k,""+ans);
+            bodmas_algo.set(k,""+ans);
+
+            main_array.remove(first_brack+k+1);
+            main_array.remove(first_brack+k-1);
+
+            bodmas_algo.remove(k+1);
+            bodmas_algo.remove(k-1);
+
+            ans_pos = first_brack+k-1;
+            k=0;
+          }
+}

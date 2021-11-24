@@ -4,6 +4,7 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener ;
+
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -413,7 +414,7 @@ public class SCalci{
         ArrayList <String> main_array = new ArrayList<String>();
         
         JLabel instruction;
-        boolean number = false,operation = false,start = false, brack_end = false, negative = false , power = false;
+        boolean number = false,operation = false,start = false, brack_end = false, negative = false , power = false, decimal = false,lastvalue_added=false;
 
         String value = "",DisplayEquation="";
         double ans=0.0,last_value=0.0 , prev_value=0.0, temp_value=0.0, pi_value = 22/7f;
@@ -460,6 +461,24 @@ public class SCalci{
                 ans = Math.toDegrees(Math.atan(x));
             }
         }
+        void log_func(String x , Double y){
+            if (x == "ln") {
+                ans = Math.log(y);
+            }
+            else if (x == "log") {
+                ans = Math.log10(y);
+            }
+        }
+        void allClear(){
+            display_output("");
+                calculationArea.setText("");
+                DisplayEquation = "";value = "";
+                number = false;operation = false;start = false; brack_end = false; negative = false ; power = false; decimal = false;
+                first_brack= 0 ; last_brack = 0;ans_pos=0;i=0;j=0;k=0;power_count = 0;trigo_sin=0;
+                ans=0.0;last_value=0.0 ; prev_value=0.0; temp_value=0.0;
+                start = false;
+                main_array.removeAll(main_array);
+        }
         public void actionPerformed(ActionEvent e) {
             try{
             value  =   e.getActionCommand();
@@ -472,29 +491,41 @@ public class SCalci{
             }
         
             if (number) {
-                last_value = (last_value*10) + Double.parseDouble(value);
-                if (negative == true) {
-                    last_value = last_value * (-1);
-                    negative = false;
+                if (decimal) {
+                    last_value = (last_value) + (Double.parseDouble(value)/10);
+                    DisplayEquation = DisplayEquation + ".";
+                }
+                else{
+                    last_value = (last_value*10) + Double.parseDouble(value);
+                    if (negative == true) {
+                        last_value = last_value * (-1);
+                        negative = false;
+                }
                 }
                 DisplayEquation = DisplayEquation + value;
+                lastvalue_added = false;
+
             } 
             else {
                 if (value == "+" || value == "\u2715" || value == "\u002f" ) {
+                    decimal = false;
                     if (brack_end || power) {
                         brack_end = false;
                     } else {
-                        main_array.add(last_value+"");   
+                        main_array.add(last_value+"");
+                        lastvalue_added = true;   
                     }
                         last_value = 0;
                         main_array.add(value);
                         DisplayEquation = DisplayEquation + value;
                 }
                 else if( value == "-" ){
+                    decimal = false;
                     if (brack_end || power) {
                         brack_end = false;
                     } else {
-                        main_array.add(last_value+"");  
+                        main_array.add(last_value+"");
+                        lastvalue_added = true;  
                         brack_end = false; 
                     }
                     main_array.add("+");
@@ -503,10 +534,12 @@ public class SCalci{
                     DisplayEquation = DisplayEquation + value;
                 }
                 else if(value == "x\u02B8"){
+                    decimal = false;
                     if (brack_end || power) {
                         brack_end = false;
                     } else {
-                        main_array.add(last_value+"");   
+                        main_array.add(last_value+"");
+                        lastvalue_added = true;   
                         brack_end = false; 
                     }
                     power_count++;
@@ -517,6 +550,7 @@ public class SCalci{
                 }
                
                 else if(value == "Sin" || value == "Cos" || value == "Tan"){
+                    decimal = false;
                     instruction.setText("In Degree");
                     if (negative == true) {
                         main_array.remove(main_array.size()-1);
@@ -529,6 +563,7 @@ public class SCalci{
                     DisplayEquation = DisplayEquation+ value + "(";
                 }
                 else if(value == "Sin\u207B\u00b9" || value == "Cos\u207B\u00b9" || value == "Tan\u207B\u00b9"){
+                    decimal = false;
                     if (negative == true) {
                         main_array.remove(main_array.size()-1);
                         main_array.add("-");
@@ -538,6 +573,21 @@ public class SCalci{
                     main_array.add("(");
                     trigo_sin++;
                     DisplayEquation = DisplayEquation+ value + "(";
+                }
+                else if(value == "log" || value == "ln"){
+                    decimal = false;
+                    if (negative == true) {
+                        main_array.remove(main_array.size()-1);
+                        main_array.add("-");
+                        negative = false;
+                    }
+                    main_array.add(value);
+                    main_array.add("(");
+                    trigo_sin++;
+                    DisplayEquation = DisplayEquation+ value + "(";
+                }
+                else if(value == "."){
+                    decimal = true;
                 }
                 else if (value == "(") {
                     if(negative){
@@ -557,6 +607,7 @@ public class SCalci{
                     }
                     else{
                         main_array.add(""+last_value);
+                        lastvalue_added=true;
                     }
                     if (trigo_sin == 0) {
                         instruction.setText("");
@@ -566,7 +617,36 @@ public class SCalci{
                     last_value = 0;
                     DisplayEquation = DisplayEquation + value;
                 }
-
+                else if(value == "AC"){
+                    allClear();
+                }
+                else if(value == "C"){
+                    if (lastvalue_added == false) {
+                        System.out.println(main_array);
+                        main_array.add(""+last_value);
+                        last_value = 0;
+                        lastvalue_added = true;
+                        if (last_value >= 0 || last_value < 10) {
+                            main_array.remove(main_array.size()-1);
+                        } 
+                        else if (last_value>=10) {
+                            last_value = last_value/10-last_value%10;
+                            main_array.set(main_array.size()-1,""+ last_value);
+                        }
+                        else if(last_value < 0){
+                            last_value = (last_value/10-last_value%10)*-1;
+                            main_array.set(main_array.size()-1,"-"+last_value); 
+                        }
+                        System.out.println(main_array);
+                        
+                    }
+                    else{
+                        System.out.println(main_array);
+                        main_array.remove(main_array.size()-1);
+                        System.out.println(main_array);
+                    }
+                    
+                }
                 else if (value == "=") {
                 System.out.println("Start Main ArrayList = "+main_array+"\nsize: "+main_array.size()+"\n");
                 if(main_array.get(main_array.size() - 1) == ")"){
@@ -612,15 +692,20 @@ public class SCalci{
                                 }
 
                                 for(k = bodmas_algo.size()-1 ; k >= 0 ;k--){
-                                    if(bodmas_algo.get(k) == "Sin" || bodmas_algo.get(k) == "Cos" || bodmas_algo.get(k) == "Tan" ){//Sin
+                                    if(bodmas_algo.get(k) == "Sin" || bodmas_algo.get(k) == "Cos" || bodmas_algo.get(k) == "Tan" ){//tirgo
                                         operation = true;
                                         trigo(bodmas_algo.get(k) ,Double.parseDouble(bodmas_algo.get(k+1)));
-                                        remove_trigo(first_brack,last_brack,k);
+                                        remove_trigo_log(first_brack,last_brack,k);
                                     }
                                     if(bodmas_algo.get(k) == "Sin\u207B\u00b9" || bodmas_algo.get(k) == "Cos\u207B\u00b9" || bodmas_algo.get(k) == "Tan\u207B\u00b9" ){//Sin
                                         operation = true;
                                         trigo_inv(bodmas_algo.get(k) ,Double.parseDouble(bodmas_algo.get(k+1)));
-                                        remove_trigo(first_brack,last_brack,k);
+                                        remove_trigo_log(first_brack,last_brack,k);
+                                    }
+                                    if(bodmas_algo.get(k) == "log" || bodmas_algo.get(k) == "ln"){//log
+                                        operation = true;
+                                        log_func(bodmas_algo.get(k) ,Double.parseDouble(bodmas_algo.get(k+1)));
+                                        remove_trigo_log(first_brack,last_brack,k);
                                     }
                                 }
                                 for(k = 0 ; k < bodmas_algo.size()-1; k++){
@@ -677,7 +762,6 @@ public class SCalci{
             }
         }catch(Exception err){
             System.out.println("Error: "+err);
-            System.out.println("E:> "+err.getStackTrace()[1].getLineNumber());
         }
         calcDispArea.setText(DisplayEquation);
         }
@@ -710,7 +794,7 @@ public class SCalci{
             
             k = bodmas_algo.size() -1;
           }
-          void remove_trigo(int first_brack,int last_brack, int trigo_answer_pos){
+          void remove_trigo_log(int first_brack,int last_brack, int trigo_answer_pos){
 
             main_array.set(first_brack+trigo_answer_pos,""+ans);
             bodmas_algo.set(trigo_answer_pos,""+ans);

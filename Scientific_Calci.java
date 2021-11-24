@@ -1,5 +1,3 @@
-
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
@@ -419,7 +417,7 @@ public class SCalci{
 
         String value = "",DisplayEquation="";
         double ans=0.0,last_value=0.0 , prev_value=0.0, temp_value=0.0, pi_value = 22/7f;
-        int first_brack= 0 , last_brack = 0,ans_pos,i=0,j=0,k=0,power_count = 0;
+        int first_brack= 0 , last_brack = 0,ans_pos,i=0,j=0,k=0,power_count = 0,trigo_sin=0;
 
         void display_output(String ans){
             calculationArea.setText(ans);
@@ -439,6 +437,28 @@ public class SCalci{
         }
         void order(Double x , Double y){
             ans  = Math.pow(x,y);
+        }
+        void trigo(String func,Double x){
+            if (func == "Sin") {
+                ans = Math.sin(Math.toRadians(x));
+            }
+            else if (func == "Cos") {
+                ans = Math.cos(Math.toRadians(x));
+            }
+            else if (func == "Tan") {
+                ans = Math.tan(Math.toRadians(x));
+            }
+        }
+        void trigo_inv(String func,Double x){
+            if (func == "Sin\u207B\u00b9") {
+                ans = Math.toDegrees(Math.asin(x));
+            }
+            else if (func == "Cos\u207B\u00b9") {
+                ans = Math.toDegrees(Math.acos(x));
+            }
+            else if (func == "Tan\u207B\u00b9") {
+                ans = Math.toDegrees(Math.atan(x));
+            }
         }
         public void actionPerformed(ActionEvent e) {
             try{
@@ -466,9 +486,9 @@ public class SCalci{
                     } else {
                         main_array.add(last_value+"");   
                     }
-                    last_value = 0;
-                    main_array.add(value);
-                    DisplayEquation = DisplayEquation + value;
+                        last_value = 0;
+                        main_array.add(value);
+                        DisplayEquation = DisplayEquation + value;
                 }
                 else if( value == "-" ){
                     if (brack_end || power) {
@@ -495,6 +515,30 @@ public class SCalci{
                     last_value = 0;
                     DisplayEquation = DisplayEquation + "Power of (";
                 }
+               
+                else if(value == "Sin" || value == "Cos" || value == "Tan"){
+                    instruction.setText("In Degree");
+                    if (negative == true) {
+                        main_array.remove(main_array.size()-1);
+                        main_array.add("-");
+                        negative = false;
+                    }
+                    main_array.add(value);
+                    main_array.add("(");
+                    trigo_sin++;
+                    DisplayEquation = DisplayEquation+ value + "(";
+                }
+                else if(value == "Sin\u207B\u00b9" || value == "Cos\u207B\u00b9" || value == "Tan\u207B\u00b9"){
+                    if (negative == true) {
+                        main_array.remove(main_array.size()-1);
+                        main_array.add("-");
+                        negative = false;
+                    }
+                    main_array.add(value);
+                    main_array.add("(");
+                    trigo_sin++;
+                    DisplayEquation = DisplayEquation+ value + "(";
+                }
                 else if (value == "(") {
                     if(negative){
                         main_array.remove(main_array.get(main_array.size()-1));
@@ -508,27 +552,32 @@ public class SCalci{
                     DisplayEquation = DisplayEquation + value;
                 }
                 else if(value == ")"){
+                    trigo_sin--;
                     if(main_array.get(main_array.size() - 1) == ")"){
-                        main_array.add(")");
                     }
                     else{
                         main_array.add(""+last_value);
-                        main_array.add(")");
                     }
+                    if (trigo_sin == 0) {
+                        instruction.setText("");
+                    }
+                    main_array.add(")");
                     brack_end = true;
                     last_value = 0;
                     DisplayEquation = DisplayEquation + value;
                 }
 
                 else if (value == "=") {
-                System.out.println("Start Main ArrayList = "+main_array+"\nsize: "+main_array.size()+"\npos_sec_last: "+main_array.get(main_array.size()-1));
+                System.out.println("Start Main ArrayList = "+main_array+"\nsize: "+main_array.size()+"\n");
                 if(main_array.get(main_array.size() - 1) == ")"){
                 }
                 else{
                     main_array.add(""+last_value);
                     }
                     main_array.add(")");
+
                     test:while(main_array.size() > 1 ){
+
                         bodmas_algo.removeAll(bodmas_algo);
 
                         k=0;i=0;last_brack = 0;first_brack=0;
@@ -554,30 +603,42 @@ public class SCalci{
                                 main_array.remove(first_brack-1);
                             }
                             else{
-                                for(k = 0 ; k < bodmas_algo.size()-1; k++){
-                                
-                                    if(bodmas_algo.get(k)==("\u2715")){//multiplication
-                                    operation = true;
-                                    multiplication( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                                    removeorder(first_brack,last_brack,k);
-                                    }
-                                }
                                 for(k = bodmas_algo.size()-1 ; k >= 0;k--){
                                     if(bodmas_algo.get(k) == "pow" ){//raise to
                                         operation = true;
                                         order( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
-                                        System.out.println("Main: "+main_array+"\nBodmas_algo: "+bodmas_algo+"\nSize main: "+main_array.size()+"Algo Size: "+bodmas_algo.size()+"\nK="+k);
-                                        remove_arith(first_brack,last_brack,k);
-                                        System.out.println("Main print bb: "+main_array);
-                                        break test;
+                                        removeorder(first_brack,last_brack,k);
                                     }
                                 }
+
+                                for(k = bodmas_algo.size()-1 ; k >= 0 ;k--){
+                                    if(bodmas_algo.get(k) == "Sin" || bodmas_algo.get(k) == "Cos" || bodmas_algo.get(k) == "Tan" ){//Sin
+                                        operation = true;
+                                        trigo(bodmas_algo.get(k) ,Double.parseDouble(bodmas_algo.get(k+1)));
+                                        remove_trigo(first_brack,last_brack,k);
+                                    }
+                                    if(bodmas_algo.get(k) == "Sin\u207B\u00b9" || bodmas_algo.get(k) == "Cos\u207B\u00b9" || bodmas_algo.get(k) == "Tan\u207B\u00b9" ){//Sin
+                                        operation = true;
+                                        trigo_inv(bodmas_algo.get(k) ,Double.parseDouble(bodmas_algo.get(k+1)));
+                                        remove_trigo(first_brack,last_brack,k);
+                                    }
+                                }
+                                for(k = 0 ; k < bodmas_algo.size()-1; k++){
+                                
+                                    if(bodmas_algo.get(k)==("\u2715")){//multiplication
+                                        operation = true;
+                                        multiplication( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
+                                        removeorder(first_brack,last_brack,k);
+                                    }
+                                }
+                               
                                 for(k = 0 ; k < bodmas_algo.size(); k++){
+                                    
                                     if(bodmas_algo.get(k)=="\u002f"){//division
                                         operation = true;
                                         division( Double.parseDouble(bodmas_algo.get(k-1)) , Double.parseDouble(bodmas_algo.get(k+1) ));
                                         remove_arith(first_brack,last_brack,k);
-
+                                        
                                     }
                                 }
                                 for(k = 0 ; k < bodmas_algo.size(); k++){
@@ -601,24 +662,22 @@ public class SCalci{
                                 main_array.remove(ans_pos + 1);
                                 main_array.remove(ans_pos - 1);
                                 operation = false;
+                                System.out.println("After bracket removed from main: "+main_array);
                             }
-                            System.out.println("\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
+                            //System.out.println("\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
 
                     }
-
-                    calculationArea.setText(last_value+"");
-
-                    System.out.println(main_array);
+                    DisplayEquation = ""+ans;
                     ans =Double.parseDouble(main_array.get(0));
                     display_output(""+ans);
                     main_array.remove(0);
                     last_value = ans;
-                    main_array.add("(");
+                    number = false; operation = false;start = false; brack_end = false; negative = false ; power = false;
                 }
             }
         }catch(Exception err){
             System.out.println("Error: "+err);
-            System.out.println("E:> "+err.getStackTrace()[0].getLineNumber());
+            System.out.println("E:> "+err.getStackTrace()[1].getLineNumber());
         }
         calcDispArea.setText(DisplayEquation);
         }
@@ -648,5 +707,19 @@ public class SCalci{
             bodmas_algo.remove(Op_pos-1);
 
             ans_pos = first_brack+Op_pos-1;
+            
+            k = bodmas_algo.size() -1;
+          }
+          void remove_trigo(int first_brack,int last_brack, int trigo_answer_pos){
+
+            main_array.set(first_brack+trigo_answer_pos,""+ans);
+            bodmas_algo.set(trigo_answer_pos,""+ans);
+
+            main_array.remove(first_brack+trigo_answer_pos+1);
+            bodmas_algo.remove(trigo_answer_pos+1);
+
+            ans_pos = first_brack  + trigo_answer_pos;
+            k = bodmas_algo.size() -1;
+            
           }
 }

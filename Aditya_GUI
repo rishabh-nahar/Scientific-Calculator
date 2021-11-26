@@ -38,7 +38,7 @@ class Sc_Calculat extends JFrame implements ActionListener {
         JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
         JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis;
         JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
-        JPanel mainPanel, bttnPanel, calculationPanel;
+        JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
         JRadioButton r1,r2;
 
         // Creating Panels
@@ -46,7 +46,7 @@ class Sc_Calculat extends JFrame implements ActionListener {
         calculationPanel = new JPanel();
         bttnPanel = new JPanel();
         mainPanel = new JPanel();
-
+        
         // Panel Layouts
         mainPanel.setLayout(new BorderLayout());
         bttnPanel.setLayout(new GridBagLayout());
@@ -86,6 +86,31 @@ class Sc_Calculat extends JFrame implements ActionListener {
         calculationPanel.add(calcDispArea, gbc);
         calcDispArea.setBackground(Color.WHITE);
 
+        radioButtonPanel = new JPanel();
+        radioButtonPanel.setLayout(new GridBagLayout());
+        gbc.gridy = 2;
+        gbc.gridx = 1;
+        gbc.gridheight = 1;
+        gbc.gridwidth = 2;
+        calculationPanel.add(radioButtonPanel, gbc); 
+
+        //Radio buttons
+        r1 = new JRadioButton();
+        r1.setText("Radian");
+        gbc.gridy = 0;
+        gbc.gridx = 0;
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        radioButtonPanel.add(r1,gbc);
+
+        r2 = new JRadioButton();
+        r2.setText("Degree");
+        gbc.gridy = 0;
+        gbc.gridx = 1;
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        radioButtonPanel.add(r2,gbc);
+        
         // CalculationArea and calculation display area
 
         calculationArea.setPreferredSize(new Dimension(50, 50));
@@ -99,23 +124,6 @@ class Sc_Calculat extends JFrame implements ActionListener {
         calculationArea.setBorder(null);
         calcDispArea.setEditable(false);
         calcDispArea.setBorder(null);
-
-         //Radio Buttons
-         r1 = new JRadioButton();
-         r1.setText("Radian");
-         gbc.gridy = 1;
-         gbc.gridx = 1;
-         gbc.gridheight = 1;
-         gbc.gridwidth = 1;
-         calculationPanel.add(r1,gbc);
- 
-         r2 = new JRadioButton();
-         r2.setText("Degree");
-         gbc.gridy = 2;
-         gbc.gridx = 1;
-         gbc.gridheight = 1;
-         gbc.gridwidth = 1;
-         calculationPanel.add(r2,gbc);
 
         // Numbers
         b1 = new JButton("1");

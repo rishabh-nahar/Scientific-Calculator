@@ -17,9 +17,9 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class SCalci {
+public class Scientific_Calci {
     public static void main(String srgs[]) {
-        Sc_Calculat obj = new Sc_Calculat();
+        Sc_Calculato obj = new Sc_Calculato();
         obj.setVisible(true);
         obj.setSize(400, 400);
         obj.setTitle("Scientific Calculator");
@@ -27,19 +27,20 @@ public class SCalci {
     }
 }
 
-class Sc_Calculat extends JFrame implements ActionListener {
-    JTextField calculationArea, calcDispArea;
+class Sc_Calculato extends JFrame implements ActionListener {
 
-    public Sc_Calculat() {
+    // Initializion of JFrame Components
+    JTextField calculationArea, calcDispArea;
+    JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear;
+    JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
+    JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis;
+    JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
+    JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
+    JRadioButton r1,r2;
+
+    public Sc_Calculato() {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // Initializion of JFrame Components
-        JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear;
-        JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
-        JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis;
-        JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
-        JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
-        JRadioButton r1,r2;
 
         // Creating Panels
         calculationPanel = new JPanel();
@@ -540,11 +541,11 @@ class Sc_Calculat extends JFrame implements ActionListener {
 
     JLabel instruction;
     boolean number = false, operation = false, start = false, brack_end = false, negative = false, power = false,
-            decimal = false, lastvalue_added = false;
+            decimal = false, lastvalue_added = false,temp_bool, pow_inv = true,decimal_start=false;
 
     String value = "", DisplayEquation = "";
     double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0, pi_value = 22 / 7f;
-    int first_brack = 0, last_brack = 0, ans_pos, i = 0, j = 0, k = 0, power_count = 0, trigo_sin = 0;
+    int first_brack = 0, last_brack = 0, ans_pos, i = 0, j = 0, k = 0, power_count = 0, trigo_sin = 0,temp_ans=0;
 
     void display_output(String ans) {
         calculationArea.setText(ans);
@@ -625,7 +626,34 @@ class Sc_Calculat extends JFrame implements ActionListener {
         start = false;
         main_array.removeAll(main_array);
     }
+    boolean check_whole_String_isNum(String toCheck){
+        System.out.println("String Length: "+ (toCheck.length()));
+        
+        if (Character.isDigit(toCheck.charAt(toCheck.length()-1))) {
+                System.out.println("Checking isNumber...");
+                temp_bool = true;
+                System.out.println(toCheck);
+                temp_ans = (int) (Double.parseDouble(toCheck)/10);
+                System.out.println(temp_ans);
+                if (temp_ans == 0) {
+                    temp_bool = false;
+                }
+            }
+        else{
+            temp_bool = false;
+        }
 
+        return temp_bool;
+    }
+    void factorial(Double fact){
+        temp_ans = 1;
+        for (i = 1; i <= fact; i++) {
+            temp_ans = temp_ans*i;
+        }
+        ans = temp_ans;
+        System.out.println(ans);
+    }
+   
     public void actionPerformed(ActionEvent e) {
         try {
             value = e.getActionCommand();
@@ -640,8 +668,12 @@ class Sc_Calculat extends JFrame implements ActionListener {
             if (number) {
                 if (decimal) {
                     last_value = (last_value) + (Double.parseDouble(value) / 10);
-                    DisplayEquation = DisplayEquation + ".";
-                } else {
+                    if(decimal_start){
+                        DisplayEquation = DisplayEquation + ".";
+                        decimal_start = false;
+                    }
+                } 
+                else {
                     last_value = (last_value * 10) + Double.parseDouble(value);
                     if (negative == true) {
                         last_value = last_value * (-1);
@@ -691,7 +723,34 @@ class Sc_Calculat extends JFrame implements ActionListener {
                     last_value = 0;
                     DisplayEquation = DisplayEquation + "Power of (";
                 }
-
+                else if(value == "y\u221Ax"){
+                    decimal = false;
+                    if (brack_end || power) {
+                        brack_end = false;
+                    } else {
+                        main_array.add(last_value + "");
+                        lastvalue_added = true;
+                        brack_end = false;
+                    }
+                    pow_inv = true;
+                    power_count++;
+                    main_array.add("pow");
+                    main_array.add("(");
+                    last_value = 0;
+                    DisplayEquation = DisplayEquation + "Root of (";
+                }
+                else if(value == "x!"){
+                    decimal = false;
+                    if (brack_end || power) {
+                        brack_end = false;
+                    } else {
+                        main_array.add(last_value + "");
+                        lastvalue_added = true;
+                        brack_end = false;
+                    }
+                    main_array.add("!");
+                    DisplayEquation = DisplayEquation + "!";
+                }
                 else if (value == "Sin" || value == "Cos" || value == "Tan") {
                     decimal = false;
                     instruction.setText("In Degree");
@@ -728,6 +787,7 @@ class Sc_Calculat extends JFrame implements ActionListener {
                     DisplayEquation = DisplayEquation + value + "(";
                 } else if (value == ".") {
                     decimal = true;
+                    decimal_start = true;
                 } else if (value == "(") {
                     if (negative) {
                         main_array.remove(main_array.get(main_array.size() - 1));
@@ -754,33 +814,40 @@ class Sc_Calculat extends JFrame implements ActionListener {
                     DisplayEquation = DisplayEquation + value;
                 } else if (value == "AC") {
                     allClear();
-                } else if (value == "C") {
-                    if (lastvalue_added == false) {
-                        System.out.println(main_array);
-                        main_array.add("" + last_value);
-                        last_value = 0;
-                        lastvalue_added = true;
-                        if (last_value >= 0 || last_value < 10) {
-                            main_array.remove(main_array.size() - 1);
-                        } else if (last_value >= 10) {
-                            last_value = last_value / 10 - last_value % 10;
-                            main_array.set(main_array.size() - 1, "" + last_value);
-                        } else if (last_value < 0) {
-                            last_value = (last_value / 10 - last_value % 10) * -1;
-                            main_array.set(main_array.size() - 1, "-" + last_value);
+                } 
+                else if (value == "C") {
+                    if(main_array.size() >= 2){
+
+                        if(lastvalue_added){
+
                         }
-                        System.out.println(main_array);
+                        else{
+                            main_array.add(""+last_value);
+                            last_value = 0;
+                            lastvalue_added = true;
+                        }
 
-                    } else {
-                        System.out.println(main_array);
-                        main_array.remove(main_array.size() - 1);
-                        System.out.println(main_array);
+                        System.out.println(check_whole_String_isNum(main_array.get(main_array.size()-1)));
+
+                        if(check_whole_String_isNum(main_array.get(main_array.size()-1))){
+                            main_array.set(main_array.size()-1, temp_ans+"" );
+                            temp_ans = 0;
+                            System.out.println("displayed after:"+main_array);
+                        }
+                        else{
+                            main_array.remove(main_array.size()-1);
+                        }
                     }
-
-                } else if (value == "=") {
+                    StringBuffer sb = new StringBuffer(DisplayEquation);
+                    sb.deleteCharAt(sb.length()-1);
+                    DisplayEquation = ""+ sb;
+                    System.out.println("Hello! "+DisplayEquation);
+                } 
+                else if (value == "=") {
                     System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
-                    if (main_array.get(main_array.size() - 1) == ")") {
-                    } else {
+                    if (lastvalue_added) {
+                    } 
+                    else {
                         main_array.add("" + last_value);
                     }
                     main_array.add(")");
@@ -809,17 +876,27 @@ class Sc_Calculat extends JFrame implements ActionListener {
                         for (k = first_brack; k <= last_brack; k++) {
                             bodmas_algo.add(main_array.get(k));
                         }
-                        // System.out.println("Bodmas_algo start
-                        // loop:\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
+                        System.out.println("Bodmas_algo start loop:\nMain:"+main_array+"\tSize:"+main_array.size()+"\nAlgo:"+bodmas_algo+"\tSize:"+bodmas_algo.size());
                         if (first_brack == last_brack) {
                             main_array.remove(first_brack + 1);
                             main_array.remove(first_brack - 1);
                         } else {
                             for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                                if (bodmas_algo.get(k) == "!"){
+                                    factorial(Double.parseDouble(bodmas_algo.get(k - 1)));
+                                    remove_fact(first_brack, last_brack, k);
+                                }
+                            }
+                            for (k = bodmas_algo.size() - 1; k >= 0; k--) {
                                 if (bodmas_algo.get(k) == "pow") {// raise to
+                                    Double raise_to_value ;
                                     operation = true;
-                                    order(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                            Double.parseDouble(bodmas_algo.get(k + 1)));
+                                    if (pow_inv) {
+                                        raise_to_value = 1/Double.parseDouble(bodmas_algo.get(k + 1));
+                                    } else {
+                                        raise_to_value = Double.parseDouble(bodmas_algo.get(k + 1));
+                                    }
+                                    order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
                                     removeorder(first_brack, last_brack, k);
                                 }
                             }
@@ -904,6 +981,14 @@ class Sc_Calculat extends JFrame implements ActionListener {
                     power = false;
                 }
             }
+            
+            if(decimal){
+                bfactorial.setEnabled(false);
+            }
+            else{
+                bfactorial.setEnabled(true);
+            }
+
         } catch (Exception err) {
             System.out.println("Error: " + err);
         }
@@ -952,5 +1037,15 @@ class Sc_Calculat extends JFrame implements ActionListener {
         ans_pos = first_brack + trigo_answer_pos;
         k = bodmas_algo.size() - 1;
 
+    }
+    void remove_fact(int first_brack, int last_brack, int trigo_answer_pos){
+        main_array.set(first_brack + trigo_answer_pos, "" + ans);
+        bodmas_algo.set(trigo_answer_pos, "" + ans);
+
+        main_array.remove(first_brack + trigo_answer_pos - 1);
+        bodmas_algo.remove(trigo_answer_pos - 1);
+
+        ans_pos = first_brack + trigo_answer_pos;
+        k = bodmas_algo.size() - 1;
     }
 }

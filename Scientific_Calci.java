@@ -1,5 +1,3 @@
-package scientific_cal;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,8 +40,9 @@ class Sc_Calculato extends JFrame implements ActionListener {
     JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
     JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
     JRadioButton r1, r2;
-
+    
     public Sc_Calculato() {
+        String color1 = "#98C2F7";
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Creating Panels
@@ -150,7 +149,7 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(b1, gbc);
         b1.setBorder(null);
         b1.setForeground(Color.decode("#1d384b"));
-        b1.setBackground(Color.decode("#98C2F7"));
+        b1.setBackground(Color.decode(color1));
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b1.setBackground(Color.decode("#c7ecee"));
@@ -173,7 +172,7 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(b2, gbc);
         b2.setBorder(null);
         b2.setForeground(Color.decode("#1d384b"));
-        b2.setBackground(Color.decode("#98C2F7"));
+        b2.setBackground(Color.decode(color1));
         b2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b2.setBackground(Color.decode("#c7ecee"));
@@ -195,7 +194,7 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(b3, gbc);
         b3.setBorder(null);
         b3.setForeground(Color.decode("#1d384b"));
-        b3.setBackground(Color.decode("#98C2F7"));
+        b3.setBackground(Color.decode(color1));
         b3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b3.setBackground(Color.decode("#c7ecee"));
@@ -217,7 +216,7 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(b4, gbc);
         b4.setBorder(null);
         b4.setForeground(Color.decode("#1d384b"));
-        b4.setBackground(Color.decode("#98C2F7"));
+        b4.setBackground(Color.decode(color1));
         b4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b4.setBackground(Color.decode("#c7ecee"));
@@ -238,7 +237,7 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(b5, gbc);
         b5.setBorder(null);
         b5.setForeground(Color.decode("#1d384b"));
-        b5.setBackground(Color.decode("#98C2F7"));
+        b5.setBackground(Color.decode(color1));
         b5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 b5.setBackground(Color.decode("#c7ecee"));

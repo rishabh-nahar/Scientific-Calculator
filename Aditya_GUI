@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 
 import java.util.ArrayList;
 
@@ -17,8 +19,10 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.border.Border;
 
-public class Scientific_Calci {
+public class SCalci {
     public static void main(String srgs[]) {
         Sc_Calculato obj = new Sc_Calculato();
         obj.setVisible(true);
@@ -148,6 +152,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b1.setBorder(null);
         b1.setForeground(Color.decode("#1d384b"));
         b1.setBackground(Color.decode("#98C2F7"));
+        b1.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b1.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b1.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b2 = new JButton("2");
         gbc.gridy = 0;
@@ -158,6 +174,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b2.setBorder(null);
         b2.setForeground(Color.decode("#1d384b"));
         b2.setBackground(Color.decode("#98C2F7"));
+        b2.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b2.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b2.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b3 = new JButton("3");
         gbc.gridy = 0;
@@ -168,6 +196,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b3.setBorder(null);
         b3.setForeground(Color.decode("#1d384b"));
         b3.setBackground(Color.decode("#98C2F7"));
+        b3.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b3.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b3.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b4 = new JButton("4");
         gbc.gridy = 1;
@@ -178,6 +218,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b4.setBorder(null);
         b4.setForeground(Color.decode("#1d384b"));
         b4.setBackground(Color.decode("#98C2F7"));
+        b4.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b4.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b4.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b5 = new JButton("5");
         gbc.gridy = 1;
@@ -188,6 +240,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b5.setBorder(null);
         b5.setForeground(Color.decode("#1d384b"));
         b5.setBackground(Color.decode("#98C2F7"));
+        b5.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b5.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b5.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b6 = new JButton("6");
         gbc.gridy = 1;
@@ -198,6 +262,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b6.setBorder(null);
         b6.setForeground(Color.decode("#1d384b"));
         b6.setBackground(Color.decode("#98C2F7"));
+        b6.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b6.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b6.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b7 = new JButton("7");
         gbc.gridy = 2;
@@ -208,6 +284,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b7.setBorder(null);
         b7.setForeground(Color.decode("#1d384b"));
         b7.setBackground(Color.decode("#98C2F7"));
+        b7.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b7.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b7.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b8 = new JButton("8");
         gbc.gridy = 2;
@@ -218,6 +306,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b8.setBorder(null);
         b8.setForeground(Color.decode("#1d384b"));
         b8.setBackground(Color.decode("#98C2F7"));
+        b8.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b8.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b8.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b9 = new JButton("9");
         gbc.gridy = 2;
@@ -228,6 +328,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b9.setBorder(null);
         b9.setForeground(Color.decode("#1d384b"));
         b9.setBackground(Color.decode("#98C2F7"));
+        b9.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b9.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b9.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         b0 = new JButton("0");
         gbc.gridy = 3;
@@ -238,6 +350,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         b0.setBorder(null);
         b0.setForeground(Color.decode("#1d384b"));
         b0.setBackground(Color.decode("#98C2F7"));
+        b0.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                b0.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                b0.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         // Dot, Clear and all clear
         bclear = new JButton("C");
@@ -249,6 +373,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bclear.setBorder(null);
         bclear.setForeground(Color.decode("#1d384b"));
         bclear.setBackground(Color.decode("#98C2F7"));
+        bclear.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bclear.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bclear.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         ballclear = new JButton("AC");
         gbc.gridy = 4;
@@ -259,6 +395,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         ballclear.setBorder(null);
         ballclear.setForeground(Color.decode("#a4bacf"));
         ballclear.setBackground(Color.decode("#225b79"));
+        ballclear.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                ballclear.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                ballclear.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         bdot = new JButton(".");
         gbc.gridy = 3;
@@ -269,6 +417,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bdot.setBorder(null);
         bdot.setForeground(Color.decode("#1d384b"));
         bdot.setBackground(Color.decode("#98C2F7"));
+        bdot.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bdot.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bdot.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         // Pi and Exponential
         bpi = new JButton("\u03C0");
@@ -280,6 +440,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bpi.setBorder(null);
         bpi.setForeground(Color.decode("#a4bacf"));
         bpi.setBackground(Color.decode("#225b79"));
+        bpi.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bpi.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bpi.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         bexp = new JButton("e");
         gbc.gridy = 4;
@@ -290,6 +462,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bexp.setBorder(null);
         bexp.setForeground(Color.decode("#a4bacf"));
         bexp.setBackground(Color.decode("#225b79"));
+        bexp.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bexp.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bexp.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         // Equal to
         bequal = new JButton("=");
@@ -301,6 +485,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bequal.setBorder(null);
         bequal.setForeground(Color.decode("#a4bacf"));
         bequal.setBackground(Color.decode("#142f44"));
+        bequal.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bequal.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bequal.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         // Arithematic
         bplus = new JButton("+");
@@ -312,6 +508,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bplus.setBorder(null);
         bplus.setForeground(Color.decode("#a4bacf"));
         bplus.setBackground(Color.decode("#142f44"));
+        bplus.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bplus.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bplus.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         bsubtract = new JButton("-");
         gbc.gridy = 1;
@@ -322,6 +530,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bsubtract.setBorder(null);
         bsubtract.setForeground(Color.WHITE);
         bsubtract.setBackground(Color.decode("#142f44"));
+        bsubtract.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bsubtract.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bsubtract.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         bmul = new JButton("\u2715");
         gbc.gridy = 2;
@@ -332,6 +552,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bmul.setBorder(null);
         bmul.setForeground(Color.white);
         bmul.setBackground(Color.decode("#142f44"));
+        bmul.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bmul.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bmul.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         bdiv = new JButton("\u002f");
         gbc.gridy = 3;
@@ -342,6 +574,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bdiv.setBorder(null);
         bdiv.setForeground(Color.WHITE);
         bdiv.setBackground(Color.decode("#142f44"));
+        bdiv.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bdiv.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bdiv.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         bmod = new JButton("%");
         gbc.gridy = 4;
@@ -352,6 +596,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bmod.setBorder(null);
         bmod.setForeground(Color.white);
         bmod.setBackground(Color.decode("#142f44"));
+        bmod.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bmod.setBackground(Color.decode("#30336b"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bmod.setBackground(Color.decode("#142f44"));
+            }
+        });
 
         // Algebric
         bxraisey = new JButton("x\u02B8");
@@ -362,6 +618,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(bxraisey, gbc);
         bxraisey.setBorder(null);
         bxraisey.setBackground(Color.decode("#98C2F7"));
+        bxraisey.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bxraisey.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bxraisey.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         byrootx = new JButton("y\u221Ax");
         gbc.gridy = 5;
@@ -371,6 +639,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(byrootx, gbc);
         byrootx.setBorder(null);
         byrootx.setBackground(Color.decode("#98C2F7"));
+        byrootx.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                byrootx.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                byrootx.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         bfactorial = new JButton("x!");
         gbc.gridy = 5;
@@ -380,6 +660,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(bfactorial, gbc);
         bfactorial.setBorder(null);
         bfactorial.setBackground(Color.decode("#98C2F7"));
+        bfactorial.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bfactorial.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bfactorial.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         bxinverse = new JButton("(\u0031\u002fx)");
         gbc.gridy = 5;
@@ -389,6 +681,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bttnPanel.add(bxinverse, gbc);
         bxinverse.setBorder(null);
         bxinverse.setBackground(Color.decode("#98C2F7"));
+        bxinverse.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bxinverse.setBackground(Color.decode("#c7ecee"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bxinverse.setBackground(Color.decode("#98C2F7"));
+            }
+        });
 
         // Trignometric
         bsin = new JButton("Sin");
@@ -400,7 +704,19 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bsin.setBorder(null);
         bsin.setForeground(Color.decode("#a4bacf"));
         bsin.setBackground(Color.decode("#225b79"));
-
+        bsin.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bsin.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bsin.setBackground(Color.decode("#225b79"));
+            }
+        });
+        
         bcos = new JButton("Cos");
         gbc.gridy = 1;
         gbc.gridx = 5;
@@ -410,6 +726,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bcos.setBorder(null);
         bcos.setForeground(Color.decode("#a4bacf"));
         bcos.setBackground(Color.decode("#225b79"));
+        bcos.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bcos.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bcos.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         btan = new JButton("Tan");
         gbc.gridy = 2;
@@ -420,6 +748,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         btan.setBorder(null);
         btan.setForeground(Color.decode("#a4bacf"));
         btan.setBackground(Color.decode("#225b79"));
+        btan.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                btan.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                btan.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         // Inverse Trignometric
         bsininv = new JButton("Sin\u207B\u00b9");
@@ -431,6 +771,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bsininv.setBorder(null);
         bsininv.setForeground(Color.decode("#a4bacf"));
         bsininv.setBackground(Color.decode("#225b79"));
+        bsininv.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bsininv.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bsininv.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         bcosinv = new JButton("Cos\u207B\u00b9");
         gbc.gridy = 1;
@@ -441,6 +793,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bcosinv.setBorder(null);
         bcosinv.setForeground(Color.decode("#a4bacf"));
         bcosinv.setBackground(Color.decode("#225b79"));
+        bcosinv.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bcosinv.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bcosinv.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         btaninv = new JButton("Tan\u207B\u00b9");
         gbc.gridy = 2;
@@ -451,6 +815,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         btaninv.setBorder(null);
         btaninv.setForeground(Color.decode("#a4bacf"));
         btaninv.setBackground(Color.decode("#225b79"));
+        btaninv.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                btaninv.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                btaninv.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         // Log & Natural Log
         blog = new JButton("log");
@@ -462,6 +838,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         blog.setBorder(null);
         blog.setForeground(Color.decode("#a4bacf"));
         blog.setBackground(Color.decode("#225b79"));
+        blog.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                blog.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                blog.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         bln = new JButton("ln");
         gbc.gridy = 3;
@@ -472,6 +860,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bln.setBorder(null);
         bln.setForeground(Color.decode("#a4bacf"));
         bln.setBackground(Color.decode("#225b79"));
+        bln.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bln.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bln.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         // Parenthesis
         brightparenthesis = new JButton("(");
@@ -483,6 +883,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         brightparenthesis.setBorder(null);
         brightparenthesis.setForeground(Color.decode("#a4bacf"));
         brightparenthesis.setBackground(Color.decode("#225b79"));
+        brightparenthesis.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                brightparenthesis.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                brightparenthesis.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         bleftparenthesis = new JButton(")");
         gbc.gridy = 4;
@@ -493,6 +905,18 @@ class Sc_Calculato extends JFrame implements ActionListener {
         bleftparenthesis.setBorder(null);
         bleftparenthesis.setForeground(Color.decode("#a4bacf"));
         bleftparenthesis.setBackground(Color.decode("#225b79"));
+        bleftparenthesis.addMouseListener(new java.awt.event.MouseAdapter() 
+        {
+            public void mouseEntered(java.awt.event.MouseEvent evt) 
+            {
+                bleftparenthesis.setBackground(Color.decode("#218c74"));
+            }
+        
+            public void mouseExited(java.awt.event.MouseEvent evt) 
+            {
+                bleftparenthesis.setBackground(Color.decode("#225b79"));
+            }
+        });
 
         // Making the complier perform an action on clicking the button
         // Numberrs

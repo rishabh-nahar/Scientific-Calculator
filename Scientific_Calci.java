@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -34,21 +35,29 @@ public class SCalcu {
 class Sc_Calculator extends JFrame implements ActionListener {
 
     // Initializion of JFrame Components
+    //text areas
     JTextField calculationArea, calcDispArea;
+    //Numbers dot exp clear and clear
     JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear;
+    //arithematic
     JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
+    //algebric and log
     JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis, trialButton;
+    //Trigonometry
     JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
+    //panels
     JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
+    //Radio button - degree and radian
     JRadioButton r1, r2;
 
     public Sc_Calculator() {
-        String light = "#ffffff" , dark = "#00000";
+        String light = "#ffffff" , dark = "#00000" , grey_col = "#383838";
+
         String NumberColor_bg = light, Number_foreground = dark;
         String ArithematicColor_bg = light , Arhithmatic_foreground = dark;
         String TrigoColor_bg = light, Trigo_foreground=dark;
-        String _bg = "#d82939", AC_foreground= light;
-        String equalToColor_bg = "#f1af4c", equalTo_foreground= "#ffffff";
+        String ACcolor_bg = "#800000", AC_foreground= light;
+        String equalToColor_bg = grey_col, equalTo_foreground = light ;
         String instColor_bg = "#ffffff";
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -63,6 +72,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         mainPanel.setLayout(new BorderLayout());
         bttnPanel.setLayout(new GridBagLayout());
         calculationPanel.setLayout(new GridBagLayout());
+
 
         add(mainPanel);
         mainPanel.add(calculationPanel, BorderLayout.NORTH);
@@ -90,14 +100,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridwidth = 1;
         calculationPanel.add(calculationArea, gbc);
         calculationArea.setBackground(Color.decode("#ffffff"));
+        calculationArea.setFont(new Font("Serif", Font.PLAIN, 30));
 
-        calcDispArea = new JTextField("", 100);
+
+        calcDispArea = new JTextField("", 2000);
         gbc.gridy = 0;
         gbc.gridx = 1;
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
         calculationPanel.add(calcDispArea, gbc);
         calcDispArea.setBackground(Color.decode("#ffffff"));
+        calcDispArea.setFont(new Font("Serif", Font.PLAIN, 30));
 
         radioButtonPanel = new JPanel();
         radioButtonPanel.setLayout(new GridBagLayout());
@@ -148,6 +161,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
         calculationArea.setBorder(null);
         calcDispArea.setEditable(false);
         calcDispArea.setBorder(null);
+
+        
+        int top = 2;
+        int left = 2;
+        int bottom = 2;
+        int right = 2;
+        gbc.insets = new Insets(top, left, bottom, right);
+
 
         // Numbers
         b1 = new JButton("1");
@@ -394,7 +415,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         bttnPanel.add(ballclear, gbc);
         ballclear.setBorder(null);
         ballclear.setForeground(Color.decode(AC_foreground));
-        ballclear.setBackground(Color.decode(_bg));
+        ballclear.setBackground(Color.decode(ACcolor_bg));
         // ballclear.addMouseListener(new java.awt.event.MouseAdapter() {
         //     public void mouseEntered(java.awt.event.MouseEvent evt) {
         //         ballclear.setBackground(Color.decode("#218c74"));

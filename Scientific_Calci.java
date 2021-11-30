@@ -1,4 +1,5 @@
 package scientific_cal;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -11,6 +12,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -39,6 +41,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
     JTextField calculationArea, calcDispArea;
     //Numbers dot exp clear and clear
     JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear;
+    ArrayList <String> general_buttons = new ArrayList<String>();
+    //general_buttons.addAll(list,b1,b2);
     //arithematic
     JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
     //algebric and log
@@ -49,15 +53,26 @@ class Sc_Calculator extends JFrame implements ActionListener {
     JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
     //Radio button - degree and radian
     JRadioButton r1, r2;
+    //colors
+    String color1 = "#ffffff" , color2 = "#00000" , grey_col = "#383838";
+
+    void toggle_color_mode(){
+        String temp_col;
+        temp_col = color1;
+        color1 = color2;
+        color2 = temp_col;
+        grey_col = "#383838";
+        
+    }
 
     public Sc_Calculator() {
-        String light = "#ffffff" , dark = "#00000" , grey_col = "#383838";
 
-        String NumberColor_bg = light, Number_foreground = dark;
+
+        String NumberColor_bg = color1, Number_foreground = color2;
         String ArithematicColor_bg = "#dddddc" , Arhithmatic_foreground = "#000000";
         String TrigoColor_bg = "#dddddc", Trigo_foreground= "#000000";
-        String ACcolor_bg = "#800000", AC_foreground= light;
-        String equalToColor_bg = "#9d4e09", equalTo_foreground = light ;
+        String ACcolor_bg = "#800000", AC_foreground= color1;
+        String equalToColor_bg = "#9d4e09", equalTo_foreground = color1 ;
         String instColor_bg = "#ffffff";
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -84,14 +99,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.weighty = 0.9;
 
         // Creating components and adding
-
-        instruction = new JLabel("");
-        gbc.gridy = 0;
-        gbc.gridx = 1;
-        gbc.gridheight = 2;
-        gbc.gridwidth = 1;
-        calculationPanel.add(instruction, gbc);
-        calculationPanel.setBackground(Color.decode(instColor_bg));
 
         // calculationArea = new JTextField("", 100);
         // gbc.gridy = 1;
@@ -121,6 +128,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         calculationPanel.add(radioButtonPanel, gbc);
 
         // Radio buttons
+        
         ButtonGroup bg = new ButtonGroup();
         r1 = new JRadioButton();
         r1.setText("Radian");
@@ -140,13 +148,32 @@ class Sc_Calculator extends JFrame implements ActionListener {
         bg.add(r2);
         radioButtonPanel.add(r2, gbc);
 
-        trialButton = new JButton("\u263E");
+        instruction = new JLabel("Quadratic Equation");
         gbc.gridy = 0;
         gbc.gridx = 2;
+        gbc.gridheight = 2;
+        gbc.gridwidth = 1;
+        radioButtonPanel.add(instruction, gbc);
+
+
+        trialButton = new JButton("\u263E");
+        gbc.gridy = 0;
+        gbc.gridx = 3;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bg.add(trialButton);
         radioButtonPanel.add(trialButton, gbc);
+        trialButton.setBorder(null);
+        trialButton.setPreferredSize(new Dimension(20,40));
+        trialButton.setBackground(Color.decode(color1));
+        trialButton.setFocusPainted(false);
+
+        //background color for radiobutton panel
+        r1.setBackground(Color.decode(instColor_bg));
+        r2.setBackground(Color.decode(instColor_bg));
+        radioButtonPanel.setBackground(Color.decode(instColor_bg));
+        
+
 
         // // CalculationArea and calculation display area
 
@@ -970,6 +997,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         blog.addActionListener(this);
         bln.addActionListener(this);
 
+        trialButton.addActionListener(this);
     }
 
     // Declaration of variables and arraylist
@@ -1139,6 +1167,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
             value = e.getActionCommand();
             number = Character.isDigit(value.charAt(0));
 
+            
+
             if (r1.isSelected()) {
                 radian = true;
             } else {
@@ -1148,6 +1178,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
             if (start == false) {
                 main_array.add("(");
                 start = true;
+            }
+
+            if (value == "\u263E") {
+                trialButton.setText("\u263C");
+                toggle_color_mode();
+            } else if(value == "\u263C"){
+                trialButton.setText("\u263E");
+                toggle_color_mode();
             }
 
             if (number) {

@@ -54,7 +54,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
     // Radio button - degree and radian
     JRadioButton r1, r2;
     // colors
-    String light = "#ffffff", dark = "#00000", bttn_panel_bg = "#f2f2f2", light_grey = "#dddddc";
+    String light = "#ffffff", dark = "#00000", bttn_panel_bg = "#f2f2f2", light_grey = "#dddddc" , hover_button1="#c4dcdf";
 
     public Sc_Calculator() {
 
@@ -185,11 +185,11 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         b1.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseEntered(java.awt.event.MouseEvent evt) {
-        b1.setBackground(Color.decode("#c4dcdf"));
+        b1.setBackground(Color.decode(hover_button1));
         }
 
         public void mouseExited(java.awt.event.MouseEvent evt) {
-        b1.setBackground(Color.decode(NumberColor_bg));
+        b1.setBackground(Color.decode(light_button));
         }
 
         });
@@ -1162,10 +1162,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
         button_panels.add(calculationPanel);
     }
 
-    String temp_col1, temp_col2, temp_col3, temp_bw , temp_equalto;
+    String temp_col1, temp_col2, temp_col3,temp_hover, temp_bw , temp_equalto;
     String light_panel = "#f2f2f2", dark_panel = "#00000", light_button = "#ffffff", dark_button = "#343434",
             light_button2 = "#dddddc", dark_button2 = "#141d28", black = "#000000", white = "#ffffff",
-            equalto_light = "#9d4e09",equalto_dark = "#4290dc";
+            equalto_light = "#9d4e09",equalto_dark = "#4290dc" , hover_button2 = "#457ba6";
 
     void toggle_color_mode() {
 
@@ -1218,6 +1218,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         equalto_light = equalto_dark;
         equalto_dark = temp_equalto;
 
+        temp_hover = hover_button1;
+        hover_button1 = hover_button2;
+        hover_button2 = temp_hover;
     }
 
     // To check if string is number

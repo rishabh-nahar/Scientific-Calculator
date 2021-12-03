@@ -974,23 +974,35 @@ class Sc_Calculator extends JFrame implements ActionListener {
     }
 
     // Declaration of variables and arraylist
-    ArrayList<String> bodmas_algo = new ArrayList<String>();
+
+    //main_array stores the given input in arraylist in sorted manner and gets solved using bodmas arraylist till it gets completely solved ans lastly returns ans
     ArrayList<String> main_array = new ArrayList<String>();
+
+    //bodmas_algo is arraylist of small part or main_array in brackets where calculations ans returns ans to main_array 
+    ArrayList<String> bodmas_algo = new ArrayList<String>();
+
+    //start_main_array is created to fix error by user if brackets are not closed by them
     ArrayList<String> start_main_array = new ArrayList<String>();
 
-    // b0, b1, b2 , b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear
+    //when decimal is arraylist to store indexes when user gives ans in decimal
+    ArrayList<Integer> when_decimal = new ArrayList<Integer>();
+
+    /*
+        general_buttons, trigo_arith_log_buttons & button_panels are arraylists to keep all collections buttons and panels in one variable 
+        and are stored in list according to their name respectively 
+    */
     ArrayList<JButton> general_buttons = new ArrayList<JButton>();
-    ArrayList<JButton> trrigo_arith_log_buttons = new ArrayList<JButton>();
+    ArrayList<JButton> trigo_arith_log_buttons = new ArrayList<JButton>();
     ArrayList<JPanel> button_panels = new ArrayList<JPanel>();
 
     JLabel instruction;
     boolean number = false, operation = false, start = false, brack_end = false, negative = false, power = false,
             factorial_num = false,
-            decimal = false, lastvalue_added = true, temp_bool, pow_inv = false, decimal_start = false,
+            decimal = false, lastvalue_added = true, temp_bool, decimal_start = false,
             ans_inv = false, radian = false, constant = false, trig_pi = false;
 
     String value = "", DisplayEquation = "", last_value_string = "";
-    double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0, pi_value = 22 / 7f;
+    double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0;
     int first_brack = 0, last_brack = 0, ans_pos, i = 0, j = 0, k = 0, power_count = 0, trigo_val = 0, temp_ans = 0,
             count_decimal_fig = 10;
 
@@ -1136,23 +1148,23 @@ class Sc_Calculator extends JFrame implements ActionListener {
         general_buttons.add(bclear);
 
         // trigo,arithematic and log
-        trrigo_arith_log_buttons.add(bplus);
-        trrigo_arith_log_buttons.add(bsubtract);
-        trrigo_arith_log_buttons.add(bmul);
-        trrigo_arith_log_buttons.add(bdiv);
-        trrigo_arith_log_buttons.add(bmod);
+        trigo_arith_log_buttons.add(bplus);
+        trigo_arith_log_buttons.add(bsubtract);
+        trigo_arith_log_buttons.add(bmul);
+        trigo_arith_log_buttons.add(bdiv);
+        trigo_arith_log_buttons.add(bmod);
 
-        trrigo_arith_log_buttons.add(blog);
-        trrigo_arith_log_buttons.add(bln);
+        trigo_arith_log_buttons.add(blog);
+        trigo_arith_log_buttons.add(bln);
 
-        trrigo_arith_log_buttons.add(bleftparenthesis);
-        trrigo_arith_log_buttons.add(brightparenthesis);
-        trrigo_arith_log_buttons.add(bsin);
-        trrigo_arith_log_buttons.add(bcos);
-        trrigo_arith_log_buttons.add(btan);
-        trrigo_arith_log_buttons.add(bsininv);
-        trrigo_arith_log_buttons.add(bcosinv);
-        trrigo_arith_log_buttons.add(btaninv);
+        trigo_arith_log_buttons.add(bleftparenthesis);
+        trigo_arith_log_buttons.add(brightparenthesis);
+        trigo_arith_log_buttons.add(bsin);
+        trigo_arith_log_buttons.add(bcos);
+        trigo_arith_log_buttons.add(btan);
+        trigo_arith_log_buttons.add(bsininv);
+        trigo_arith_log_buttons.add(bcosinv);
+        trigo_arith_log_buttons.add(btaninv);
 
         // otherbutton
         button_panels.add(mainPanel);
@@ -1173,7 +1185,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             x.setForeground(Color.decode(white));
             x.setBackground(Color.decode(dark_button));
         }
-        for (JButton y : trrigo_arith_log_buttons) {
+        for (JButton y : trigo_arith_log_buttons) {
             y.setForeground(Color.decode(white));
             y.setBackground(Color.decode(dark_button2));
         }
@@ -1228,15 +1240,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
     }
 
     // To check if string is number
-    boolean check_whole_String_isNum(String toCheck, boolean forClear) {
+
+    boolean check_whole_String_isNum(String toCheck) {
         System.out.println("String Length: " + (toCheck.length()));
 
-        if (Character.isDigit(toCheck.charAt(toCheck.length() - 1)) || Character.isDigit(toCheck.charAt(0))) {
+        int string_length = toCheck.length();
+        System.out.println("\nString is: "+toCheck+"\nString Length: " + (string_length));
+        System.out.println("maiin_array: " + (main_array));
+
+        if (Character.isDigit(toCheck.charAt(string_length - 1)) || Character.isDigit(toCheck.charAt(0))) {
             temp_bool = true;
-            temp_ans = (int) (Double.parseDouble(toCheck) / 10);
-            if (forClear) {
-                forClear();
-            }
+
         } else {
             temp_bool = false;
         }
@@ -1244,10 +1258,150 @@ class Sc_Calculator extends JFrame implements ActionListener {
         return temp_bool;
     }
 
-    void forClear() {
-        if (temp_ans == 0) {
-            temp_bool = false;
+    // boolean check_whole_String_isNum(String toCheck) {
+
+    //     int string_length = toCheck.length();
+    //     System.out.println("\nString is: "+toCheck+"\nString Length: " + (string_length));
+    //     System.out.println("maiin_array: " + (main_array));
+
+    //     if (Character.isDigit(toCheck.charAt(string_length - 1)) || Character.isDigit(toCheck.charAt(0))) {
+    //         temp_bool = true;
+
+    //         temp_ans = (int) (Double.parseDouble(toCheck) / 10);
+    //         if (temp_ans == 0) {
+    //             temp_bool = false;
+    //         }
+            
+    //     } else {
+    //         temp_bool = false;
+    //     }
+    //     System.out.println("is Number(check_if_num()): "+temp_bool);
+    //     return temp_bool;
+    // }
+    String getMainarray_lastString(int n){
+        return main_array.get(main_array.size() - n);
+    }
+    void forClear(String string) {
+        int string_length = string.length();
+        boolean string_is_num;
+
+        StringBuffer string_disp = new StringBuffer(DisplayEquation);
+        StringBuffer string_main = new StringBuffer(string);
+
+        string_is_num = check_whole_String_isNum(string);
+        System.out.println("isNumber(forClear()): "+string_is_num);
+        /*For main_array last value: 
+            It will check if it is number or not            
+        */
+        if (string_is_num || string == Math.PI+"") {
+            /*
+                If Number:
+                    It will check if it has decimal or not
+            */
+            int current_mainarray_index = main_array.size()-1;
+            if(string.contains(".")){
+            
+                int decimal_index = string.indexOf(".");
+                StringBuffer string_after_dec = new StringBuffer(string.substring(decimal_index+1));
+                //StringBuffer string_before_dec = new StringBuffer(string.substring(0,decimal_index+1));
+                int string_after_dec_length = string_after_dec.length();
+                int dec_int_toggle = 10;
+
+
+                System.out.println("\nString is double");
+                System.out.println("decimal is at: "+string.indexOf("."));
+                System.out.println("After Decimal values: "+string_after_dec);
+
+                int decimal_index_in_mainarray = when_decimal.get(when_decimal.size()-1);
+
+                System.out.println("decimal_index_in_mainarray: "+decimal_index_in_mainarray+"current_mainarray_index: "+current_mainarray_index);
+                
+                if (decimal_index_in_mainarray == current_mainarray_index) {
+                     /*
+                        If it is decimal then it will get solve by getting number of digits after decimal 
+                    */
+                    
+                    for (i = 0; i < string_after_dec_length-1; i++) {
+                        dec_int_toggle = dec_int_toggle * 10;
+                        System.out.println(dec_int_toggle);
+                    }
+                    if(string_after_dec_length == 1 && string.contains(".0")){
+                        when_decimal.remove(when_decimal.size()-1);
+                    }
+                    System.out.println("numbers after decimal: "+string_after_dec);
+                    System.out.println("when_decimal now: "+when_decimal);
+                }
+                else{
+                    /*
+                        If it is not decimal then it will get solve by dividing number by 10 every time 
+                    */
+                    System.out.println("\ndecimal index: false\ntemp_ans before: "+temp_ans);
+                    temp_ans = (int)Double.parseDouble(string)/10;
+                    string = temp_ans + "";
+                    System.out.println("decimal index: false\ntemp_ans after: "+temp_ans);
+                    if (temp_ans == 0) {
+                        main_array.remove(current_mainarray_index);
+                    }
+                }
+                Double temp_ans_double = Double.parseDouble(string)*dec_int_toggle;
+                temp_ans =  (int)(temp_ans_double/10);
+                temp_ans_double = Double.parseDouble(temp_ans+"") *10/ dec_int_toggle;
+                dec_int_toggle =10;
+                System.out.println("\ntemp_ans_double: "+temp_ans_double+"\nTtemp_ans: "+temp_ans);
+                string = temp_ans_double+"";
+                if (temp_ans != 0 || temp_ans > 0 || temp_ans < -9) {
+                    main_array.set(main_array.size()-1, string);
+                }
+                else if(temp_ans < 0 || temp_ans >= -9){
+                    main_array.remove(main_array.size()-1);
+                    main_array.add("-");
+                }
+                string_disp.deleteCharAt(string_disp.length() - 1);
+                DisplayEquation = "" + string_disp;
+            }
+            else{
+                System.out.println("String is not Double");
+                string_main.deleteCharAt(string_length-1);
+                string = ""+ string_main;
+            }
         }
+        else {
+            lastvalue_added =true;
+            System.out.println("String is not num");
+            int main_array_loop=1;
+            if(getMainarray_lastString(2) == "pow"){
+                string_length = 10;
+                main_array_loop = 2;
+            }
+            if(getMainarray_lastString(2) == "root"){
+                string_length = 9;
+                main_array_loop = 2;
+            }
+            else if(getMainarray_lastString(2) == "Sin" || getMainarray_lastString(2) == "Cos" || getMainarray_lastString(2) == "Tan"){
+                string_length = 4;
+                main_array_loop = 2;
+            }
+            else if(getMainarray_lastString(2) == "Sin\u207B\u00b9" || getMainarray_lastString(2) == "Cos\u207B\u00b9" || getMainarray_lastString(2) == "Tan\u207B\u00b9"){
+                string_length = 6;
+                main_array_loop = 2;
+            }
+            else if(getMainarray_lastString(2)=="log"){
+                string_length = 4;
+                main_array_loop = 2;
+            }
+            else if(getMainarray_lastString(2) == "ln"){
+                string_length = 3;
+                main_array_loop = 2;
+            }
+            for (i = 1; i <= string_length; i++) {
+             string_disp.deleteCharAt(string_disp.length() - 1);
+            }
+            for ( i = 1; i <= main_array_loop; i++) {
+                main_array.remove(main_array.size()-1);
+            }
+        }
+        DisplayEquation = "" + string_disp;
+        System.out.println("After Clearing main_array: "+main_array);
     }
 
     void after_operations() {
@@ -1256,8 +1410,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
     }
 
     void add_last_value() {
-        if (lastvalue_added || start == false) {
-
+        if (lastvalue_added) {
+            
         } else {
             main_array.add("" + last_value);
             last_value = 0;
@@ -1272,17 +1426,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
             sign = -1;
         }
         if (trigo_val > 0) {
-            return sign*180.0;
+            return sign * 180.0;
         } else {
-            return sign*Math.PI;
+            return sign * Math.PI;
         }
     }
 
     void auto_multiplly() {
         for (k = 0; k < bodmas_algo.size() - 1; k++) {
             boolean check1, check2;
-            check1 = check_whole_String_isNum(bodmas_algo.get(k), false);
-            check2 = check_whole_String_isNum(bodmas_algo.get(k + 1), false);
+            check1 = check_whole_String_isNum(bodmas_algo.get(k));
+            check2 = check_whole_String_isNum(bodmas_algo.get(k + 1));
             System.out.println("c1 " + check1 + " c2 " + check2);
             if (check2 == true && check1 == true) {
                 multiplication(Double.parseDouble(bodmas_algo.get(k)),
@@ -1293,7 +1447,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
             }
         }
     }
-    void after_equalto(){
+
+    void after_equalto() {
 
         last_value_string = "";
 
@@ -1319,13 +1474,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
         temp_value = 0.0;
 
         start_main_array.clear();
-        main_array.clear();   
+        main_array.clear();
     }
+
     public void actionPerformed(ActionEvent e) {
         try {
 
             add_in_arraylist();
-
+            
             value = e.getActionCommand();
             number = Character.isDigit(value.charAt(0));
 
@@ -1338,6 +1494,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
             if (start == false) {
                 start = true;
+                when_decimal.add(0);
                 main_array.add("(");
             }
 
@@ -1354,6 +1511,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     if (decimal_start) {
                         last_value_string = last_value_string + ".";
                         decimal_start = false;
+                        when_decimal.add(main_array.size());
+                        System.out.println("Decimal on index: "+when_decimal);
                     }
 
                     last_value_string = last_value_string + value;
@@ -1368,13 +1527,13 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     }
                     last_value = Double.parseDouble(last_value_string);
 
-                    System.out.println("dsdf: " + last_value);
                 }
 
                 DisplayEquation = DisplayEquation + value;
                 lastvalue_added = false;
 
             } else {
+                // for + * & /
                 if (value == "+" || value == "\u2715" || value == "\u002f") {
                     after_operations();
                     decimal = false;
@@ -1407,8 +1566,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         brack_end = false;
                         factorial_num = false;
                     } else {
-                        main_array.add(last_value + "");
-                        lastvalue_added = true;
+                        add_last_value();
                         brack_end = false;
                     }
                     power_count++;
@@ -1425,15 +1583,15 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         brack_end = false;
                         factorial_num = false;
                     } else {
-                        main_array.add(last_value + "");
-                        lastvalue_added = true;
+                        add_last_value();
                         brack_end = false;
                     }
-                    pow_inv = true;
+            
                     power_count++;
-                    main_array.add("pow");
+                    main_array.add("root");
                     main_array.add("(");
                     last_value = 0;
+                    lastvalue_added=true;
                     last_value_string = "";
                     DisplayEquation = DisplayEquation + "Root of (";
                 } else if (value == "x!") {
@@ -1493,6 +1651,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     DisplayEquation = DisplayEquation + value + "(";
                 } else if (value == "log" || value == "ln") {
                     after_operations();
+                    add_last_value();
                     decimal = false;
                     if (negative == true) {
                         main_array.remove(main_array.size() - 1);
@@ -1503,16 +1662,19 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.add("(");
                     trigo_val++;
                     DisplayEquation = DisplayEquation + value + "(";
-                } 
+                }
                 // value = pi
                 else if (value == "\u03C0") {
                     after_operations();
                     add_last_value();
+
                     main_array.add("" + pi_value());
                     lastvalue_added = true;
                     last_value = 0;
+                    System.out.println("pi added: "+main_array);
+
                     DisplayEquation = DisplayEquation + "\u03C0";
-                    constant = true;
+                    //constant = true;
                 } else if (value == "e") {
                     after_operations();
                     main_array.add(Math.exp(1) + "");
@@ -1551,34 +1713,23 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 } else if (value == "AC") {
                     allClear();
                 } else if (value == "C") {
-                    if (main_array.size() > 1) {
+
+                    if (main_array.size() >= 1) {
                         add_last_value();
-                        if (check_whole_String_isNum(main_array.get(main_array.size() - 1), true)) {
-                            main_array.set(main_array.size() - 1, temp_ans + "");
-                            temp_ans = 0;
-                            System.out.println("displayed after:" + main_array);
-                        } else {
-                            main_array.remove(main_array.size() - 1);
-                        }
+                        forClear(main_array.get(main_array.size() - 1));
                     }
-                    StringBuffer sb = new StringBuffer(DisplayEquation);
-                    sb.deleteCharAt(sb.length() - 1);
-                    DisplayEquation = "" + sb;
-                    System.out.println("Hello! " + DisplayEquation);
+
                 } else if (value == "=") {
                     System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
-                    if (lastvalue_added) {
-                    } 
-                    else {
-                        main_array.add("" + last_value);
-                    }
+                    add_last_value();
                     main_array.add(")");
 
                     for (i = 0; i <= main_array.size() - 1; i++) {
                         start_main_array.add(main_array.get(i));
                     }
-                    // System.out.println("sma -->>" + start_main_array);
-                    // System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
+                    System.out.println("sma -->>" + start_main_array);
+                    System.out.println("Start Main ArrayList = " + main_array + "\nsize: " +
+                    main_array.size() + "\n");
                     while (main_array.size() > 1) {
                         if (main_array.contains("(") && main_array.contains(")")) {
 
@@ -1609,6 +1760,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             if (first_brack == last_brack) {
                                 main_array.remove(first_brack + 1);
                                 main_array.remove(first_brack - 1);
+                            } else if (first_brack > last_brack) {
+                                break;
                             } else {
                                 auto_multiplly();
                                 for (k = bodmas_algo.size() - 1; k >= 0; k--) {
@@ -1626,12 +1779,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                     if (bodmas_algo.get(k) == "pow") {// raise to
                                         Double raise_to_value;
                                         operation = true;
-                                        if (pow_inv) {
-                                            raise_to_value = 1 / Double.parseDouble(bodmas_algo.get(k + 1));
-                                            pow_inv = false;
-                                        } else {
-                                            raise_to_value = Double.parseDouble(bodmas_algo.get(k + 1));
-                                        }
+                                        raise_to_value = Double.parseDouble(bodmas_algo.get(k + 1));
+                                        System.out.println(bodmas_algo);
+                                        order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
+                                        removeorder(first_brack, last_brack, k);
+                                    }
+                                }
+                                for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                                    if (bodmas_algo.get(k) == "root") {// raise to
+                                        Double raise_to_value;
+                                        operation = true;
+                                        raise_to_value = 1 / Double.parseDouble(bodmas_algo.get(k + 1));
                                         System.out.println(bodmas_algo);
                                         order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
                                         removeorder(first_brack, last_brack, k);
@@ -1645,7 +1803,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                         trigo(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
                                         System.out.println("\nMain array after trigo solved: " + main_array);
                                         remove_trigo_log(first_brack, last_brack, k);
-                                        System.out.println("Main array after trigo removed bracket: " + main_array+"\n");
+                                        System.out.println(
+                                                "Main array after trigo removed bracket: " + main_array + "\n");
                                     }
                                     if (bodmas_algo.get(k) == "Sin\u207B\u00b9"
                                             || bodmas_algo.get(k) == "Cos\u207B\u00b9"
@@ -1663,7 +1822,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                 System.out.println("\nBefore auto multiply -> bodmas_algo: " + bodmas_algo);
                                 auto_multiplly();
                                 System.out.println("After auto multiplication| main array: " + main_array
-                                        + " | bodmas_algo: " + bodmas_algo+"\n");
+                                        + " | bodmas_algo: " + bodmas_algo + "\n");
 
                                 for (k = 0; k < bodmas_algo.size(); k++) {
 
@@ -1676,7 +1835,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                 }
 
                                 if (bodmas_algo.contains("\u002f")) {
-                                    for (k = 0; k < bodmas_algo.size() ; k++) {
+                                    for (k = 0; k < bodmas_algo.size(); k++) {
 
                                         if (bodmas_algo.get(k) == "\u002f") {// division
                                             operation = true;
@@ -1688,7 +1847,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                     }
                                 }
                                 if (bodmas_algo.contains("+")) {
-                                    for (k = 0; k < bodmas_algo.size() ; k++) {
+                                    for (k = 0; k < bodmas_algo.size(); k++) {
                                         if (bodmas_algo.get(k) == "+") {
                                             operation = true;
                                             addition(Double.parseDouble(bodmas_algo.get(k - 1)),
@@ -1709,7 +1868,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                                         }
                                     }
                                 }
-                                System.out.println("I AM HERE anspos: "+ans_pos);
+                                System.out.println("I AM HERE anspos: " + ans_pos);
                             }
                             if (operation == true) {
                                 main_array.remove(ans_pos + 1);
@@ -1744,15 +1903,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         ans_inv = false;
                     } else {
                     }
-                    System.out.println("Final Ans: "+ans);
                     display_output("" + ans);
                     DisplayEquation = "" + ans;
-                    main_array.remove(0);
+                    main_array.clear();
                     start_main_array.clear();
-                    last_value = ans;
+                    main_array.add("(");
+                    main_array.add(ans+"");
+                    last_value = 0;
+                    lastvalue_added = true;
+                    System.out.println("Final main_array: " + main_array);
                     number = false;
                     operation = false;
-                    start = false;
                     brack_end = false;
                     negative = false;
                     power = false;
@@ -1787,7 +1948,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         bodmas_algo.remove(Op_pos + 1);
 
-        ans_pos = first_brack + Op_pos ;
+        ans_pos = first_brack + Op_pos;
 
         k = 0;
     }

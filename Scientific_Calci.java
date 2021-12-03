@@ -975,22 +975,27 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
     // Declaration of variables and arraylist
 
-    //main_array stores the given input in arraylist in sorted manner and gets solved using bodmas arraylist till it gets completely solved ans lastly returns ans
+    // main_array stores the given input in arraylist in sorted manner and gets
+    // solved using bodmas arraylist till it gets completely solved ans lastly
+    // returns ans
     ArrayList<String> main_array = new ArrayList<String>();
 
-    //bodmas_algo is arraylist of small part or main_array in brackets where calculations ans returns ans to main_array 
+    // bodmas_algo is arraylist of small part or main_array in brackets where
+    // calculations ans returns ans to main_array
     ArrayList<String> bodmas_algo = new ArrayList<String>();
 
-    //start_main_array is created to fix error by user if brackets are not closed by them
+    // start_main_array is created to fix error by user if brackets are not closed
+    // by them
     ArrayList<String> start_main_array = new ArrayList<String>();
 
-    //when decimal is arraylist to store indexes when user gives ans in decimal
+    // when decimal is arraylist to store indexes when user gives ans in decimal
     ArrayList<Integer> when_decimal = new ArrayList<Integer>();
 
     /*
-        general_buttons, trigo_arith_log_buttons & button_panels are arraylists to keep all collections buttons and panels in one variable 
-        and are stored in list according to their name respectively 
-    */
+     * general_buttons, trigo_arith_log_buttons & button_panels are arraylists to
+     * keep all collections buttons and panels in one variable
+     * and are stored in list according to their name respectively
+     */
     ArrayList<JButton> general_buttons = new ArrayList<JButton>();
     ArrayList<JButton> trigo_arith_log_buttons = new ArrayList<JButton>();
     ArrayList<JPanel> button_panels = new ArrayList<JPanel>();
@@ -1193,7 +1198,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             z.setBackground(Color.decode(dark_panel));
         }
 
-        // manual toggling for equalto, calculation display area, radio buttons,
+        // automatic toggling of colors for equalto, calculation display area, radio buttons,
         // radiobutton panel & quadratic equation
         calcDispArea.setBackground(Color.decode(dark_button));
         radioButtonPanel.setBackground(Color.decode(dark_button));
@@ -1245,7 +1250,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         System.out.println("String Length: " + (toCheck.length()));
 
         int string_length = toCheck.length();
-        System.out.println("\nString is: "+toCheck+"\nString Length: " + (string_length));
+        System.out.println("\nString is: " + toCheck + "\nString Length: " + (string_length));
         System.out.println("maiin_array: " + (main_array));
 
         if (Character.isDigit(toCheck.charAt(string_length - 1)) || Character.isDigit(toCheck.charAt(0))) {
@@ -1258,29 +1263,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
         return temp_bool;
     }
 
-    // boolean check_whole_String_isNum(String toCheck) {
-
-    //     int string_length = toCheck.length();
-    //     System.out.println("\nString is: "+toCheck+"\nString Length: " + (string_length));
-    //     System.out.println("maiin_array: " + (main_array));
-
-    //     if (Character.isDigit(toCheck.charAt(string_length - 1)) || Character.isDigit(toCheck.charAt(0))) {
-    //         temp_bool = true;
-
-    //         temp_ans = (int) (Double.parseDouble(toCheck) / 10);
-    //         if (temp_ans == 0) {
-    //             temp_bool = false;
-    //         }
-            
-    //     } else {
-    //         temp_bool = false;
-    //     }
-    //     System.out.println("is Number(check_if_num()): "+temp_bool);
-    //     return temp_bool;
-    // }
-    String getMainarray_lastString(int n){
+    String getMainarray_lastString(int n) {
         return main_array.get(main_array.size() - n);
     }
+
     void forClear(String string) {
         int string_length = string.length();
         boolean string_is_num;
@@ -1289,119 +1275,118 @@ class Sc_Calculator extends JFrame implements ActionListener {
         StringBuffer string_main = new StringBuffer(string);
 
         string_is_num = check_whole_String_isNum(string);
-        System.out.println("isNumber(forClear()): "+string_is_num);
-        /*For main_array last value: 
-            It will check if it is number or not            
-        */
-        if (string_is_num || string == Math.PI+"") {
+        System.out.println("isNumber(forClear()): " + string_is_num);
+        /*
+         * For main_array last value:
+         * It will check if it is number or not
+         */
+        if (string_is_num || string == Math.PI + "") {
             /*
-                If Number:
-                    It will check if it has decimal or not
-            */
-            int current_mainarray_index = main_array.size()-1;
-            if(string.contains(".")){
-            
+             * If Number:
+             * It will check if it has decimal or not
+             */
+            int current_mainarray_index = main_array.size() - 1;
+            if (string.contains(".")) {
+
                 int decimal_index = string.indexOf(".");
-                StringBuffer string_after_dec = new StringBuffer(string.substring(decimal_index+1));
-                //StringBuffer string_before_dec = new StringBuffer(string.substring(0,decimal_index+1));
+                StringBuffer string_after_dec = new StringBuffer(string.substring(decimal_index + 1));
+                // StringBuffer string_before_dec = new
+                // StringBuffer(string.substring(0,decimal_index+1));
                 int string_after_dec_length = string_after_dec.length();
                 int dec_int_toggle = 10;
 
-
                 System.out.println("\nString is double");
-                System.out.println("decimal is at: "+string.indexOf("."));
-                System.out.println("After Decimal values: "+string_after_dec);
+                System.out.println("decimal is at: " + string.indexOf("."));
+                System.out.println("After Decimal values: " + string_after_dec);
 
-                int decimal_index_in_mainarray = when_decimal.get(when_decimal.size()-1);
+                int decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
 
-                System.out.println("decimal_index_in_mainarray: "+decimal_index_in_mainarray+"current_mainarray_index: "+current_mainarray_index);
-                
+                System.out.println("decimal_index_in_mainarray: " + decimal_index_in_mainarray
+                        + "current_mainarray_index: " + current_mainarray_index);
+
                 if (decimal_index_in_mainarray == current_mainarray_index) {
-                     /*
-                        If it is decimal then it will get solve by getting number of digits after decimal 
-                    */
-                    
-                    for (i = 0; i < string_after_dec_length-1; i++) {
+                    /*
+                     * If it is decimal then it will get solve by getting number of digits after
+                     * decimal
+                     */
+
+                    for (i = 0; i < string_after_dec_length - 1; i++) {
                         dec_int_toggle = dec_int_toggle * 10;
                         System.out.println(dec_int_toggle);
                     }
-                    if(string_after_dec_length == 1 && string.contains(".0")){
-                        when_decimal.remove(when_decimal.size()-1);
+                    if (string_after_dec_length == 1 && string.contains(".0")) {
+                        when_decimal.remove(when_decimal.size() - 1);
                     }
-                    System.out.println("numbers after decimal: "+string_after_dec);
-                    System.out.println("when_decimal now: "+when_decimal);
-                }
-                else{
+                    System.out.println("numbers after decimal: " + string_after_dec);
+                    System.out.println("when_decimal now: " + when_decimal);
+                } else {
                     /*
-                        If it is not decimal then it will get solve by dividing number by 10 every time 
-                    */
-                    System.out.println("\ndecimal index: false\ntemp_ans before: "+temp_ans);
-                    temp_ans = (int)Double.parseDouble(string)/10;
+                     * If it is not decimal then it will get solve by dividing number by 10 every
+                     * time
+                     */
+                    System.out.println("\ndecimal index: false\ntemp_ans before: " + temp_ans);
+                    temp_ans = (int) Double.parseDouble(string) / 10;
                     string = temp_ans + "";
-                    System.out.println("decimal index: false\ntemp_ans after: "+temp_ans);
+                    System.out.println("decimal index: false\ntemp_ans after: " + temp_ans);
                     if (temp_ans == 0) {
                         main_array.remove(current_mainarray_index);
                     }
                 }
-                Double temp_ans_double = Double.parseDouble(string)*dec_int_toggle;
-                temp_ans =  (int)(temp_ans_double/10);
-                temp_ans_double = Double.parseDouble(temp_ans+"") *10/ dec_int_toggle;
-                dec_int_toggle =10;
-                System.out.println("\ntemp_ans_double: "+temp_ans_double+"\nTtemp_ans: "+temp_ans);
-                string = temp_ans_double+"";
+                Double temp_ans_double = Double.parseDouble(string) * dec_int_toggle;
+                temp_ans = (int) (temp_ans_double / 10);
+                temp_ans_double = Double.parseDouble(temp_ans + "") * 10 / dec_int_toggle;
+                dec_int_toggle = 10;
+                System.out.println("\ntemp_ans_double: " + temp_ans_double + "\nTtemp_ans: " + temp_ans);
+                string = temp_ans_double + "";
                 if (temp_ans != 0 || temp_ans > 0 || temp_ans < -9) {
-                    main_array.set(main_array.size()-1, string);
-                }
-                else if(temp_ans < 0 || temp_ans >= -9){
-                    main_array.remove(main_array.size()-1);
+                    main_array.set(main_array.size() - 1, string);
+                } else if (temp_ans < 0 || temp_ans >= -9) {
+                    main_array.remove(main_array.size() - 1);
                     main_array.add("-");
                 }
                 string_disp.deleteCharAt(string_disp.length() - 1);
                 DisplayEquation = "" + string_disp;
-            }
-            else{
+            } else {
                 System.out.println("String is not Double");
-                string_main.deleteCharAt(string_length-1);
-                string = ""+ string_main;
+                string_main.deleteCharAt(string_length - 1);
+                string = "" + string_main;
             }
-        }
-        else {
-            lastvalue_added =true;
+        } else {
+            lastvalue_added = true;
             System.out.println("String is not num");
-            int main_array_loop=1;
-            if(getMainarray_lastString(2) == "pow"){
+            int main_array_loop = 1;
+            if (getMainarray_lastString(2) == "pow") {
                 string_length = 10;
                 main_array_loop = 2;
             }
-            if(getMainarray_lastString(2) == "root"){
+            if (getMainarray_lastString(2) == "root") {
                 string_length = 9;
                 main_array_loop = 2;
-            }
-            else if(getMainarray_lastString(2) == "Sin" || getMainarray_lastString(2) == "Cos" || getMainarray_lastString(2) == "Tan"){
+            } else if (getMainarray_lastString(2) == "Sin" || getMainarray_lastString(2) == "Cos"
+                    || getMainarray_lastString(2) == "Tan") {
                 string_length = 4;
                 main_array_loop = 2;
-            }
-            else if(getMainarray_lastString(2) == "Sin\u207B\u00b9" || getMainarray_lastString(2) == "Cos\u207B\u00b9" || getMainarray_lastString(2) == "Tan\u207B\u00b9"){
+            } else if (getMainarray_lastString(2) == "Sin\u207B\u00b9"
+                    || getMainarray_lastString(2) == "Cos\u207B\u00b9"
+                    || getMainarray_lastString(2) == "Tan\u207B\u00b9") {
                 string_length = 6;
                 main_array_loop = 2;
-            }
-            else if(getMainarray_lastString(2)=="log"){
+            } else if (getMainarray_lastString(2) == "log") {
                 string_length = 4;
                 main_array_loop = 2;
-            }
-            else if(getMainarray_lastString(2) == "ln"){
+            } else if (getMainarray_lastString(2) == "ln") {
                 string_length = 3;
                 main_array_loop = 2;
             }
             for (i = 1; i <= string_length; i++) {
-             string_disp.deleteCharAt(string_disp.length() - 1);
+                string_disp.deleteCharAt(string_disp.length() - 1);
             }
-            for ( i = 1; i <= main_array_loop; i++) {
-                main_array.remove(main_array.size()-1);
+            for (i = 1; i <= main_array_loop; i++) {
+                main_array.remove(main_array.size() - 1);
             }
         }
         DisplayEquation = "" + string_disp;
-        System.out.println("After Clearing main_array: "+main_array);
+        System.out.println("After Clearing main_array: " + main_array);
     }
 
     void after_operations() {
@@ -1411,7 +1396,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
     void add_last_value() {
         if (lastvalue_added) {
-            
+
         } else {
             main_array.add("" + last_value);
             last_value = 0;
@@ -1481,7 +1466,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         try {
 
             add_in_arraylist();
-            
+
             value = e.getActionCommand();
             number = Character.isDigit(value.charAt(0));
 
@@ -1512,7 +1497,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         last_value_string = last_value_string + ".";
                         decimal_start = false;
                         when_decimal.add(main_array.size());
-                        System.out.println("Decimal on index: "+when_decimal);
+                        System.out.println("Decimal on index: " + when_decimal);
                     }
 
                     last_value_string = last_value_string + value;
@@ -1586,12 +1571,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         add_last_value();
                         brack_end = false;
                     }
-            
+
                     power_count++;
                     main_array.add("root");
                     main_array.add("(");
                     last_value = 0;
-                    lastvalue_added=true;
+                    lastvalue_added = true;
                     last_value_string = "";
                     DisplayEquation = DisplayEquation + "Root of (";
                 } else if (value == "x!") {
@@ -1601,8 +1586,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         brack_end = false;
                         factorial_num = false;
                     } else {
-                        main_array.add(last_value + "");
-                        lastvalue_added = true;
+                        add_last_value();
                         brack_end = false;
                     }
                     factorial_num = true;
@@ -1671,10 +1655,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.add("" + pi_value());
                     lastvalue_added = true;
                     last_value = 0;
-                    System.out.println("pi added: "+main_array);
+                    System.out.println("pi added: " + main_array);
 
                     DisplayEquation = DisplayEquation + "\u03C0";
-                    //constant = true;
+                    // constant = true;
                 } else if (value == "e") {
                     after_operations();
                     main_array.add(Math.exp(1) + "");
@@ -1729,7 +1713,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     }
                     System.out.println("sma -->>" + start_main_array);
                     System.out.println("Start Main ArrayList = " + main_array + "\nsize: " +
-                    main_array.size() + "\n");
+                            main_array.size() + "\n");
                     while (main_array.size() > 1) {
                         if (main_array.contains("(") && main_array.contains(")")) {
 
@@ -1908,7 +1892,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.clear();
                     start_main_array.clear();
                     main_array.add("(");
-                    main_array.add(ans+"");
+                    main_array.add(ans + "");
                     last_value = 0;
                     lastvalue_added = true;
                     System.out.println("Final main_array: " + main_array);

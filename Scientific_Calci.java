@@ -128,9 +128,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         bg.add(r2);
         radioButtonPanel.add(r2, gbc);
 
-        instruction = new JLabel("Quadratic Equation");
+        instruction = new JLabel("");
         gbc.gridy = 0;
-        gbc.gridx = 3;
+        gbc.gridx = 2;
         gbc.gridheight = 2;
         gbc.gridwidth = 1;
         radioButtonPanel.add(instruction, gbc);
@@ -138,7 +138,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         trialButton = new JButton("\u263E");
         gbc.gridy = 0;
-        gbc.gridx = 2;
+        gbc.gridx = 3;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bg.add(trialButton);
@@ -990,6 +990,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
     /* when decimal is arraylist to store indexes when user gives ans in decimal*/
     ArrayList<Integer> when_decimal = new ArrayList<Integer>();
 
+    /* fix_value_var_indexes arraylist will store the indexes of variable with fix value such as π and e */
+    ArrayList<Integer> fix_value_var_indexes = new ArrayList<Integer>();
+
     /*
      * general_buttons, trigo_arith_log_buttons & button_panels are arraylists to
      * keep all collections buttons and panels in one variable
@@ -1272,18 +1275,28 @@ class Sc_Calculator extends JFrame implements ActionListener {
         StringBuffer string_disp = new StringBuffer(DisplayEquation);
         StringBuffer string_main = new StringBuffer(string);
 
+        int decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
+        int fix_value_index_in_mainarray = fix_value_var_indexes.get(fix_value_var_indexes.size()-1);
+        int current_mainarray_index = main_array.size() - 1;
+
+        System.out.println("\ndecimal_index_in_mainarray: "+decimal_index_in_mainarray);
+        System.out.println("\nfix_value_var_indexes: "+fix_value_index_in_mainarray);
+        System.out.println("\ncurrent_mainarray_index: "+current_mainarray_index);
+
         string_is_num = check_whole_String_isNum(string);
         System.out.println("isNumber(forClear()): " + string_is_num);
         /*
          * For main_array last value:
          * It will check if it is number or not
          */
-        if (string_is_num || string == Math.PI + "") {
+        String temp_string = string_disp.charAt(string_disp.length()-1)+"";
+        System.out.println("before clear display last value: "+temp_string);
+        if (string_is_num && current_mainarray_index != fix_value_index_in_mainarray) {
             /*
              * If Number:
              * It will check if it has decimal or not
              */
-            int current_mainarray_index = main_array.size() - 1;
+            lastvalue_added = false;
             if (string.contains(".")) {
 
                 int decimal_index = string.indexOf(".");
@@ -1295,7 +1308,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 System.out.println("decimal is at: " + string.indexOf("."));
                 System.out.println("After Decimal values: " + string_after_dec);
 
-                int decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
 
                 System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray
                         + "\ncurrent_mainarray_index: " + current_mainarray_index);
@@ -1382,10 +1394,21 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     negative = false;
                 }
             }
+            else if(current_mainarray_index == fix_value_index_in_mainarray){
+                System.out.println("clearing Pi");
+                string_length = 1;
+                main_array_loop =1;
+                fix_value_var_indexes.remove(fix_value_var_indexes.size()-1);
+            }
+            System.out.println("startDisplay clearing");
             for (i = 1; i <= string_length; i++) {
+                System.out.println("Display cleared");
                 string_disp.deleteCharAt(string_disp.length() - 1);
             }
+            System.out.println("start main_array clearing");
+            System.out.println("mainarray loop: "+main_array_loop);
             for (i = 1; i <= main_array_loop; i++) {
+                System.out.println("mainarray cleared");
                 main_array.remove(main_array.size() - 1);
             }
         }
@@ -1465,6 +1488,205 @@ class Sc_Calculator extends JFrame implements ActionListener {
         start_main_array.clear();
         main_array.clear();
     }
+
+    void isEqualto_func(){
+        System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
+        add_last_value();
+        main_array.add(")");
+        
+        for (i = 0; i <= main_array.size() - 1; i++) {
+            start_main_array.add(main_array.get(i));
+        }
+        System.out.println("sma -->>" + start_main_array);
+        System.out.println("Start Main ArrayList = " + main_array + "\nsize: " +
+                main_array.size() + "\n");
+
+        while (main_array.size() > 1) {
+            if (main_array.contains("(") && main_array.contains(")")) {
+
+
+                bodmas_algo.removeAll(bodmas_algo);
+
+                k = 0;
+                i = 0;
+                last_brack = 0;
+                first_brack = 0;
+
+                for (i = 0; i < main_array.size(); i++) {
+                    if (main_array.get(i) == "(") {
+                        first_brack = i + 1;
+                    }
+                }
+                // Search for first ")"
+                for (j = first_brack; j < main_array.size(); j++) {
+                    if (main_array.get(j) == ")") {
+                        last_brack = j - 1;
+                        break;
+                    }
+                }
+                for (k = first_brack; k <= last_brack; k++) {
+                    bodmas_algo.add(main_array.get(k));
+                }
+                System.out.println("Bodmas_algo start loop:\nMain:" + main_array + "\tSize:"
+                        + main_array.size() + "\nAlgo:" + bodmas_algo + "\tSize:" + bodmas_algo.size());
+               
+                if (first_brack == last_brack) {
+                    main_array.remove(first_brack + 1);
+                    main_array.remove(first_brack - 1);
+                } else if (first_brack > last_brack) {
+                    break;
+                } else {
+                    auto_multiplly();
+                    for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                        if (bodmas_algo.get(k) == "%") {
+                            percentage(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                    Double.parseDouble(bodmas_algo.get(k + 1)));
+                            remove_arith(first_brack, last_brack, k);
+                        }
+                        if (bodmas_algo.get(k) == "!") {
+                            factorial(Double.parseDouble(bodmas_algo.get(k - 1)));
+                            remove_fact(first_brack, last_brack, k);
+                        }
+                    }
+                    for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                        if (bodmas_algo.get(k) == "pow") {// raise to
+                            Double raise_to_value;
+                            operation = true;
+                            raise_to_value = Double.parseDouble(bodmas_algo.get(k + 1));
+                            System.out.println(bodmas_algo);
+                            order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
+                            removeorder(first_brack, last_brack, k);
+                        }
+                    }
+                    for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                        if (bodmas_algo.get(k) == "root") {// raise to
+                            Double raise_to_value;
+                            operation = true;
+                            raise_to_value = 1 / Double.parseDouble(bodmas_algo.get(k + 1));
+                            System.out.println(bodmas_algo);
+                            order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
+                            removeorder(first_brack, last_brack, k);
+                        }
+                    }
+
+                    for (k = bodmas_algo.size() - 1; k >= 0; k--) {
+                        if (bodmas_algo.get(k) == "Sin" || bodmas_algo.get(k) == "Cos"
+                                || bodmas_algo.get(k) == "Tan") {// tirgo
+                            operation = true;
+                            trigo(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
+                            System.out.println("\nMain array after trigo solved: " + main_array);
+                            remove_trigo_log(first_brack, last_brack, k);
+                            System.out.println(
+                                    "Main array after trigo removed bracket: " + main_array + "\n");
+                        }
+                        if (bodmas_algo.get(k) == "Sin\u207B\u00b9"
+                                || bodmas_algo.get(k) == "Cos\u207B\u00b9"
+                                || bodmas_algo.get(k) == "Tan\u207B\u00b9") {// Sin
+                            operation = true;
+                            trigo_inv(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
+                            remove_trigo_log(first_brack, last_brack, k);
+                        }
+                        if (bodmas_algo.get(k) == "log" || bodmas_algo.get(k) == "ln") {// log
+                            operation = true;
+                            log_func(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
+                            remove_trigo_log(first_brack, last_brack, k);
+                        }
+                    }
+                    System.out.println("\nBefore auto multiply -> bodmas_algo: " + bodmas_algo);
+                    auto_multiplly();
+                    System.out.println("After auto multiplication| main array: " + main_array
+                            + " | bodmas_algo: " + bodmas_algo + "\n");
+
+                    for (k = 0; k < bodmas_algo.size(); k++) {
+
+                        if (bodmas_algo.get(k) == ("\u2715")) {// multiplication
+                            operation = true;
+                            multiplication(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                    Double.parseDouble(bodmas_algo.get(k + 1)));
+                            removeorder(first_brack, last_brack, k);
+                        }
+                    }
+
+                    if (bodmas_algo.contains("\u002f")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+
+                            if (bodmas_algo.get(k) == "\u002f") {// division
+                                operation = true;
+                                division(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                                remove_arith(first_brack, last_brack, k);
+
+                            }
+                        }
+                    }
+                    if (bodmas_algo.contains("+")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+                            if (bodmas_algo.get(k) == "+") {
+                                operation = true;
+                                addition(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                                remove_arith(first_brack, last_brack, k);
+
+                            }
+                        }
+                    }
+                    if (bodmas_algo.contains("-")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+                            if (bodmas_algo.get(k) == "-") {
+                                operation = true;
+                                subtract(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                                remove_arith(first_brack, last_brack, k);
+
+                            }
+                        }
+                    }
+                    System.out.println("I AM HERE anspos: " + ans_pos);
+                }
+                if (operation == true) {
+                    main_array.remove(ans_pos + 1);
+                    main_array.remove(ans_pos - 1);
+                    operation = false;
+                    System.out.println("After bracket removed from main: " + main_array);
+                }
+                System.out.println("\nMain:" + main_array + "\tSize:" + main_array.size() + "\nAlgo:"
+                        + bodmas_algo + "\tSize:" + bodmas_algo.size());
+
+            } else {
+                System.out.println("->" + main_array);
+                if (main_array.get(0) != "(") {
+                    main_array.removeAll(main_array);
+                    main_array.add("(");
+                    for (i = 0; i <= start_main_array.size() - 1; i++) {
+                        main_array.add(start_main_array.get(i));
+                    }
+                }
+
+                if (main_array.get(main_array.size() - 1) != ")") {
+
+                    main_array.add(")");
+
+                }
+            }
+        }
+        System.out.println(main_array);
+        ans = Double.parseDouble(main_array.get(0));
+        display_output("" + ans);
+        DisplayEquation = "" + ans;
+        main_array.clear();
+        start_main_array.clear();
+        main_array.add("(");
+        main_array.add(ans + "");
+        last_value = 0;
+        lastvalue_added = true;
+        System.out.println("Final main_array: " + main_array);
+        number = false;
+        operation = false;
+        brack_end = false;
+        negative = false;
+        power = false;
+    }
+
     public void actionPerformed(ActionEvent e) {
         try {
 
@@ -1483,6 +1705,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             if (start == false) {
                 start = true;
                 when_decimal.add(0);
+                fix_value_var_indexes.add(0);
                 main_array.add("(");
             }
 
@@ -1506,7 +1729,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     last_value_string = last_value_string + value;
                     last_value = Double.parseDouble(last_value_string);
 
-                    System.out.println("Count dec fig" + count_decimal_fig + "\nLastval:" + last_value);
+                    System.out.println("Count dec fig: " + count_decimal_fig + "\nLastval:" + last_value);
                 } else {
                     last_value_string = last_value_string + value;
                     if (negative == true) {
@@ -1604,11 +1827,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 else if (value == "(\u0031\u002fx)") {
                     after_operations();
                     add_last_value();
-                    main_array.add("(");
+                    isEqualto_func();
+                    main_array.clear();
                     main_array.add("1");
                     main_array.add("/");
                     main_array.add("(");
-                    DisplayEquation = DisplayEquation + "(1/(";
+                    main_array.add(""+ans);
+                    main_array.add(")");
+                    DisplayEquation = "1/("+ans+")" ;
                 } else if (value == "%") {
                     after_operations();
                     decimal = false;
@@ -1664,7 +1890,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 else if (value == "\u03C0") {
                     after_operations();
                     add_last_value();
-
+                    fix_value_var_indexes.add(main_array.size());
                     main_array.add("" + pi_value());
                     lastvalue_added = true;
                     last_value = 0;
@@ -1674,6 +1900,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     constant = true;
                 } else if (value == "e") {
                     after_operations();
+                    fix_value_var_indexes.add(main_array.size()-1);
                     main_array.add(Math.exp(1) + "");
                     DisplayEquation = DisplayEquation + "e";
                     constant = true;
@@ -1699,9 +1926,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         main_array.add("" + last_value);
                         lastvalue_added = true;
                     }
-                    if (trigo_val == 0) {
-                        instruction.setText("");
-                    }
                     main_array.add(")");
                     brack_end = true;
                     last_value = 0;
@@ -1717,201 +1941,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     }
 
                 } else if (value == "=") {
-                    System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
-                    add_last_value();
-                    main_array.add(")");
-                    
-                    for (i = 0; i <= main_array.size() - 1; i++) {
-                        start_main_array.add(main_array.get(i));
-                    }
-                    System.out.println("sma -->>" + start_main_array);
-                    System.out.println("Start Main ArrayList = " + main_array + "\nsize: " +
-                            main_array.size() + "\n");
-
-                    while (main_array.size() > 1) {
-                        if (main_array.contains("(") && main_array.contains(")")) {
-
-
-                            bodmas_algo.removeAll(bodmas_algo);
-
-                            k = 0;
-                            i = 0;
-                            last_brack = 0;
-                            first_brack = 0;
-
-                            for (i = 0; i < main_array.size(); i++) {
-                                if (main_array.get(i) == "(") {
-                                    first_brack = i + 1;
-                                }
-                            }
-                            // Search for first ")"
-                            for (j = first_brack; j < main_array.size(); j++) {
-                                if (main_array.get(j) == ")") {
-                                    last_brack = j - 1;
-                                    break;
-                                }
-                            }
-                            for (k = first_brack; k <= last_brack; k++) {
-                                bodmas_algo.add(main_array.get(k));
-                            }
-                            System.out.println("Bodmas_algo start loop:\nMain:" + main_array + "\tSize:"
-                                    + main_array.size() + "\nAlgo:" + bodmas_algo + "\tSize:" + bodmas_algo.size());
-                           
-                            if (first_brack == last_brack) {
-                                main_array.remove(first_brack + 1);
-                                main_array.remove(first_brack - 1);
-                            } else if (first_brack > last_brack) {
-                                break;
-                            } else {
-                                auto_multiplly();
-                                for (k = bodmas_algo.size() - 1; k >= 0; k--) {
-                                    if (bodmas_algo.get(k) == "%") {
-                                        percentage(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                                Double.parseDouble(bodmas_algo.get(k + 1)));
-                                        remove_arith(first_brack, last_brack, k);
-                                    }
-                                    if (bodmas_algo.get(k) == "!") {
-                                        factorial(Double.parseDouble(bodmas_algo.get(k - 1)));
-                                        remove_fact(first_brack, last_brack, k);
-                                    }
-                                }
-                                for (k = bodmas_algo.size() - 1; k >= 0; k--) {
-                                    if (bodmas_algo.get(k) == "pow") {// raise to
-                                        Double raise_to_value;
-                                        operation = true;
-                                        raise_to_value = Double.parseDouble(bodmas_algo.get(k + 1));
-                                        System.out.println(bodmas_algo);
-                                        order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
-                                        removeorder(first_brack, last_brack, k);
-                                    }
-                                }
-                                for (k = bodmas_algo.size() - 1; k >= 0; k--) {
-                                    if (bodmas_algo.get(k) == "root") {// raise to
-                                        Double raise_to_value;
-                                        operation = true;
-                                        raise_to_value = 1 / Double.parseDouble(bodmas_algo.get(k + 1));
-                                        System.out.println(bodmas_algo);
-                                        order(Double.parseDouble(bodmas_algo.get(k - 1)), raise_to_value);
-                                        removeorder(first_brack, last_brack, k);
-                                    }
-                                }
-
-                                for (k = bodmas_algo.size() - 1; k >= 0; k--) {
-                                    if (bodmas_algo.get(k) == "Sin" || bodmas_algo.get(k) == "Cos"
-                                            || bodmas_algo.get(k) == "Tan") {// tirgo
-                                        operation = true;
-                                        trigo(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
-                                        System.out.println("\nMain array after trigo solved: " + main_array);
-                                        remove_trigo_log(first_brack, last_brack, k);
-                                        System.out.println(
-                                                "Main array after trigo removed bracket: " + main_array + "\n");
-                                    }
-                                    if (bodmas_algo.get(k) == "Sin\u207B\u00b9"
-                                            || bodmas_algo.get(k) == "Cos\u207B\u00b9"
-                                            || bodmas_algo.get(k) == "Tan\u207B\u00b9") {// Sin
-                                        operation = true;
-                                        trigo_inv(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
-                                        remove_trigo_log(first_brack, last_brack, k);
-                                    }
-                                    if (bodmas_algo.get(k) == "log" || bodmas_algo.get(k) == "ln") {// log
-                                        operation = true;
-                                        log_func(bodmas_algo.get(k), Double.parseDouble(bodmas_algo.get(k + 1)));
-                                        remove_trigo_log(first_brack, last_brack, k);
-                                    }
-                                }
-                                System.out.println("\nBefore auto multiply -> bodmas_algo: " + bodmas_algo);
-                                auto_multiplly();
-                                System.out.println("After auto multiplication| main array: " + main_array
-                                        + " | bodmas_algo: " + bodmas_algo + "\n");
-
-                                for (k = 0; k < bodmas_algo.size(); k++) {
-
-                                    if (bodmas_algo.get(k) == ("\u2715")) {// multiplication
-                                        operation = true;
-                                        multiplication(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                                Double.parseDouble(bodmas_algo.get(k + 1)));
-                                        removeorder(first_brack, last_brack, k);
-                                    }
-                                }
-
-                                if (bodmas_algo.contains("\u002f")) {
-                                    for (k = 0; k < bodmas_algo.size(); k++) {
-
-                                        if (bodmas_algo.get(k) == "\u002f") {// division
-                                            operation = true;
-                                            division(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                                    Double.parseDouble(bodmas_algo.get(k + 1)));
-                                            remove_arith(first_brack, last_brack, k);
-
-                                        }
-                                    }
-                                }
-                                if (bodmas_algo.contains("+")) {
-                                    for (k = 0; k < bodmas_algo.size(); k++) {
-                                        if (bodmas_algo.get(k) == "+") {
-                                            operation = true;
-                                            addition(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                                    Double.parseDouble(bodmas_algo.get(k + 1)));
-                                            remove_arith(first_brack, last_brack, k);
-
-                                        }
-                                    }
-                                }
-                                if (bodmas_algo.contains("-")) {
-                                    for (k = 0; k < bodmas_algo.size(); k++) {
-                                        if (bodmas_algo.get(k) == "-") {
-                                            operation = true;
-                                            subtract(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                                    Double.parseDouble(bodmas_algo.get(k + 1)));
-                                            remove_arith(first_brack, last_brack, k);
-
-                                        }
-                                    }
-                                }
-                                System.out.println("I AM HERE anspos: " + ans_pos);
-                            }
-                            if (operation == true) {
-                                main_array.remove(ans_pos + 1);
-                                main_array.remove(ans_pos - 1);
-                                operation = false;
-                                System.out.println("After bracket removed from main: " + main_array);
-                            }
-                            System.out.println("\nMain:" + main_array + "\tSize:" + main_array.size() + "\nAlgo:"
-                                    + bodmas_algo + "\tSize:" + bodmas_algo.size());
-
-                        } else {
-                            System.out.println("->" + main_array);
-                            if (main_array.get(0) != "(") {
-                                main_array.removeAll(main_array);
-                                main_array.add("(");
-                                for (i = 0; i <= start_main_array.size() - 1; i++) {
-                                    main_array.add(start_main_array.get(i));
-                                }
-                            }
-
-                            if (main_array.get(main_array.size() - 1) != ")") {
-
-                                main_array.add(")");
-
-                            }
-                        }
-                    }
-                    System.out.println(main_array);
-                    ans = Double.parseDouble(main_array.get(0));
-                    display_output("" + ans);
-                    DisplayEquation = "" + ans;
-                    main_array.clear();
-                    start_main_array.clear();
-                    main_array.add("(");
-                    main_array.add(ans + "");
-                    last_value = 0;
-                    lastvalue_added = true;
-                    System.out.println("Final main_array: " + main_array);
-                    number = false;
-                    operation = false;
-                    brack_end = false;
-                    negative = false;
-                    power = false;
+                    isEqualto_func();
                 }
 
                 if (decimal) {

@@ -1,4 +1,3 @@
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -1992,25 +1991,3 @@ class Sc_Calculator extends JFrame implements ActionListener {
         k = bodmas_algo.size() - 1;
     }
 }
-
-// class RoundBtn implements Border {
-// private int r;
-
-// RoundBtn(int r) {
-// this.r = r;
-// }
-
-// public Insets getBorderInsets(Component c) {
-// return new Insets(this.r + 1, this.r + 1, this.r + 2, this.r);
-// }
-
-// public boolean isBorderOpaque() {
-// return true;
-// }
-
-// public void paintBorder(Component c, Graphics g, int x, int y,
-// int width, int height) {
-// g.drawRoundRect(x, y, width - 1, height - 1, r, r);
-// }
-// }
-// Error: Sin pi/2

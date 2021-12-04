@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -25,6 +26,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 public class SCalci {
     public static void main(String srgs[]) {
@@ -109,6 +111,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
         radioButtonPanel.add(comboBox);
         comboBox.setBackground(Color.decode(TrigoColor_bg));
         comboBox.setSelectedIndex(1); 
+        comboBox.setLayout(new BorderLayout());
+        comboBox.setBorder(BorderFactory.createLineBorder(Color.black, 2));
+        
+        
         gbc.gridy = 2;
         gbc.gridx = 1;
         gbc.gridheight = 1;

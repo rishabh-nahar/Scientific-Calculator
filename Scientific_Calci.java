@@ -131,30 +131,30 @@ class Sc_Calculator extends JFrame implements ActionListener {
         color_mode.setFocusPainted(false);
 
 
-        quadratic_bttn = new JButton("Quadratic");
+        quadratic_bttn = new JButton("");
         quadratic_bttn.setBorder(null);
         quadratic_bttn.setPreferredSize(new Dimension(65,40));
         quadratic_bttn.setForeground(Color.decode(Number_foreground));
         quadratic_bttn.setBackground(Color.decode(NumberColor_bg));
 
         radian_bttn = new JButton("Radian");
-        radian_bttn.setBorder(null);
-        radian_bttn.setPreferredSize(new Dimension(65,40));
+        radian_bttn.setPreferredSize(new Dimension(90,25));
         radian_bttn.setForeground(Color.decode(Number_foreground));
         radian_bttn.setBackground(Color.decode(NumberColor_bg));
+        radian_bttn.setFocusPainted(false);
 
         degree_bttn = new JButton("Degree");
-        degree_bttn.setBorder(null);
-        degree_bttn.setPreferredSize(new Dimension(65,40));
+        degree_bttn.setPreferredSize(new Dimension(90,25));
         degree_bttn.setForeground(Color.decode(Number_foreground));
         degree_bttn.setBackground(Color.decode(NumberColor_bg));
         degree_bttn.setEnabled(false);
+        degree_bttn.setFocusPainted(false);
 
         
         gbc.gridy = 0;
         gbc.gridx = 1;
         gbc.gridheight = 1;
-        gbc.gridwidth = 1;
+        gbc.gridwidth = 2;
         radioButtonPanel.add(radio_degree_panel,gbc);
 
         gbc.gridy = 0;

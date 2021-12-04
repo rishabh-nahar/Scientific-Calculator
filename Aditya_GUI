@@ -108,6 +108,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         comboBox.addItem("Degree");
         radioButtonPanel.add(comboBox);
         comboBox.setBackground(Color.decode(TrigoColor_bg));
+        comboBox.setSelectedIndex(1); 
         gbc.gridy = 2;
         gbc.gridx = 1;
         gbc.gridheight = 1;

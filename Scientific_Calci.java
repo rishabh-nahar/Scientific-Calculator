@@ -1,3 +1,5 @@
+package scientific_cal.SciCal;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -738,8 +740,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
     //quadratic
     void solve_quadratic(Double a, Double b, Double c){
-        ans1 = (-b + Math.sqrt((b*b)-4*a*c))/2*a;
-        ans2 = (-b - Math.sqrt((b*b)-4*a*c))/2*a;
+        ans1 = (-b + Math.sqrt((b*b)-4*a*c))/(2*a);
+        ans2 = (-b - Math.sqrt((b*b)-4*a*c))/(2*a);
     }
 
     // Clear and All Clear

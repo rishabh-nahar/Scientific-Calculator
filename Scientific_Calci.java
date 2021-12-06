@@ -1,3 +1,5 @@
+package scientific_cal.SciCal;
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,10 +11,7 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,66 +36,61 @@ class Sc_Calculator extends JFrame implements ActionListener {
     // Numbers dot exp clear and clear
     JButton b0, b1, b2, b3, b4, b5, b6, b7, b8, b9, bpi, bexp, bdot, bclear, ballclear;
 
-    JButton degree_bttn, radian_bttn;
-
     // arithematic
     JButton bplus, bsubtract, bmul, bdiv, bequal, bmod;
     // algebric and log
-    JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis, color_mode;
+    JButton blog, bln, bfactorial, bxraisey, byrootx, bxinverse, bleftparenthesis, brightparenthesis, color_mode_bttn;
     // Trigonometry
     JButton bsin, bcos, btan, bsininv, bcosinv, btaninv;
-
-    // Quadratic mode button
-    JButton quadratic_bttn;
     // panels
-    JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel, radio_degree_panel;
-    // Radio button - degree and radian
-    // JRadioButton r1, r2;
-    JComboBox<String> comboBox;
+    JPanel mainPanel, bttnPanel, calculationPanel, radioButtonPanel;
+    //degree and radian combobox
+    // JComboBox<String> comboBox;
+
+    JButton  quadratic_bttn,deg_rad_btttn ;
     // colors
     String light = "#ffffff", dark = "#00000", bttn_panel_bg = "#f2f2f2", light_grey = "#dddddc",
             hover_button_light = "#dfd2c4", hover_button2_light = "#dfd2c4";
-    String NumberColor_bg = light, Number_foreground = dark;
-    String ArithematicColor_bg = "#dddddc", Arhithmatic_foreground = "#000000";
-    String TrigoColor_bg = "#dddddc", Trigo_foreground = "#000000";
-    String ACcolor_bg = "#800000", AC_foreground = light;
-    String equalToColor_bg = "#9d4e09", equalTo_foreground = light;
-
-    ArrayList<JButton> general_buttons = new ArrayList<JButton>();
-    ArrayList<JButton> trigo_arith_log_buttons = new ArrayList<JButton>();
-    ArrayList<JPanel> button_panels = new ArrayList<JPanel>();
 
     public Sc_Calculator() {
 
+        String NumberColor_bg = light, Number_foreground = dark;
+        String ArithematicColor_bg = "#dddddc", Arhithmatic_foreground = "#000000";
+        String TrigoColor_bg = "#dddddc", Trigo_foreground = "#000000";
+        String ACcolor_bg = "#800000", AC_foreground = light;
+        String equalToColor_bg = "#9d4e09", equalTo_foreground = light;
+        String instColor_bg = "#ffffff";
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         // Creating Panels
         calculationPanel = new JPanel();
         calculationPanel = new JPanel();
         bttnPanel = new JPanel();
-        radio_degree_panel = new JPanel();
         mainPanel = new JPanel();
 
         // Panel Layouts
-        mainPanel.setLayout(new BorderLayout());
-        bttnPanel.setLayout(new GridBagLayout());
-        calculationPanel.setLayout(new GridBagLayout());
-        radio_degree_panel.setLayout(new GridBagLayout());
+        mainPanel.setLayout(new BorderLayout());//Setting main panel layout as border layout
+        bttnPanel.setLayout(new GridBagLayout());//Setting bttn panel layout as Gridbaglayout
+        calculationPanel.setLayout(new GridBagLayout());//Setting calculation panel layout as Gridbaglayout
 
-        add(mainPanel);
-        mainPanel.add(calculationPanel, BorderLayout.NORTH);
-        mainPanel.add(bttnPanel, BorderLayout.CENTER);
+
+        add(mainPanel);//Main panel on which other panels are set
+        mainPanel.add(calculationPanel, BorderLayout.NORTH);//adding calculation_panel to main panel
+        mainPanel.add(bttnPanel, BorderLayout.CENTER);//adding  bttn_panel to main panel
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.BOTH;
+
+        //weightx and weighty helps to maintain 
         gbc.weightx = 1;
         gbc.weighty = 1;
 
-        int top = 0;
-        int left = 2;
-        int bottom = 0;
-        int right = 2;
-        gbc.insets = new Insets(top, left, bottom, right);
+        GridBagConstraints gbc_info = new GridBagConstraints();
+        gbc_info.fill = GridBagConstraints.BOTH;
+
+        //weightx and weighty helps to maintain 
+        gbc_info.weightx = 1;
+        gbc_info.weighty = 1;
 
         bttnPanel.setBackground(Color.decode(bttn_panel_bg));
 
@@ -104,73 +98,53 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         calcDispArea = new JTextField("", 2);
         gbc.gridy = 0;
-        gbc.gridx = 1;
+        gbc.gridx = 2;
         gbc.gridheight = 1;
-        gbc.gridwidth = 2;
+        gbc.gridwidth = 1;
         calculationPanel.add(calcDispArea, gbc);
         calcDispArea.setBackground(Color.decode("#ffffff"));
-        calcDispArea.setPreferredSize(new Dimension(0, 60));
         calcDispArea.setFont(new Font("Serif", Font.PLAIN, 30));
 
         radioButtonPanel = new JPanel();
         radioButtonPanel.setLayout(new GridBagLayout());
-        gbc.gridy = 1;
+        gbc.gridy = 2;
         gbc.gridx = 1;
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
         calculationPanel.add(radioButtonPanel, gbc);
 
-        color_mode = new JButton("\u263E");
+        deg_rad_btttn = new JButton("In Degree");
         gbc.gridy = 0;
-        gbc.gridx = 3;
-        gbc.gridheight = 0;
+        gbc.gridx = 1;
+        gbc.gridheight = 1;
         gbc.gridwidth = 1;
-        radioButtonPanel.add(color_mode, gbc);
-
-        color_mode.setBorder(null);
-        color_mode.setPreferredSize(new Dimension(15, 5));
-        color_mode.setBackground(Color.decode(light));
-        color_mode.setFocusPainted(false);
+        deg_rad_btttn.setPreferredSize(new Dimension(40,20));
+        radioButtonPanel.add(deg_rad_btttn, gbc);
 
         quadratic_bttn = new JButton("Quadratic");
-        quadratic_bttn.setBorder(null);
-        quadratic_bttn.setPreferredSize(new Dimension(65, 40));
-        
-
-        radian_bttn = new JButton("Radian");
-        radian_bttn.setPreferredSize(new Dimension(90, 25));
-        
-        degree_bttn = new JButton("Degree");
-        degree_bttn.setPreferredSize(new Dimension(90, 25));
-        degree_bttn.setEnabled(false);
+        quadratic_bttn.setPreferredSize(new Dimension(40,20));
+        // quadratic_info.setBorder(null);
 
         gbc.gridy = 0;
-        gbc.gridx = 1;
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        radioButtonPanel.add(radio_degree_panel, gbc);
-
-        gbc.gridy = 0;
-        gbc.gridx = 1;
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        radio_degree_panel.add(radian_bttn);
-
-        gbc.gridy = 0;
-        gbc.gridx = 1;
-        gbc.gridheight = 1;
-        gbc.gridwidth = 1;
-        radio_degree_panel.add(degree_bttn);
-
-        gbc.gridy = 0;
-        gbc.gridx = 2;
+        gbc.gridx = 4;
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         radioButtonPanel.add(quadratic_bttn, gbc);
 
-        radio_degree_panel.setBackground(Color.decode(light));
 
-        radioButtonPanel.setBackground(Color.decode(light));
+        color_mode_bttn = new JButton("\u263E");
+        gbc.gridy = 0;
+        gbc.gridx = 6;
+        gbc.gridheight = 1;
+        gbc.gridwidth = 1;
+        radioButtonPanel.add(color_mode_bttn);
+        radioButtonPanel.add(color_mode_bttn, gbc);
+        color_mode_bttn.setBorder(null);
+        color_mode_bttn.setPreferredSize(new Dimension(0,20));
+        color_mode_bttn.setBackground(Color.decode(light));
+        color_mode_bttn.setFocusPainted(false);
+
+        radioButtonPanel.setBackground(Color.decode(instColor_bg));
 
         // calculation display area
         calcDispArea.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -179,11 +153,11 @@ class Sc_Calculator extends JFrame implements ActionListener {
         calcDispArea.setEditable(false);
         calcDispArea.setBorder(null);
 
-        int top_bttns = 2;
-        int left_bttns = 2;
-        int bottom_bttns = 3;
-        int right_bttns = 2;
-        gbc.insets = new Insets(top_bttns, left_bttns, bottom_bttns, right_bttns);
+        int top = 2;
+        int left = 2;
+        int bottom = 2;
+        int right = 2;
+        gbc.insets = new Insets(top, left, bottom, right);
 
         // Numbers
         b1 = new JButton("1");
@@ -192,6 +166,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b1, gbc);
+        b1.setBorder(null);
+
 
         b2 = new JButton("2");
         gbc.gridy = 0;
@@ -199,6 +175,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b2, gbc);
+        b2.setBorder(null);
 
         b3 = new JButton("3");
         gbc.gridy = 0;
@@ -206,6 +183,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b3, gbc);
+        b3.setBorder(null);
 
         b4 = new JButton("4");
         gbc.gridy = 1;
@@ -213,6 +191,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b4, gbc);
+        b4.setBorder(null);
 
         b5 = new JButton("5");
         gbc.gridy = 1;
@@ -220,6 +199,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b5, gbc);
+        b5.setBorder(null);
 
         b6 = new JButton("6");
         gbc.gridy = 1;
@@ -227,6 +207,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b6, gbc);
+        b6.setBorder(null);
 
         b7 = new JButton("7");
         gbc.gridy = 2;
@@ -234,6 +215,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b7, gbc);
+        b7.setBorder(null);
 
         b8 = new JButton("8");
         gbc.gridy = 2;
@@ -241,6 +223,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b8, gbc);
+        b8.setBorder(null);
 
         b9 = new JButton("9");
         gbc.gridy = 2;
@@ -248,6 +231,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b9, gbc);
+        b9.setBorder(null);
 
         b0 = new JButton("0");
         gbc.gridy = 3;
@@ -255,6 +239,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(b0, gbc);
+        b0.setBorder(null);
 
         // Dot, Clear and all clear
         bclear = new JButton("C");
@@ -263,6 +248,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bclear, gbc);
+        bclear.setBorder(null);
 
         ballclear = new JButton("AC");
         gbc.gridy = 5;
@@ -270,8 +256,18 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(ballclear, gbc);
+        ballclear.setBorder(null);
         ballclear.setForeground(Color.decode(AC_foreground));
         ballclear.setBackground(Color.decode(ACcolor_bg));
+        ballclear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                ballclear.setBackground(Color.decode("#5c0202"));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                ballclear.setBackground(Color.decode(ACcolor_bg));
+            }
+        });
 
         bdot = new JButton(".");
         gbc.gridy = 3;
@@ -279,6 +275,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bdot, gbc);
+        bdot.setBorder(null);
 
         // Pi and Exponential
         bpi = new JButton("\u03C0");
@@ -287,6 +284,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bpi, gbc);
+        bpi.setBorder(null);
 
         bexp = new JButton("e");
         gbc.gridy = 4;
@@ -294,6 +292,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bexp, gbc);
+        bexp.setBorder(null);
 
         // Equal to
         bequal = new JButton("=");
@@ -302,6 +301,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 2;
         bttnPanel.add(bequal, gbc);
+        bequal.setBorder(null);
         bequal.setForeground(Color.decode(equalTo_foreground));
         bequal.setBackground(Color.decode(equalToColor_bg));
 
@@ -312,6 +312,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bplus, gbc);
+        bplus.setBorder(null);
+        bplus.setForeground(Color.decode(Arhithmatic_foreground));
+        bplus.setBackground(Color.decode(ArithematicColor_bg));
 
         bsubtract = new JButton("-");
         gbc.gridy = 1;
@@ -319,6 +322,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bsubtract, gbc);
+        bsubtract.setBorder(null);
+        bsubtract.setForeground(Color.decode(Arhithmatic_foreground));
+        bsubtract.setBackground(Color.decode(ArithematicColor_bg));
 
         bmul = new JButton("\u2715");
         gbc.gridy = 2;
@@ -326,6 +332,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bmul, gbc);
+        bmul.setBorder(null);
+        bmul.setForeground(Color.decode(Arhithmatic_foreground));
+        bmul.setBackground(Color.decode(ArithematicColor_bg));
 
         bdiv = new JButton("\u002f");
         gbc.gridy = 3;
@@ -333,6 +342,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bdiv, gbc);
+        bdiv.setBorder(null);
+        bdiv.setForeground(Color.decode(Arhithmatic_foreground));
+        bdiv.setBackground(Color.decode(ArithematicColor_bg));
 
         bmod = new JButton("%");
         gbc.gridy = 4;
@@ -340,6 +352,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bmod, gbc);
+        bmod.setBorder(null);
+        bmod.setForeground(Color.decode(Arhithmatic_foreground));
+        bmod.setBackground(Color.decode(ArithematicColor_bg));
 
         // Algebric
         bxraisey = new JButton("x\u02B8");
@@ -348,6 +363,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bxraisey, gbc);
+        bxraisey.setBorder(null);
 
         byrootx = new JButton("y\u221Ax");
         gbc.gridy = 5;
@@ -355,7 +371,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(byrootx, gbc);
-        
+        byrootx.setBorder(null);
 
         bfactorial = new JButton("x!");
         gbc.gridy = 5;
@@ -363,6 +379,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bfactorial, gbc);
+        bfactorial.setBorder(null);
 
         bxinverse = new JButton("(\u0031\u002fx)");
         gbc.gridy = 4;
@@ -370,6 +387,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bxinverse, gbc);
+        bxinverse.setBorder(null);
 
         // Trignometric
         bsin = new JButton("Sin");
@@ -378,6 +396,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bsin, gbc);
+        bsin.setBorder(null);
+        bsin.setForeground(Color.decode(Trigo_foreground));
+        bsin.setBackground(Color.decode(TrigoColor_bg));
+
 
         bcos = new JButton("Cos");
         gbc.gridy = 1;
@@ -385,6 +407,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bcos, gbc);
+        bcos.setBorder(null);
+        bcos.setForeground(Color.decode(Trigo_foreground));
+        bcos.setBackground(Color.decode(TrigoColor_bg));
 
         btan = new JButton("Tan");
         gbc.gridy = 2;
@@ -392,6 +417,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(btan, gbc);
+        btan.setBorder(null);
+        btan.setForeground(Color.decode(Trigo_foreground));
+        btan.setBackground(Color.decode(TrigoColor_bg));
 
         // Inverse Trignometric
         bsininv = new JButton("Sin\u207B\u00b9");
@@ -400,6 +428,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bsininv, gbc);
+        bsininv.setBorder(null);
+        bsininv.setForeground(Color.decode(Trigo_foreground));
+        bsininv.setBackground(Color.decode(TrigoColor_bg));
 
         bcosinv = new JButton("Cos\u207B\u00b9");
         gbc.gridy = 1;
@@ -407,6 +438,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bcosinv, gbc);
+        bcosinv.setBorder(null);
+        bcosinv.setForeground(Color.decode(Trigo_foreground));
+        bcosinv.setBackground(Color.decode(TrigoColor_bg));
+        // });
 
         btaninv = new JButton("Tan\u207B\u00b9");
         gbc.gridy = 2;
@@ -414,6 +449,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(btaninv, gbc);
+        btaninv.setBorder(null);
+        btaninv.setForeground(Color.decode(Trigo_foreground));
+        btaninv.setBackground(Color.decode(TrigoColor_bg));
 
         // Log & Natural Log
         blog = new JButton("log");
@@ -422,6 +460,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(blog, gbc);
+        blog.setBorder(null);
+        blog.setForeground(Color.decode(Trigo_foreground));
+        blog.setBackground(Color.decode(TrigoColor_bg));
 
         bln = new JButton("ln");
         gbc.gridy = 3;
@@ -429,6 +470,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bln, gbc);
+        bln.setBorder(null);
+        bln.setForeground(Color.decode(Trigo_foreground));
+        bln.setBackground(Color.decode(TrigoColor_bg));
 
         // Parenthesis
         brightparenthesis = new JButton("(");
@@ -437,6 +481,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(brightparenthesis, gbc);
+        brightparenthesis.setBorder(null);
+        brightparenthesis.setForeground(Color.decode(Trigo_foreground));
+        brightparenthesis.setBackground(Color.decode(TrigoColor_bg));
 
         bleftparenthesis = new JButton(")");
         gbc.gridy = 4;
@@ -444,50 +491,44 @@ class Sc_Calculator extends JFrame implements ActionListener {
         gbc.gridheight = 1;
         gbc.gridwidth = 1;
         bttnPanel.add(bleftparenthesis, gbc);
+        bleftparenthesis.setBorder(null);
+        bleftparenthesis.setForeground(Color.decode(Trigo_foreground));
+        bleftparenthesis.setBackground(Color.decode(TrigoColor_bg));
 
-        
+
         add_in_arraylist();// adding buttons in arraylist
 
-
-        //Button properties : Background Color, Foreground Colors, Hover Colors, Border using arrayist of all buttons
-
+        // Button properties : Background Color, Foreground Colors, Hover Colors, Border using arrayist of all buttons
 
         quadratic_bttn.setBackground(Color.decode(NumberColor_bg));
         quadratic_bttn.setForeground(Color.decode(Number_foreground));
 
-        radian_bttn.setBackground(Color.decode(NumberColor_bg));
-        radian_bttn.setForeground(Color.decode(Number_foreground));
-        radian_bttn.setFocusPainted(false);
+        deg_rad_btttn.setBackground(Color.decode(NumberColor_bg));
+        deg_rad_btttn.setForeground(Color.decode(Number_foreground));
 
-        degree_bttn.setFocusPainted(false);
-        degree_bttn.setBackground(Color.decode(NumberColor_bg));
-        degree_bttn.setForeground(Color.decode(Number_foreground));
+         ballclear.setBorder(null);
+         ballclear.addMouseListener(new java.awt.event.MouseAdapter() {
+             public void mouseEntered(java.awt.event.MouseEvent evt) {
+                 ballclear.setBackground(Color.decode("#5c0202"));
+             }
 
-        ballclear.setBorder(null);
-        ballclear.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                ballclear.setBackground(Color.decode("#5c0202"));
-            }
+             public void mouseExited(java.awt.event.MouseEvent evt) {
+                 ballclear.setBackground(Color.decode(ACcolor_bg));
+             }
+         });
+         for (JButton x : general_buttons) {
+             mouse_hover_general_bttn(x);
+             x.setBorder(null);
+             x.setForeground(Color.decode(Number_foreground));
+             x.setBackground(Color.decode(NumberColor_bg));
+         }
+         for (JButton y : trigo_arith_log_buttons) {
+             mouse_hover_TLA_bttn(y);
+             y.setBorder(null);
+             y.setForeground(Color.decode(Trigo_foreground));
+             y.setBackground(Color.decode(TrigoColor_bg));
+         }
 
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                ballclear.setBackground(Color.decode(ACcolor_bg));
-            }
-        });
-        for (JButton x : general_buttons) {
-            mouse_hover_general_bttn(x);
-            x.setBorder(null);
-            x.setForeground(Color.decode(Number_foreground));
-            x.setBackground(Color.decode(NumberColor_bg));
-        }
-        for (JButton y : trigo_arith_log_buttons) {
-            mouse_hover_TLA_bttn(y);
-            y.setBorder(null);
-            y.setForeground(Color.decode(Trigo_foreground));
-            y.setBackground(Color.decode(TrigoColor_bg));
-        }
-        // for (JPanel z : button_panels) {
-        // z.setBackground(Color.decode(dark_panel));
-        // }
 
         // Making the complier perform an action on clicking the button
         // Numberrs
@@ -542,41 +583,32 @@ class Sc_Calculator extends JFrame implements ActionListener {
         blog.addActionListener(this);
         bln.addActionListener(this);
 
-        color_mode.addActionListener(this);
+        color_mode_bttn.addActionListener(this);
 
-        radian_bttn.addActionListener(this);
-        degree_bttn.addActionListener(this);
         quadratic_bttn.addActionListener(this);
+
+        deg_rad_btttn.addActionListener(this);
+
     }
 
     // Declaration of variables and arraylist
 
-    /*
-     * main_array stores the given input in arraylist in sorted manner and gets
-     * solved using bodmas arraylist till it gets completely solved ans lastly
-     * returns ans
-     */
+    /* main_array stores the given input in arraylist in sorted manner and gets
+    solved using bodmas arraylist till it gets completely solved ans lastly
+    returns ans
+    */
     ArrayList<String> main_array = new ArrayList<>();
 
-    /*
-     * bodmas_algo is arraylist of small part or main_array in brackets where
-     * calculations ans returns ans to main_array
-     */
+    /* bodmas_algo is arraylist of small part or main_array in brackets where calculations ans returns ans to main_array*/
     ArrayList<String> bodmas_algo = new ArrayList<>();
 
-    /*
-     * start_main_array is created to fix error by user if brackets are not closed
-     * by them
-     */
+    /* start_main_array is created to fix error by user if brackets are not closed by them*/
     ArrayList<String> start_main_array = new ArrayList<>();
 
-    /* when decimal is arraylist to store indexes when user gives ans in decimal */
+    /* when decimal is arraylist to store indexes when user gives ans in decimal*/
     ArrayList<Integer> when_decimal = new ArrayList<Integer>();
 
-    /*
-     * fix_value_var_indexes arraylist will store the indexes of variable with fix
-     * value such as π and e
-     */
+    /* fix_value_var_indexes arraylist will store the indexes of variable with fix value such as π and e */
     ArrayList<Integer> fix_value_var_indexes = new ArrayList<Integer>();
 
     /*
@@ -584,19 +616,21 @@ class Sc_Calculator extends JFrame implements ActionListener {
      * keep all collections buttons and panels in one variable
      * and are stored in list according to their name respectively
      */
-
-    JLabel instruction;
-    boolean number = false, operation = false, start = false, brack_end = false, negative = false, power = false,
+    ArrayList<JButton> general_buttons = new ArrayList<JButton>();
+    ArrayList<JButton> trigo_arith_log_buttons = new ArrayList<JButton>();
+    ArrayList<JPanel> button_panels = new ArrayList<JPanel>();
+        
+    boolean number = false,quadratic_mode, operation = false, start = false, brack_end = false, negative = false, power = false,
             factorial_num = false,
-            decimal = false, lastvalue_added = true, temp_bool, decimal_start = false, radian = false, constant = false,
-            trig_pi = false;
+            decimal = false, lastvalue_added = true, temp_bool, decimal_start = false, radian = false, constant = false, trig_pi = false;
 
     String value = "", DisplayEquation = "", last_value_string = "";
-    double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0;
+    double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0 , ans1 = 0.0 , ans2 = 0.0;
     int first_brack = 0, last_brack = 0, ans_pos, i = 0, j = 0, k = 0, power_count = 0, trigo_val = 0, temp_ans = 0,
             count_decimal_fig = 10;
 
     // Functions
+
     void mouse_hover_general_bttn(JButton bttn) {
         bttn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -622,6 +656,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         });
     }
+
 
     // Display
     void display_output(String ans) {
@@ -703,6 +738,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
     // Percentage
     void percentage(Double per, Double val) {
         ans = val * per / 100;
+    }
+
+    //quadratic
+    void solve_quadratic(Double a, Double b, Double c){
+        ans1 = (-b + Math.sqrt((b*b)-4*a*c))/2*a;
+        ans2 = (-b - Math.sqrt((b*b)-4*a*c))/2*a;
     }
 
     // Clear and All Clear
@@ -789,14 +830,16 @@ class Sc_Calculator extends JFrame implements ActionListener {
     }
 
     /* all Toggle colors and tempory color strings */
-    String temp_col1, temp_col2, temp_col3, temp_hover, temp_bw, temp_equalto;
+    String temp_col1, temp_col2, temp_col3, temp_hover, temp_bw, temp_equalto , temp_rad_deg;
     String light_panel = "#f2f2f2", dark_panel = "#00000", light_button = "#ffffff", dark_button = "#343434",
             light_button2 = "#dddddc", dark_button2 = "#141d28", black = "#000000", white = "#ffffff",
             equalto_light = "#9d4e09", equalto_dark = "#4290dc", hover_button_dark = "#457ba6",
             hover_button2_dark = "#487eb0";
+            String light_mode = "Light Mode", dark_mode = "Dark Mode";
+
 
     void toggle_color_mode() {
-
+        
         // toggling from arraylist
         for (JButton x : general_buttons) {
             x.setForeground(Color.decode(white));
@@ -810,31 +853,24 @@ class Sc_Calculator extends JFrame implements ActionListener {
             z.setBackground(Color.decode(dark_panel));
         }
 
-        /*
-         * automatic toggling of colors for equalto, calculation display area, radio
-         * buttons,radiobutton panel & quadratic equation
-         */
+        /* automatic toggling of colors for equalto, calculation display area, radio buttons,radiobutton panel & quadratic equation */
         calcDispArea.setBackground(Color.decode(dark_button));
         radioButtonPanel.setBackground(Color.decode(dark_button));
-        color_mode.setBackground(Color.decode(dark_button));
-        bequal.setBackground(Color.decode(equalto_dark));
-
-        radioButtonPanel.setBackground(Color.decode(dark_button));
-        radio_degree_panel.setBackground(Color.decode(dark_button));
-        degree_bttn.setBackground(Color.decode(dark_button));
-        radian_bttn.setBackground(Color.decode(dark_button));
+        color_mode_bttn.setBackground(Color.decode(dark_button));
         quadratic_bttn.setBackground(Color.decode(dark_button));
+        deg_rad_btttn.setBackground(Color.decode(dark_button));
+        
+        bequal.setBackground(Color.decode(equalto_dark));
 
         calcDispArea.setForeground(Color.decode(white));
         radioButtonPanel.setForeground(Color.decode(white));
-        radio_degree_panel.setForeground(Color.decode(white));
-        color_mode.setForeground(Color.decode(white));
-
-        radioButtonPanel.setForeground(Color.decode(white));
-        radio_degree_panel.setForeground(Color.decode(white));
-        degree_bttn.setForeground(Color.decode(white));
-        radian_bttn.setForeground(Color.decode(white));
+        color_mode_bttn.setForeground(Color.decode(white));
         quadratic_bttn.setForeground(Color.decode(white));
+        deg_rad_btttn.setForeground(Color.decode(white));
+
+        temp_rad_deg = light_mode;
+        light_mode = dark_mode;
+        dark_mode = temp_rad_deg;
 
         temp_bw = black;
         black = white;
@@ -891,17 +927,16 @@ class Sc_Calculator extends JFrame implements ActionListener {
     void forClear(String string) {
         int string_length = string.length();
         boolean string_is_num;
-        System.out.println("*************** forClear()***************");
         StringBuffer string_disp = new StringBuffer(DisplayEquation);
         StringBuffer string_main = new StringBuffer(string);
 
         int decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
-        int fix_value_index_in_mainarray = fix_value_var_indexes.get(fix_value_var_indexes.size() - 1);
+        int fix_value_index_in_mainarray = fix_value_var_indexes.get(fix_value_var_indexes.size()-1);
         int current_mainarray_index = main_array.size() - 1;
 
-        System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray);
-        System.out.println("\nfix_value_var_indexes: " + fix_value_index_in_mainarray);
-        System.out.println("\ncurrent_mainarray_index: " + current_mainarray_index);
+        System.out.println("\ndecimal_index_in_mainarray: "+decimal_index_in_mainarray);
+        System.out.println("\nfix_value_var_indexes: "+fix_value_index_in_mainarray);
+        System.out.println("\ncurrent_mainarray_index: "+current_mainarray_index);
 
         string_is_num = check_whole_String_isNum(string);
         System.out.println("isNumber(forClear()): " + string_is_num);
@@ -909,8 +944,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
          * For main_array last value:
          * It will check if it is number or not
          */
-        String temp_string = string_disp.charAt(string_disp.length() - 1) + "";
-        System.out.println("before clear display last value: " + temp_string);
+        String temp_string = string_disp.charAt(string_disp.length()-1)+"";
+        System.out.println("before clear display last value: "+temp_string);
         if (string_is_num && current_mainarray_index != fix_value_index_in_mainarray) {
             /*
              * If Number:
@@ -928,13 +963,13 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 System.out.println("decimal is at: " + string.indexOf("."));
                 System.out.println("After Decimal values: " + string_after_dec);
 
+
                 System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray
                         + "\ncurrent_mainarray_index: " + current_mainarray_index);
 
-                // If it is decimal then it will get solve by getting number of digits after
-                // decimal
+                // If it is decimal then it will get solve by getting number of digits after decimal
                 if (decimal_index_in_mainarray == current_mainarray_index) {
-
+                    
                     for (i = 0; i < string_after_dec_length - 1; i++) {
                         dec_int_toggle = dec_int_toggle * 10;
                         System.out.println(dec_int_toggle);
@@ -944,11 +979,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     }
                     System.out.println("numbers after decimal: " + string_after_dec);
                     System.out.println("current when_decimal: " + when_decimal);
-                }
-                // If it is not decimal then it will get solve by dividing number by 10
-                // everytime
+                } 
+                //If it is not decimal then it will get solve by dividing number by 10 everytime
                 else {
-
+                    
                     System.out.println("\ndecimal index: false\ntemp_ans before: " + temp_ans);
                     temp_ans = (int) Double.parseDouble(string) / 10;
                     string = temp_ans + "";
@@ -968,15 +1002,16 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.remove(main_array.size() - 1);
                     main_array.add("-");
                     negative = false;
-                    System.out.println("adding minus to main_aray from forclear on index: " + current_mainarray_index
-                            + "\nMy main_array: " + main_array);
-                } else if (temp_ans != 0) {
+                    System.out.println("adding minus to main_aray from forclear on index: "+current_mainarray_index+"\nMy main_array: "+main_array);
+                } 
+                else 
+                if (temp_ans != 0 ) {
                     main_array.set(main_array.size() - 1, string);
                 }
 
                 string_disp.deleteCharAt(string_disp.length() - 1);
                 DisplayEquation = "" + string_disp;
-                temp_ans_double = 0.0;
+                temp_ans_double = 0.0; 
                 temp_ans = 0;
             } else {
                 System.out.println("String is not Double");
@@ -1009,15 +1044,16 @@ class Sc_Calculator extends JFrame implements ActionListener {
             } else if (getMainarray_lastString(2) == "ln") {
                 string_length = 3;
                 main_array_loop = 2;
-            } else if (getMainarray_lastString(1) == "+") {
+            }else if(getMainarray_lastString(1) == "+"){
                 if (negative) {
                     negative = false;
                 }
-            } else if (current_mainarray_index == fix_value_index_in_mainarray) {
+            }
+            else if(current_mainarray_index == fix_value_index_in_mainarray){
                 System.out.println("clearing Pi");
                 string_length = 1;
-                main_array_loop = 1;
-                fix_value_var_indexes.remove(fix_value_var_indexes.size() - 1);
+                main_array_loop =1;
+                fix_value_var_indexes.remove(fix_value_var_indexes.size()-1);
             }
             System.out.println("startDisplay clearing");
             for (i = 1; i <= string_length; i++) {
@@ -1025,7 +1061,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 string_disp.deleteCharAt(string_disp.length() - 1);
             }
             System.out.println("start main_array clearing");
-            System.out.println("mainarray loop: " + main_array_loop);
+            System.out.println("mainarray loop: "+main_array_loop);
             for (i = 1; i <= main_array_loop; i++) {
                 System.out.println("mainarray cleared");
                 main_array.remove(main_array.size() - 1);
@@ -1061,6 +1097,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
         } else {
             return sign * Math.PI;
         }
+    }
+
+    Double exp_value() {
+        int sign = 1;
+        if (negative) {
+            sign = -1;
+        }
+            return sign * Math.exp(1);
     }
 
     void auto_multiplly() {
@@ -1108,11 +1152,11 @@ class Sc_Calculator extends JFrame implements ActionListener {
         main_array.clear();
     }
 
-    void isEqualto_func() {
+    void isEqualto_func(){
         System.out.println("Start Main ArrayList = " + main_array + "\nsize: " + main_array.size() + "\n");
         add_last_value();
         main_array.add(")");
-
+        
         for (i = 0; i <= main_array.size() - 1; i++) {
             start_main_array.add(main_array.get(i));
         }
@@ -1122,6 +1166,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         while (main_array.size() > 1) {
             if (main_array.contains("(") && main_array.contains(")")) {
+
+                if(main_array.contains("avalue") && main_array.contains("bvalue")){
+                    System.out.println("Quadratic Entered");
+                }
 
                 bodmas_algo.removeAll(bodmas_algo);
 
@@ -1147,7 +1195,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 }
                 System.out.println("Bodmas_algo start loop:\nMain:" + main_array + "\tSize:"
                         + main_array.size() + "\nAlgo:" + bodmas_algo + "\tSize:" + bodmas_algo.size());
-
+               
                 if (first_brack == last_brack) {
                     main_array.remove(first_brack + 1);
                     main_array.remove(first_brack - 1);
@@ -1259,7 +1307,24 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
-                    System.out.println("I AM HERE anspos: " + ans_pos);
+                    if (bodmas_algo.contains("avalue")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+                            if (bodmas_algo.get(k) == "avalue") {
+                                operation = false;
+                                System.out.println("Solving Quadratic.....");
+                                solve_quadratic(Double.parseDouble(bodmas_algo.get(k - 1)),Double.parseDouble(bodmas_algo.get(k + 1)),Double.parseDouble(bodmas_algo.get(k  + 3)));
+                                main_array.remove(first_brack+k);
+                                main_array.remove(first_brack+k+1);
+                                System.out.println("root 1: "+ans1);
+                                System.out.println("root 2: "+ans2);
+                                System.out.println("After solving quadratic equation: "+main_array);
+                                DisplayEquation = "(" + Math.round(ans1*1000)/1000 + ", "+Math.round(ans2*1000)/1000+")";
+                            }
+                        }
+                        main_array.clear();
+                        break;
+                    }
+                    System.out.println("anspos: " + ans_pos);
                 }
                 if (operation == true) {
                     main_array.remove(ans_pos + 1);
@@ -1308,19 +1373,18 @@ class Sc_Calculator extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         try {
 
+
             value = e.getActionCommand();
             number = Character.isDigit(value.charAt(0));
 
-            System.out.println(value);
-
-            if (value == "Radian") {
-                degree_bttn.setEnabled(true);
-                radian_bttn.setEnabled(false);
+            /**When clicked In Degree it will change buttin text to In Radian and as shown on button it will set radian true and vice versa */
+            if (value == "In Degree") {
                 radian = true;
-            } else if (value == "Degree") {
-                radian_bttn.setEnabled(true);
-                degree_bttn.setEnabled(false);
+                deg_rad_btttn.setText("In Radians");
+            }
+            else if(value == "In Radians"){
                 radian = false;
+                deg_rad_btttn.setText("In Degree");
             }
 
             if (start == false) {
@@ -1331,11 +1395,48 @@ class Sc_Calculator extends JFrame implements ActionListener {
             }
 
             if (value == "\u263E") {
-                color_mode.setText("\u263C");
+                color_mode_bttn.setText("\u263C");
                 toggle_color_mode();
             } else if (value == "\u263C") {
-                color_mode.setText("\u263E");
+                color_mode_bttn.setText("\u263E");
                 toggle_color_mode();
+            }
+
+            if (value == "Quadratic") {
+                allClear();
+                quadratic_mode = true;
+                quadratic_bttn.setText("Exit");
+                bequal.setText("Enter a");
+                DisplayEquation = "ax2 + bx + c = 0";
+            }
+
+            if (value == "Exit") {
+                allClear();
+                quadratic_mode = false;
+                quadratic_bttn.setText("Quadratic");
+                bequal.setText("=");
+            }
+
+            if (value == "Enter a") {
+                allClear();
+                DisplayEquation = "a=";
+                bequal.setText("Enter b");
+            }
+            else if (value == "Enter b") {
+                DisplayEquation = "b=";
+                bequal.setText("Enter c");
+                add_last_value();
+                main_array.add(")");
+                main_array.add("avalue");
+                main_array.add("(");
+            }
+            else if(value == "Enter c"){
+                DisplayEquation = "c=";
+                bequal.setText("=");
+                add_last_value();
+                main_array.add(")");
+                main_array.add("bvalue");
+                main_array.add("(");
             }
 
             if (number) {
@@ -1391,8 +1492,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     last_value_string = "";
                     negative = true;
                     DisplayEquation = DisplayEquation + value;
-                }
-                // value = raise to
+                } 
+                //value  = raise to
                 else if (value == "x\u02B8") {
                     after_operations();
                     decimal = false;
@@ -1409,8 +1510,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     last_value = 0;
                     last_value_string = "";
                     DisplayEquation = DisplayEquation + "Power of (";
-                }
-                // value = root of
+                } 
+                //value  = root of
                 else if (value == "y\u221Ax") {
                     after_operations();
 
@@ -1443,8 +1544,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     factorial_num = true;
                     main_array.add("!");
                     DisplayEquation = DisplayEquation + "!";
-                }
-                // value = (1/x)
+                } 
+                //value = (1/x) 
                 else if (value == "(\u0031\u002fx)") {
                     after_operations();
                     add_last_value();
@@ -1453,9 +1554,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.add("1");
                     main_array.add("/");
                     main_array.add("(");
-                    main_array.add("" + ans);
+                    main_array.add(""+ans);
                     main_array.add(")");
-                    DisplayEquation = "1/(" + ans + ")";
+                    DisplayEquation = "1/("+ans+")" ;
                 } else if (value == "%") {
                     after_operations();
                     decimal = false;
@@ -1521,8 +1622,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     constant = true;
                 } else if (value == "e") {
                     after_operations();
-                    fix_value_var_indexes.add(main_array.size() - 1);
-                    main_array.add(Math.exp(1) + "");
+                    fix_value_var_indexes.add(main_array.size()-1);
+                    main_array.add(exp_value() + "");
                     DisplayEquation = DisplayEquation + "e";
                     constant = true;
                 } else if (value == ".") {

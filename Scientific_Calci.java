@@ -1,6 +1,3 @@
-package scientific_cal.SciCal;
-
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -13,7 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -1407,7 +1403,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 quadratic_mode = true;
                 quadratic_bttn.setText("Exit");
                 bequal.setText("Enter a");
-                DisplayEquation = "ax2 + bx + c = 0";
+                DisplayEquation = "ax\u00B2 + bx + c = 0";
             }
 
             if (value == "Exit") {

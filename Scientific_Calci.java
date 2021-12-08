@@ -1922,7 +1922,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
         k = bodmas_algo.size() - 1;
 
     }
-
     void remove_fact(int first_brack, int last_brack, int trigo_answer_pos) {
         main_array.set(first_brack + trigo_answer_pos, "" + ans);
         bodmas_algo.set(trigo_answer_pos, "" + ans);

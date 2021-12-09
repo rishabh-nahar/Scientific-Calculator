@@ -1,4 +1,4 @@
-package scientific_cal.SciCal;
+package scientific_cal.SciCal.javadocfile;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -17,6 +17,47 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/**
+ * <h2>Scientific Calculator</h2> is an advanced calculator which is different
+ * from a
+ * regular calculator.This calculator includes extra buttons.All of this extra
+ * button allow you to work with various kinds of numbers and problems such as :
+ * <ul>
+ * <li>Trigonometry problems
+ * <li>Scientific numbers that have a multiplication by 10 to a certain power
+ * <li>π problems
+ * <li>Logarithm problems with base 10 and the natural base
+ * <li>Probability problems that use the factorial function
+ * </ul>
+ * Our scientific calculator contains :
+ * <h3>Buttons :-</h3>
+ * Numeric buttons  from 0 to 9.
+ * Arithmetic buttons  ( + , - , x , / )
+ * Trigo buttons  ( Sin , Cos , Tan , SinInv , CosInv , TanInv )
+ * Mod button ( % )
+ * Log button  ( log , ln )
+ * Parentheses button  ( ( , ) )
+ * All clear button  ( AC )
+ * Equal to button  ( = )
+ * Factorial button  ( x! )
+ * Radio button  ( Radian , Degree )
+ * Root button 
+ * <h3>Panels :-</h3>
+ * Main Panel
+ * Calculation Panel
+ * <br>
+ * <h2>To implement the scientific calculator we imported different classes from
+ * specific packages which includes.</h2>
+ * <br>
+ * ->BorderLayout , Color , Component , Dimension , Font , Graphics ,
+ * GridBagConstraints , GridBagLayout , Insets , ActionEvent , ActionListener<br>
+ * ->classes from [AWT Package]<br>
+ * ->ArrayList from[UTIL Package]<br>
+ * ->ButtonGroup , JButton , JFrame , JLabel , JPanel , JRadioButton , JTextField
+ * , SwingConstants , Border classes from[Swing Pakage]<br>
+ * 
+ * 
+ */
 public class SCalci {
     public static void main(String srgs[]) {
         Sc_Calculator obj = new Sc_Calculator();
@@ -620,11 +661,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
      * keep all collections buttons and panels in one variable
      * and are stored in list according to their name respectively
      */
+
     ArrayList<JButton> general_buttons = new ArrayList<JButton>();
     ArrayList<JButton> trigo_arith_log_buttons = new ArrayList<JButton>();
     ArrayList<JPanel> button_panels = new ArrayList<JPanel>();
 
-    boolean number = false, quadratic_mode, operation = false, start = false, brack_end = false, negative = false,
+    boolean  start = false,number = false, quadratic_mode = false, operation = false, brack_end = false, negative = false,
             power = false,
             factorial_num = false,
             decimal = false, lastvalue_added = true, temp_bool, decimal_start = false, radian = false, constant = false,
@@ -634,7 +676,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
             last_val_is_brack_open = false;
 
     String value = "", DisplayEquation = "", last_value_string = "", ans1 = "", ans2 = "";
+
     double ans = 0.0, last_value = 0.0, prev_value = 0.0, temp_value = 0.0;
+    
     int first_brack = 0, last_brack = 0, ans_pos, i = 0, j = 0, k = 0, power_count = 0, trigo_val = 0, temp_ans = 0,
             count_decimal_fig = 10;
     Double quadratic_a = 0.0, quadratic_b = 0.0, quadratic_c = 0.0;
@@ -952,13 +996,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
     boolean check_decimal(Double toCheckDecimal) {
         String toCheckString = toCheckDecimal + "";
         boolean numType_decimal = false;
-
-        int decimal_index_in_mainarray = 0;
         int current_mainarray_index = main_array.size() - 1;
-        if (when_decimal.size() >= 1) {
-            decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
-            System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray);
-        }
 
         if (toCheckString.contains(".")) {
 
@@ -967,15 +1005,20 @@ class Sc_Calculator extends JFrame implements ActionListener {
             String toCheckAfterDecimmal = string_after_dec + "";
             numType_decimal = true;
 
+            System.out.println("isDecimal: "+true);
+            
             if (toCheckAfterDecimmal.equals(".0")) {
                 numType_decimal = false;
-            }
+                System.out.println("isDecimal: "+false);
+                System.out.println("isDecimal: "+false+"\nisInteger: "+true);
+        }
 
-            for (Integer i : when_decimal) {
-                if (current_mainarray_index == i) {
-                    numType_decimal = true;
-                }
-            }
+            // for (Integer i : when_decimal) {
+            //     if (current_mainarray_index == i) {
+            //         numType_decimal = true;
+            //         System.out.println("isDecimal: "+true);
+            // }
+            // }
 
         } else {
             numType_decimal = false;
@@ -1056,7 +1099,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         }
                         System.out.println("current when_decimal: " + when_decimal);
                         if (string_after_dec_length == 1) {
-                            
+
                             string = clearString(string, 0, string.indexOf("."));
                             string_disp = string_disp.delete(string_disp.length() - 1, string_disp.length());
 
@@ -1084,7 +1127,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             System.out.println("main_array: " + main_array);
                         }
                     }
-                    
+
                     Double temp_ans_double = Double.parseDouble(string) * dec_int_toggle;
                     temp_ans = (int) (temp_ans_double / 10);
                     temp_ans_double = Double.parseDouble(temp_ans + "") * 10 / dec_int_toggle;
@@ -1093,10 +1136,10 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     string = temp_ans_double + "";
 
                     if (temp_ans != 0) {
-                        //main_array.set(main_array.size() - 1, string);
+                        // main_array.set(main_array.size() - 1, string);
                         System.out.println("Ans != 0");
-                    }
-                    else{
+                    } else if(temp_ans <= -9 && temp_ans >= 9){
+                        cleared = true;
                         main_array.remove(current_mainarray_index);
                     }
                     System.out.println("main_array: " + main_array);
@@ -1105,31 +1148,32 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     temp_ans_double = 0.0;
                     temp_ans = 0;
                 }
-                
-            if (check_whole_String_isNum(string)) {
-                if (Double.parseDouble(string) < 0) {
-                    System.out.println("clearing from negative number");
-                    negative = true;
-                }
-                if (check_decimal(Double.parseDouble(string))) {
-                    decimal = true;
-                    System.out.println("last string is decimal: " + string);
-                    last_value_string = string;
-                    last_value = Double.parseDouble(string);
-                    lastvalue_added = false;
 
-                } else {
-                    string = clearString(string, 0, string.length() - 2);
-                    System.out.println("\nlast string is not decimal: "+string);
+                if (check_whole_String_isNum(string)) {
+                    if (Double.parseDouble(string) < 0) {
+                        System.out.println("clearing from negative number");
+                        negative = true;
+                    }
+                    if (check_decimal(Double.parseDouble(string))) {
+                        decimal = true;
+                        System.out.println("last string is decimal: " + string);
+                        last_value_string = string;
+                        last_value = Double.parseDouble(string);
+                        lastvalue_added = false;
 
-                    last_value_string = string;
-                    lastvalue_added = false;
-                    cleared = true;
-                    decimal = false;
+                    } else {
+                        string = clearString(string, 0, string.length() - 2);
+                        System.out.println("\nlast string is not decimal: " + string);
+
+                        last_value_string = string;
+                        lastvalue_added = false;
+                        cleared = true;
+                        decimal = false;
+                    }
+                    System.out.println("Acha chalta hu duao mai yaad rakhna: "+getMainarray_lastString(1));
+                    main_array.remove(getMainarray_lastString(1));
+                    System.out.println("\nlast_value in main_array: " + getMainarray_lastString(1));
                 }
-                System.out.println("\nlast_value in main_array: "+getMainarray_lastString(1));
-                main_array.remove(getMainarray_lastString(1));
-            }
 
             } else {
                 System.out.println("String is not num");
@@ -1198,8 +1242,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
             main_array.add("" + last_value);
             last_val_is(true, false, false, false);
             last_value = 0;
-            lastvalue_added = true;
             last_value_string = "";
+            lastvalue_added = true;
         }
     }
 
@@ -1437,17 +1481,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
-                    if (bodmas_algo.contains("+")) {
-                        for (k = 0; k < bodmas_algo.size(); k++) {
-                            if (bodmas_algo.get(k) == "+") {
-                                operation = true;
-                                addition(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                        Double.parseDouble(bodmas_algo.get(k + 1)));
-                                remove_arith(first_brack, last_brack, k);
-
-                            }
-                        }
-                    }
                     if (bodmas_algo.contains("-")) {
                         System.out.println("Subtracting process initiated...");
                         for (k = 0; k < bodmas_algo.size(); k++) {
@@ -1463,6 +1496,18 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
+                    if (bodmas_algo.contains("+")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+                            if (bodmas_algo.get(k) == "+") {
+                                operation = true;
+                                addition(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                                remove_arith(first_brack, last_brack, k);
+
+                            }
+                        }
+                    }
+                    
                     System.out.println("anspos: " + ans_pos);
                 }
                 if (operation) {
@@ -1507,6 +1552,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         when_decimal.clear();
 
         main_array.add("(");
+
         System.out.println("After loop main_array: " + main_array);
 
         if (quadratic_mode) {
@@ -1529,13 +1575,14 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         else {
             main_array.add(ans + "");
-            last_value = 0;
-            lastvalue_added = true;
+            last_value_string = ans + "";
+            lastvalue_added = false;
+            cleared = true;
             DisplayEquation = "" + ans;
             System.out.println("Final main_array: " + main_array);
 
             if (check_decimal(ans)) {
-                when_decimal.add(1);
+                //when_decimal.add(1);
             } else {
                 DisplayEquation = clearString(ans + "", 0, (ans + "").length() - 2);
             }
@@ -1612,6 +1659,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             }
 
             if (number) {
+                
                 if (decimal) {
                     System.out.println("Decimal on index: " + when_decimal);
 
@@ -1638,6 +1686,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
                 } else {
                     last_value_string = last_value_string + value;
+                    System.out.println("i was decimal:"+check_decimal(Double.parseDouble(last_value_string)));
                     last_value = Double.parseDouble(last_value_string);
                 }
 
@@ -1754,7 +1803,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         main_array.add("-");
                         negative = false;
                     }
-                    add_last_value();
                     main_array.add(value);
                     main_array.add("(");
                     trigo_val++;
@@ -1767,7 +1815,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                         main_array.add("-");
                         negative = false;
                     }
-                    add_last_value();
                     main_array.add(value);
                     main_array.add("(");
                     trigo_val++;
@@ -1922,6 +1969,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         k = bodmas_algo.size() - 1;
 
     }
+
     void remove_fact(int first_brack, int last_brack, int trigo_answer_pos) {
         main_array.set(first_brack + trigo_answer_pos, "" + ans);
         bodmas_algo.set(trigo_answer_pos, "" + ans);

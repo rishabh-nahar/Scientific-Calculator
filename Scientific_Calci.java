@@ -1,5 +1,3 @@
-package Project;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -1437,17 +1435,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
-                    if (bodmas_algo.contains("+")) {
-                        for (k = 0; k < bodmas_algo.size(); k++) {
-                            if (bodmas_algo.get(k) == "+") {
-                                operation = true;
-                                addition(Double.parseDouble(bodmas_algo.get(k - 1)),
-                                        Double.parseDouble(bodmas_algo.get(k + 1)));
-                                remove_arith(first_brack, last_brack, k);
-
-                            }
-                        }
-                    }
                     if (bodmas_algo.contains("-")) {
                         System.out.println("Subtracting process initiated...");
                         for (k = 0; k < bodmas_algo.size(); k++) {
@@ -1463,6 +1450,18 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
+                    if (bodmas_algo.contains("+")) {
+                        for (k = 0; k < bodmas_algo.size(); k++) {
+                            if (bodmas_algo.get(k) == "+") {
+                                operation = true;
+                                addition(Double.parseDouble(bodmas_algo.get(k - 1)),
+                                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                                remove_arith(first_brack, last_brack, k);
+
+                            }
+                        }
+                    }
+                    
                     System.out.println("anspos: " + ans_pos);
                 }
                 if (operation) {

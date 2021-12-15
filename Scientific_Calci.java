@@ -1,5 +1,3 @@
-package scientific_cal.SciCal.javadocfile;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -17,7 +15,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-public class SCalci {
+public class SCalc {
     public static void main(String srgs[]) {
         Sc_Calculator obj = new Sc_Calculator();
         obj.setVisible(true);
@@ -955,9 +953,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         int decimal_index_in_mainarray = 0;
         int current_mainarray_index = main_array.size() - 1;
+
         if (when_decimal.size() >= 1) {
             decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
-            System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray);
         }
 
         if (toCheckString.contains(".")) {
@@ -980,7 +978,93 @@ class Sc_Calculator extends JFrame implements ActionListener {
         } else {
             numType_decimal = false;
         }
+        System.out.println("numType_decimal: " + numType_decimal);
         return numType_decimal;
+    }
+
+    boolean check_decimal_from_string(String toCheck, int toCheck_length) {
+        boolean numType_decimal = false;// Returning value
+        int decimal_index, after_dec_length;
+        String toCheckAfterDecimal;
+        int current_mainarray_index = main_array.size() - 1; // Index of main array which we are working on
+
+        /** If string containg point */
+        if (toCheck.contains(".")) {
+
+            /** If decimal point detected then returning value is true */
+            numType_decimal = true;
+
+            decimal_index = toCheck.indexOf(".");// to store the index where the point is located
+
+            /* to create a string of numbers after decimal including decimal point */
+            toCheckAfterDecimal = toCheck.substring(decimal_index, toCheck_length);
+            after_dec_length = toCheckAfterDecimal.length();// to store the length of numbers after decimal including
+                                                            // decimal point
+
+            /**
+             * If the length of after decimal numbers is 2 and is equal to ".0" then
+             * overwriting the returning value as false
+             */
+            if (toCheckAfterDecimal.equals(".0") && after_dec_length == 2) {
+                numType_decimal = false;
+            }
+
+            /** If index found in when_decimal then numType_decimal is true */
+            for (Integer i : when_decimal) {
+                if (current_mainarray_index == i) {
+                    numType_decimal = true;
+                    break;
+                }
+            }
+
+        } else {
+            numType_decimal = false;
+        }
+        System.out.println("numType Decimal: " + numType_decimal);
+        return numType_decimal;
+    }
+
+    boolean check_from_whenDecimal(int index) {
+        boolean isFound = false;// Returning value
+
+        /** If index found in when_decimal then isFound is true */
+        for (Integer i : when_decimal) {
+            if (index == i) {
+                isFound = true;
+                break;
+            }
+        }
+        return isFound;
+    }
+
+    boolean check_int(String toCheck, int toCheck_length) {
+
+        boolean numType_int = false;
+        int decimal_index;
+        String toCheckAfterDecimal;
+        char indexAt0 = toCheck.charAt(0);
+        if (Character.isDigit(indexAt0)) {
+            toCheck = Double.parseDouble(toCheck)+"";
+        }
+        try {
+            if (toCheck.contains(".")) {
+                decimal_index = toCheck.indexOf(".");
+                toCheckAfterDecimal = toCheck.substring(decimal_index, toCheck_length);
+
+                if (toCheckAfterDecimal.equals(".0")) {
+                    numType_int = true;
+                }
+            } else {
+                int int_number = Integer.parseInt(toCheck);
+                System.out.println("number is without decimal point: " + int_number);
+            }
+        } catch (Exception e) {
+            System.out.println("Not int number");
+            numType_int = false;
+        }
+
+        System.out.println("numType Int: " + numType_int);
+        return numType_int;
     }
 
     String clearString(String getStringValue, int indexStart, int indexEnd) {
@@ -992,17 +1076,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
     void forClear(String string) {
 
         if (main_array.size() > 1) {
-            System.out.println("\n-->forClear String: " + string);
-            System.out.println("Main arrray: " + getMainarray_lastString(1));
-            int string_length = string.length();
-            boolean string_is_num;
-            StringBuffer string_disp = new StringBuffer(DisplayEquation);
 
-            int decimal_index_in_mainarray = 0;
-            if (when_decimal.size() >= 1) {
-                decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
-                System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray);
-            }
+            String modifiedString = string;
+            int string_length = modifiedString.length();
+            int current_mainarray_index = main_array.size() - 1; // Index of main array which we are working on
+
+            
             int fix_value_index_in_mainarray = 0;
 
             if (fix_value_var_indexes.size() >= 1) {
@@ -1010,128 +1089,59 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 System.out.println("\nt fix_value_index_in_mainarray: " + fix_value_index_in_mainarray);
             }
 
-            int current_mainarray_index = main_array.size() - 1;
-            string_is_num = check_whole_String_isNum(string);
+            char lastCharOfDisplayEquation = DisplayEquation.charAt(DisplayEquation.length() - 1);
 
-            System.out.println("when_decimal: " + when_decimal);
-            System.out.println("\nfix_value_var_indexes: " + fix_value_index_in_mainarray);
-            System.out.println("\ncurrent_mainarray_index: " + current_mainarray_index);
+            if (lastCharOfDisplayEquation == '.') {
+                DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
+            } else if (check_int(string, string_length) && check_from_whenDecimal(current_mainarray_index) == false) {
 
-            System.out.println("isNumber(forClear()): " + string_is_num);
-            /*
-             * For main_array last value:
-             * It will check if it is number or not
-             */
-            String temp_string = string_disp.charAt(string_disp.length() - 1) + "";
-            System.out.println("before clear display last value: " + temp_string);
-            if (string_is_num && current_mainarray_index != fix_value_index_in_mainarray) {
-                /*
-                 * If Number:
-                 * It will check if it has decimal or not
-                 */
+                int decimal_index = modifiedString.indexOf(".");
 
-                if (string.contains(".")) {
+                modifiedString = clearString(modifiedString, 0, decimal_index - 1) + "";
+                DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
 
-                    int decimal_index = string.indexOf(".");
-                    String string_after_dec = string.substring(decimal_index + 1) + "";
-                    int string_after_dec_length = string_after_dec.length();
-                    int dec_int_toggle = 10;
-
-                    System.out.println("\nString is double");
-                    System.out.println("decimal on string is at index: " + string.indexOf("."));
-                    System.out.println("After Decimal values: " + string_after_dec);
-
-                    System.out.println("\ndecimal_index_in_mainarray: " + decimal_index_in_mainarray
-                            + "\ncurrent_mainarray_index: " + current_mainarray_index);
-                    System.out.println("current main_array: " + main_array);
-
-                    // If it is decimal then it will get solve by getting number of digits after
-                    // decimal
-                    if (decimal_index_in_mainarray == current_mainarray_index) {
-
-                        System.out.println("\n\t**********Decimal point detected**********");
-                        /* The number that we will get is multiplied to make th given number Integer */
-                        for (i = 0; i < string_after_dec_length - 1; i++) {
-                            dec_int_toggle = dec_int_toggle * 10;
-                        }
-                        System.out.println("current when_decimal: " + when_decimal);
-                        if (string_after_dec_length == 1) {
-                            
-                            string = clearString(string, 0, string.indexOf("."));
-                            string_disp = string_disp.delete(string_disp.length() - 1, string_disp.length());
-
-                            decimal = false;
-                            last_value_string = string;
-                            last_value = Double.parseDouble(string);
-                            System.out.println("removing when_decimal index....... ");
-                            when_decimal.remove(when_decimal.size() - 1);
-                        }
-                        System.out.println("number after decimal: " + string_after_dec);
-                        System.out.println("current when_decimal: " + when_decimal);
-
-                    }
-
-                    // If it is not decimal then it will get solve by dividing number by 10
-                    // everytime
-                    else {
-                        System.out.println("\n\t**********No decimal point detected**********");
-                        System.out.println("\ntemp_ans before: " + temp_ans);
-                        temp_ans = (int) Double.parseDouble(string) / 10;
-                        string = temp_ans + "";
-                        System.out.println("\ntemp_ans after: " + temp_ans);
-                        if (temp_ans == 0) {
-                            System.out.println("removed " + temp_ans + " from main_array");
-                            System.out.println("main_array: " + main_array);
-                        }
-                    }
-                    
-                    Double temp_ans_double = Double.parseDouble(string) * dec_int_toggle;
-                    temp_ans = (int) (temp_ans_double / 10);
-                    temp_ans_double = Double.parseDouble(temp_ans + "") * 10 / dec_int_toggle;
-                    dec_int_toggle = 10;
-                    System.out.println("\ntemp_ans_double: " + temp_ans_double + "\ntemp_ans: " + temp_ans);
-                    string = temp_ans_double + "";
-
-                    if (temp_ans != 0) {
-                        //main_array.set(main_array.size() - 1, string);
-                        System.out.println("Ans != 0");
-                    }
-                    else{
-                        main_array.remove(current_mainarray_index);
-                    }
-                    System.out.println("main_array: " + main_array);
-                    string_disp.deleteCharAt(string_disp.length() - 1);
-                    DisplayEquation = "" + string_disp;
-                    temp_ans_double = 0.0;
-                    temp_ans = 0;
-                }
-                
-            if (check_whole_String_isNum(string)) {
-                if (Double.parseDouble(string) < 0) {
-                    System.out.println("clearing from negative number");
-                    negative = true;
-                }
-                if (check_decimal(Double.parseDouble(string))) {
-                    decimal = true;
-                    System.out.println("last string is decimal: " + string);
-                    last_value_string = string;
-                    last_value = Double.parseDouble(string);
-                    lastvalue_added = false;
-
+                if (modifiedString.isEmpty() || modifiedString == "") {
+                    main_array.remove(current_mainarray_index);
                 } else {
-                    string = clearString(string, 0, string.length() - 2);
-                    System.out.println("\nlast string is not decimal: "+string);
+                    main_array.remove(current_mainarray_index);
 
-                    last_value_string = string;
                     lastvalue_added = false;
-                    cleared = true;
-                    decimal = false;
-                }
-                System.out.println("\nlast_value in main_array: "+getMainarray_lastString(1));
-                main_array.remove(getMainarray_lastString(1));
+                    last_value = Double.parseDouble(modifiedString);
+                    last_value_string = modifiedString;
             }
 
-            } else {
+                System.out.println("Now the value is: " + modifiedString);
+                System.out.println("main_array: " + main_array);
+
+
+            } else if (check_decimal_from_string(string, string_length)) {
+                int decimal_index = modifiedString.indexOf(".");
+                String numAfterDecimal = clearString(modifiedString, decimal_index, string_length);
+                int numAfterDecimal_length = numAfterDecimal.length();
+                System.out.println("\nafter decimal: " + numAfterDecimal);
+
+                if (numAfterDecimal_length == 2) {
+                    DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 2);
+                    modifiedString = clearString(modifiedString, 0, modifiedString.length() - 2);
+                    when_decimal.remove(when_decimal.size() - 1);
+                    decimal = false;
+                }
+                else{
+                    DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
+                    modifiedString = clearString(modifiedString, 0, modifiedString.length() - 1);
+                    last_value_string = modifiedString;
+                    decimal = true;
+            }
+
+                main_array.remove(current_mainarray_index);
+                lastvalue_added = false;
+                last_value = Double.parseDouble(modifiedString);
+                last_value_string = modifiedString;
+
+                System.out.println("Now the value is: " + modifiedString);
+                System.out.println("\nmain_array: " + main_array);
+            }
+            else{
                 System.out.println("String is not num");
                 int main_array_loop = 1;
                 if (getMainarray_lastString(2) == "pow") {
@@ -1169,7 +1179,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     fix_value_var_indexes.remove(fix_value_var_indexes.size() - 1);
                 }
                 for (i = 1; i <= string_length; i++) {
-                    string_disp.deleteCharAt(string_disp.length() - 1);
+                    DisplayEquation =  clearString(DisplayEquation, 0, DisplayEquation.length()-1);
                     System.out.println("\nLast value removed from display");
                 }
                 for (i = 1; i <= main_array_loop; i++) {
@@ -1179,11 +1189,13 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 lastvalue_added = true;
             }
             System.out.println("now the string is: " + string);
-            DisplayEquation = "" + string_disp;
             System.out.println("Now last value in main_array: " + getMainarray_lastString(1));
             System.out.println("main_array after Clear(): " + main_array);
+            }
+            
+
         }
-    }
+    
 
     void after_operations() {
         count_decimal_fig = 10;
@@ -1463,7 +1475,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                             }
                         }
                     }
-                    
+
                     System.out.println("anspos: " + ans_pos);
                 }
                 if (operation) {
@@ -1617,35 +1629,20 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     System.out.println("Decimal on index: " + when_decimal);
 
                     last_value_string = decimal_start ? last_value_string + "." : last_value_string;
+
                     System.out.println("last_value_string when decimal is true: " + last_value_string);
                     decimal_start = false;
 
                     when_decimal.add(main_array.size());
 
                     decimal = false;
-                    cleared = false;
                 }
-                if (cleared) {
-                    // String value_if_negative =
-                    // negative?((-1)*Double.parseDouble(value)+""):value;
-                    if (negative) {
-                        last_value = (Double.parseDouble(last_value_string) * 10) - Double.parseDouble(value);
-                    } else {
-                        last_value = (Double.parseDouble(last_value_string) * 10) + Double.parseDouble(value);
-                    }
-
-                    last_value_string = last_value + "";
-                    cleared = false;
-
-                } else {
-                    last_value_string = last_value_string + value;
-                    last_value = Double.parseDouble(last_value_string);
-                }
-
-                System.out.println("\nmain_array: " + main_array + "||last_value: " + last_value);
+                    
+                last_value_string = last_value_string + value;
+                last_value = Double.parseDouble(last_value_string);
                 DisplayEquation = DisplayEquation + value;
                 lastvalue_added = false;
-
+                System.out.println("\nlast_value: " + last_value);
             } else {
                 cleared = false;
                 // for + * & /

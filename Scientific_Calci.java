@@ -1,3 +1,5 @@
+package scientific_cal.SciCal.javadocfile;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -638,6 +640,55 @@ class Sc_Calculator extends JFrame implements ActionListener {
     Double quadratic_a = 0.0, quadratic_b = 0.0, quadratic_c = 0.0;
 
     // Functions
+
+    //to create an arraylist of buttons and panels
+    void add_in_arraylist() {
+        // general_buttons
+        general_buttons.add(b0);
+        general_buttons.add(b1);
+        general_buttons.add(b2);
+        general_buttons.add(b3);
+        general_buttons.add(b4);
+        general_buttons.add(b5);
+        general_buttons.add(b6);
+        general_buttons.add(b7);
+        general_buttons.add(b8);
+        general_buttons.add(b9);
+        general_buttons.add(bpi);
+        general_buttons.add(bexp);
+        general_buttons.add(bdot);
+        general_buttons.add(bxraisey);
+        general_buttons.add(bxinverse);
+        general_buttons.add(byrootx);
+        general_buttons.add(bclear);
+        general_buttons.add(bfactorial);
+
+        // trigo,arithematic and log
+        trigo_arith_log_buttons.add(bplus);
+        trigo_arith_log_buttons.add(bsubtract);
+        trigo_arith_log_buttons.add(bmul);
+        trigo_arith_log_buttons.add(bdiv);
+        trigo_arith_log_buttons.add(bmod);
+
+        trigo_arith_log_buttons.add(blog);
+        trigo_arith_log_buttons.add(bln);
+
+        trigo_arith_log_buttons.add(bleftparenthesis);
+        trigo_arith_log_buttons.add(brightparenthesis);
+        trigo_arith_log_buttons.add(bsin);
+        trigo_arith_log_buttons.add(bcos);
+        trigo_arith_log_buttons.add(btan);
+        trigo_arith_log_buttons.add(bsininv);
+        trigo_arith_log_buttons.add(bcosinv);
+        trigo_arith_log_buttons.add(btaninv);
+
+        // otherbutton
+        button_panels.add(mainPanel);
+        button_panels.add(bttnPanel);
+        button_panels.add(calculationPanel);
+    }
+
+
     // When mouse hover on general buttons
     void mouse_hover_general_bttn(JButton bttn) {
         bttn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -666,18 +717,22 @@ class Sc_Calculator extends JFrame implements ActionListener {
         });
     }
 
-    void last_val_is(boolean getNumBool, Boolean getOpBool, boolean getTLBool, boolean getBrackOBool) {
-        last_val_is_num = getNumBool;
-        last_val_is_operation = getOpBool;
-        last_val_is_TL = getTLBool;
-        last_val_is_brack_open = getBrackOBool;
-    }
-
     // Display
     void display_output(String getString) {
         calcDispArea.setText(getString);
     }
+    
 
+    void add_last_value() {
+        if (lastvalue_added) {
+
+        } else {
+            main_array.add("" + last_value);
+            last_value = 0;
+            lastvalue_added = true;
+            last_value_string = "";
+        }
+    }
     // arithematic
     void division(Double a, Double b) {
         ans = a / b;
@@ -769,89 +824,42 @@ class Sc_Calculator extends JFrame implements ActionListener {
         }
     }
 
-    // Clear and All Clear
-    void allClear() {
-        display_output("");
-        // calculationArea.setText("");
-        DisplayEquation = "";
-        last_value_string = "";
-
-        value = "";
-        number = false;
-        operation = false;
-        start = false;
-        brack_end = false;
-        negative = false;
-        power = false;
-        decimal = false;
-        start = false;
-        factorial_num = false;
-
-        first_brack = 0;
-        last_brack = 0;
-        ans_pos = 0;
-        i = 0;
-        j = 0;
-        k = 0;
-        count_decimal_fig = 0;
-        power_count = 0;
-        trigo_val = 0;
-
-        ans = 0.0;
-        last_value = 0.0;
-        prev_value = 0.0;
-        temp_value = 0.0;
-
-        start_main_array.clear();
-        main_array.clear();
+    Double pi_value() {
+        int sign = 1;
+        if (negative) {
+            sign = -1;
+        }
+        if (trigo_val > 0) {
+            return sign * 180.0;
+        } else {
+            return sign * Math.PI;
+        }
     }
 
-    void add_in_arraylist() {
-        // general_buttons
-        general_buttons.add(b0);
-        general_buttons.add(b1);
-        general_buttons.add(b2);
-        general_buttons.add(b3);
-        general_buttons.add(b4);
-        general_buttons.add(b5);
-        general_buttons.add(b6);
-        general_buttons.add(b7);
-        general_buttons.add(b8);
-        general_buttons.add(b9);
-        general_buttons.add(bpi);
-        general_buttons.add(bexp);
-        general_buttons.add(bdot);
-        general_buttons.add(bxraisey);
-        general_buttons.add(bxinverse);
-        general_buttons.add(byrootx);
-        general_buttons.add(bclear);
-        general_buttons.add(bfactorial);
-
-        // trigo,arithematic and log
-        trigo_arith_log_buttons.add(bplus);
-        trigo_arith_log_buttons.add(bsubtract);
-        trigo_arith_log_buttons.add(bmul);
-        trigo_arith_log_buttons.add(bdiv);
-        trigo_arith_log_buttons.add(bmod);
-
-        trigo_arith_log_buttons.add(blog);
-        trigo_arith_log_buttons.add(bln);
-
-        trigo_arith_log_buttons.add(bleftparenthesis);
-        trigo_arith_log_buttons.add(brightparenthesis);
-        trigo_arith_log_buttons.add(bsin);
-        trigo_arith_log_buttons.add(bcos);
-        trigo_arith_log_buttons.add(btan);
-        trigo_arith_log_buttons.add(bsininv);
-        trigo_arith_log_buttons.add(bcosinv);
-        trigo_arith_log_buttons.add(btaninv);
-
-        // otherbutton
-        button_panels.add(mainPanel);
-        button_panels.add(bttnPanel);
-        button_panels.add(calculationPanel);
+    Double exp_value() {
+        int sign = 1;
+        if (negative) {
+            sign = -1;
+        }
+        return sign * Math.exp(1);
     }
 
+    void auto_multiplly() {
+        for (k = 0; k < bodmas_algo.size() - 1; k++) {
+            boolean check1, check2;
+            check1 = check_whole_String_isNum(bodmas_algo.get(k));
+            check2 = check_whole_String_isNum(bodmas_algo.get(k + 1));
+            System.out.println("c1 " + check1 + " c2 " + check2);
+            if (check2 == true && check1 == true) {
+                multiplication(Double.parseDouble(bodmas_algo.get(k)),
+                        Double.parseDouble(bodmas_algo.get(k + 1)));
+                System.out.println("Number automultiplied");
+                remove_special_mul(first_brack, last_brack, k);
+            }
+        }
+    }
+   
+  
     /* all Toggle colors and tempory color strings */
     String temp_col1, temp_col2, temp_col3, temp_hover, temp_bw, temp_equalto, temp_rad_deg;
     String light_panel = "#f2f2f2", dark_panel = "#00000", light_button = "#ffffff", dark_button = "#343434",
@@ -931,7 +939,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
     boolean check_whole_String_isNum(String toCheck) {
 
         int string_length = toCheck.length();
-        System.out.println("\nChecking Number..........");
         if (Character.isDigit(toCheck.charAt(string_length - 1)) || Character.isDigit(toCheck.charAt(0))) {
             temp_bool = true;
 
@@ -939,23 +946,16 @@ class Sc_Calculator extends JFrame implements ActionListener {
             temp_bool = false;
         }
 
-        System.out.println("\nisNumber: " + temp_bool + "\n");
         return temp_bool;
-    }
-
-    String getMainarray_lastString(int n) {
-        return main_array.get(main_array.size() - n);
     }
 
     boolean check_decimal(Double toCheckDecimal) {
         String toCheckString = toCheckDecimal + "";
         boolean numType_decimal = false;
 
-        int decimal_index_in_mainarray = 0;
         int current_mainarray_index = main_array.size() - 1;
 
         if (when_decimal.size() >= 1) {
-            decimal_index_in_mainarray = when_decimal.get(when_decimal.size() - 1);
         }
 
         if (toCheckString.contains(".")) {
@@ -1067,12 +1067,36 @@ class Sc_Calculator extends JFrame implements ActionListener {
         return numType_int;
     }
 
+    String getMainarray_lastString(int n) {
+        return main_array.get(main_array.size() - n);
+    }
+
+    
     String clearString(String getStringValue, int indexStart, int indexEnd) {
         StringBuffer stringHere = new StringBuffer(getStringValue);
         String getSubString = stringHere.substring(indexStart, indexEnd);
         return getSubString;
     }
 
+
+    void after_operations() {
+        count_decimal_fig = 10;
+        constant = false;
+        decimal = false;
+    }
+
+    void setEnable_bttns(boolean getBool) {
+        for (JButton i : general_buttons) {
+            i.setEnabled(getBool);
+        }
+        for (JButton j : trigo_arith_log_buttons) {
+            j.setEnabled(getBool);
+        }
+        ballclear.setEnabled(getBool);
+    }
+
+    //when clear
+    
     void forClear(String string) {
 
         if (main_array.size() > 1) {
@@ -1188,70 +1212,13 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 }
                 lastvalue_added = true;
             }
-            System.out.println("now the string is: " + string);
-            System.out.println("Now last value in main_array: " + getMainarray_lastString(1));
-            System.out.println("main_array after Clear(): " + main_array);
             }
-            
-
         }
     
 
-    void after_operations() {
-        count_decimal_fig = 10;
-        constant = false;
-    }
-
-    void add_last_value() {
-        if (lastvalue_added) {
-
-        } else {
-            check_decimal(last_value);
-            main_array.add("" + last_value);
-            last_val_is(true, false, false, false);
-            last_value = 0;
-            lastvalue_added = true;
-            last_value_string = "";
-        }
-    }
-
-    Double pi_value() {
-        int sign = 1;
-        if (negative) {
-            sign = -1;
-        }
-        if (trigo_val > 0) {
-            return sign * 180.0;
-        } else {
-            return sign * Math.PI;
-        }
-    }
-
-    Double exp_value() {
-        int sign = 1;
-        if (negative) {
-            sign = -1;
-        }
-        return sign * Math.exp(1);
-    }
-
-    void auto_multiplly() {
-        for (k = 0; k < bodmas_algo.size() - 1; k++) {
-            boolean check1, check2;
-            check1 = check_whole_String_isNum(bodmas_algo.get(k));
-            check2 = check_whole_String_isNum(bodmas_algo.get(k + 1));
-            System.out.println("c1 " + check1 + " c2 " + check2);
-            if (check2 == true && check1 == true) {
-                multiplication(Double.parseDouble(bodmas_algo.get(k)),
-                        Double.parseDouble(bodmas_algo.get(k + 1)));
-                System.out.println("Number automultiplied");
-                remove_special_mul(first_brack, last_brack, k);
-            }
-        }
-    }
-
-    void after_equalto() {
-
+    //when AC 
+    void allClear() {
+        DisplayEquation = "";
         last_value_string = "";
 
         value = "";
@@ -1263,6 +1230,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         power = false;
         decimal = false;
         start = false;
+        factorial_num = false;
 
         first_brack = 0;
         last_brack = 0;
@@ -1270,23 +1238,17 @@ class Sc_Calculator extends JFrame implements ActionListener {
         i = 0;
         j = 0;
         k = 0;
+        count_decimal_fig = 0;
         power_count = 0;
         trigo_val = 0;
 
+        ans = 0.0;
+        last_value = 0.0;
+        prev_value = 0.0;
         temp_value = 0.0;
 
         start_main_array.clear();
         main_array.clear();
-    }
-
-    void setEnable_bttns(boolean getBool) {
-        for (JButton i : general_buttons) {
-            i.setEnabled(getBool);
-        }
-        for (JButton j : trigo_arith_log_buttons) {
-            j.setEnabled(getBool);
-        }
-        ballclear.setEnabled(getBool);
     }
 
     void isEqualto_func() {
@@ -1519,7 +1481,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
         when_decimal.clear();
 
-        main_array.add("(");
         System.out.println("After loop main_array: " + main_array);
 
         if (quadratic_mode) {
@@ -1541,17 +1502,19 @@ class Sc_Calculator extends JFrame implements ActionListener {
         }
 
         else {
-            main_array.add(ans + "");
-            last_value = 0;
-            lastvalue_added = true;
+            start = false;
+            last_value = ans;
+            lastvalue_added = false;
             DisplayEquation = "" + ans;
             System.out.println("Final main_array: " + main_array);
 
             if (check_decimal(ans)) {
                 when_decimal.add(1);
+                last_value_string = ans + "";
             } else {
                 DisplayEquation = clearString(ans + "", 0, (ans + "").length() - 2);
-            }
+                last_value_string = DisplayEquation;
+        }
         }
 
     }
@@ -1579,7 +1542,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 when_decimal.add(0);
                 fix_value_var_indexes.add(0);
                 main_array.add("(");
-                last_val_is(false, false, false, true);
             }
 
             if (value == "Quadratic") {
@@ -1648,31 +1610,20 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 // for + * & /
                 if (value == "+" || value == "\u2715" || value == "\u002f") {
                     after_operations();
-                    last_val_is(false, true, false, false);
-                    decimal = false;
                     add_last_value();
                     main_array.add(value);
-                    System.out.println("main_array: " + main_array);
                     DisplayEquation = DisplayEquation + value;
-                } else if (value == "-") {
-                    decimal = false;
 
+                } else if (value == "-") {
                     after_operations();
-                    System.out.println("last_val_is_num: " + last_val_is_num + "\nlast_val_is_brack_open: "
-                            + last_val_is_brack_open);
                     add_last_value();
                     brack_end = false;
                     main_array.add("-");
-                    /// negative = true;
-                    last_value = 0;
-                    last_value_string = "";
-                    last_val_is(false, true, false, false);
                     DisplayEquation = DisplayEquation + value;
                 }
                 // value = raise to
                 else if (value == "x\u02B8") {
                     after_operations();
-                    decimal = false;
                     if (brack_end || power) {
                         brack_end = false;
                         factorial_num = false;

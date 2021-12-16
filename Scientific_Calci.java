@@ -641,7 +641,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
     // Functions
 
-    //to create an arraylist of buttons and panels
+    // to create an arraylist of buttons and panels
     void add_in_arraylist() {
         // general_buttons
         general_buttons.add(b0);
@@ -688,7 +688,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
         button_panels.add(calculationPanel);
     }
 
-
     // When mouse hover on general buttons
     void mouse_hover_general_bttn(JButton bttn) {
         bttn.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -721,7 +720,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
     void display_output(String getString) {
         calcDispArea.setText(getString);
     }
-    
 
     void add_last_value() {
         if (lastvalue_added) {
@@ -733,6 +731,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             last_value_string = "";
         }
     }
+
     // arithematic
     void division(Double a, Double b) {
         ans = a / b;
@@ -858,8 +857,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             }
         }
     }
-   
-  
+
     /* all Toggle colors and tempory color strings */
     String temp_col1, temp_col2, temp_col3, temp_hover, temp_bw, temp_equalto, temp_rad_deg;
     String light_panel = "#f2f2f2", dark_panel = "#00000", light_button = "#ffffff", dark_button = "#343434",
@@ -1044,7 +1042,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
         String toCheckAfterDecimal;
         char indexAt0 = toCheck.charAt(0);
         if (Character.isDigit(indexAt0)) {
-            toCheck = Double.parseDouble(toCheck)+"";
+            toCheck = Double.parseDouble(toCheck) + "";
         }
         try {
             if (toCheck.contains(".")) {
@@ -1071,13 +1069,11 @@ class Sc_Calculator extends JFrame implements ActionListener {
         return main_array.get(main_array.size() - n);
     }
 
-    
     String clearString(String getStringValue, int indexStart, int indexEnd) {
         StringBuffer stringHere = new StringBuffer(getStringValue);
         String getSubString = stringHere.substring(indexStart, indexEnd);
         return getSubString;
     }
-
 
     void after_operations() {
         count_decimal_fig = 10;
@@ -1095,8 +1091,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
         ballclear.setEnabled(getBool);
     }
 
-    //when clear
-    
+    // when clear
+
     void forClear(String string) {
 
         if (main_array.size() > 1) {
@@ -1104,8 +1100,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
             String modifiedString = string;
             int string_length = modifiedString.length();
             int current_mainarray_index = main_array.size() - 1; // Index of main array which we are working on
+            System.out.println("current main_array index: "+current_mainarray_index);
 
-            
             int fix_value_index_in_mainarray = 0;
 
             if (fix_value_var_indexes.size() >= 1) {
@@ -1117,7 +1113,8 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
             if (lastCharOfDisplayEquation == '.') {
                 DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
-            } else if (check_int(string, string_length) && check_from_whenDecimal(current_mainarray_index) == false) {
+            } else if (check_int(string, string_length) && check_from_whenDecimal(current_mainarray_index) == false
+                    && fix_value_index_in_mainarray != current_mainarray_index) {
 
                 int decimal_index = modifiedString.indexOf(".");
 
@@ -1132,13 +1129,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     lastvalue_added = false;
                     last_value = Double.parseDouble(modifiedString);
                     last_value_string = modifiedString;
-            }
+                }
 
                 System.out.println("Now the value is: " + modifiedString);
                 System.out.println("main_array: " + main_array);
 
-
-            } else if (check_decimal_from_string(string, string_length)) {
+            } else if (check_decimal_from_string(string, string_length)&& fix_value_index_in_mainarray != current_mainarray_index) {
                 int decimal_index = modifiedString.indexOf(".");
                 String numAfterDecimal = clearString(modifiedString, decimal_index, string_length);
                 int numAfterDecimal_length = numAfterDecimal.length();
@@ -1149,13 +1145,12 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     modifiedString = clearString(modifiedString, 0, modifiedString.length() - 2);
                     when_decimal.remove(when_decimal.size() - 1);
                     decimal = false;
-                }
-                else{
+                } else {
                     DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
                     modifiedString = clearString(modifiedString, 0, modifiedString.length() - 1);
                     last_value_string = modifiedString;
                     decimal = true;
-            }
+                }
 
                 main_array.remove(current_mainarray_index);
                 lastvalue_added = false;
@@ -1164,8 +1159,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
                 System.out.println("Now the value is: " + modifiedString);
                 System.out.println("\nmain_array: " + main_array);
-            }
-            else{
+            } else {
                 System.out.println("String is not num");
                 int main_array_loop = 1;
                 if (getMainarray_lastString(2) == "pow") {
@@ -1203,7 +1197,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     fix_value_var_indexes.remove(fix_value_var_indexes.size() - 1);
                 }
                 for (i = 1; i <= string_length; i++) {
-                    DisplayEquation =  clearString(DisplayEquation, 0, DisplayEquation.length()-1);
+                    DisplayEquation = clearString(DisplayEquation, 0, DisplayEquation.length() - 1);
                     System.out.println("\nLast value removed from display");
                 }
                 for (i = 1; i <= main_array_loop; i++) {
@@ -1212,15 +1206,15 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 }
                 lastvalue_added = true;
             }
-            }
         }
-    
+    }
 
-    //when AC 
+    // when AC
     void allClear() {
         DisplayEquation = "";
         last_value_string = "";
 
+        lastvalue_added = true;
         value = "";
         number = false;
         operation = false;
@@ -1229,7 +1223,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
         negative = false;
         power = false;
         decimal = false;
-        start = false;
         factorial_num = false;
 
         first_brack = 0;
@@ -1514,7 +1507,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
             } else {
                 DisplayEquation = clearString(ans + "", 0, (ans + "").length() - 2);
                 last_value_string = DisplayEquation;
-        }
+            }
         }
 
     }
@@ -1599,7 +1592,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
 
                     decimal = false;
                 }
-                    
+
                 last_value_string = last_value_string + value;
                 last_value = Double.parseDouble(last_value_string);
                 DisplayEquation = DisplayEquation + value;
@@ -1641,8 +1634,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 // value = root of
                 else if (value == "y\u221Ax") {
                     after_operations();
-
-                    decimal = false;
                     if (brack_end || power || factorial_num) {
                         brack_end = false;
                         factorial_num = false;
@@ -1695,14 +1686,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     main_array.add("%");
                     main_array.add("(");
                 } else if (value == "Sin" || value == "Cos" || value == "Tan") {
-
                     after_operations();
-                    decimal = false;
-                    if (negative) {
-                        main_array.remove(main_array.size() - 1);
-                        main_array.add("-");
-                        negative = false;
-                    }
                     add_last_value();
                     main_array.add(value);
                     main_array.add("(");
@@ -1710,12 +1694,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     DisplayEquation = DisplayEquation + value + "(";
                 } else if (value == "Sin\u207B\u00b9" || value == "Cos\u207B\u00b9" || value == "Tan\u207B\u00b9") {
                     after_operations();
-                    decimal = false;
-                    if (negative == true) {
-                        main_array.remove(main_array.size() - 1);
-                        main_array.add("-");
-                        negative = false;
-                    }
                     add_last_value();
                     main_array.add(value);
                     main_array.add("(");
@@ -1724,12 +1702,6 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 } else if (value == "log" || value == "ln") {
                     after_operations();
                     add_last_value();
-                    decimal = false;
-                    if (negative == true) {
-                        main_array.remove(main_array.size() - 1);
-                        main_array.add("-");
-                        negative = false;
-                    }
                     main_array.add(value);
                     main_array.add("(");
                     trigo_val++;
@@ -1744,9 +1716,9 @@ class Sc_Calculator extends JFrame implements ActionListener {
                     lastvalue_added = true;
                     last_value = 0;
                     System.out.println("pi added: " + main_array);
-
                     DisplayEquation = DisplayEquation + "\u03C0";
                     constant = true;
+
                 } else if (value == "e") {
                     after_operations();
                     fix_value_var_indexes.add(main_array.size() - 1);

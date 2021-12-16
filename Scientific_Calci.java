@@ -1667,6 +1667,7 @@ class Sc_Calculator extends JFrame implements ActionListener {
                 else if (value == "(\u0031\u002fx)") {
                     after_operations();
                     add_last_value();
+                    lastvalue_added = true;
                     isEqualto_func();
                     main_array.clear();
                     main_array.add("1");

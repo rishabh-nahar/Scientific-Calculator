@@ -33,22 +33,11 @@ To use the Scientific Calculator, follow these steps:
 - Parentheses Buttons: Use these buttons to group and evaluate complex expressions.
 - Clear Buttons: AC clears the current entry, and C clears the entire expression.
 
-### Keyboard Input
-
-- Numeric Keys: Press the number keys (0-9) to input corresponding digits.
-- Operator Keys: Use the appropriate operator keys (+, -, *, /) for calculations.
-- Enter Key: Press Enter to evaluate the current expression.
-- Escape Key: Press Escape to clear the entire expression.
-
 ## Notes
 
 - The calculator provides real-time validation for expressions and displays appropriate error messages for invalid inputs or calculations.
 - The calculator is designed for standard mathematical expressions and may not support all complex scientific notations.
 - For trigonometric functions, the calculator uses radians by default.
-
-## License
-
-This project is open-source and distributed under the MIT License.
 
 ## Credits
 
